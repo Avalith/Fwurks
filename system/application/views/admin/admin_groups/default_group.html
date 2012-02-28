@@ -1,0 +1,17 @@
+{capture name=content}
+	<h1>{$__labels.__globals.ACTIONS[$__action]} {$__labels.__globals.FORM_ADD_TITLES.group}</h1>
+	<form method="post">
+		{include file=_shared/errors.html}
+
+		<div class="col w2">
+			{html_field type=select name=group data=$data->groups value=id title=title value=$settings->default_group}
+		</div>
+		
+		<div class="cleaner">&nbsp;</div>
+		<div class="buttons">
+			{html_field type=submit name=save class=save}
+			{html_field type=cancel name=cancel class=cancel}
+			<div class="cleaner">&nbsp;</div>
+		</div>
+	</form>
+{/capture}

@@ -1,0 +1,23 @@
+{capture name=content}
+	<form method="post">
+		<h1>{$__labels.__globals.FORM_ADD_TITLES.listings}</h1>
+		<div class="wrapper">
+			{include file=_shared/errors.html}
+			<div class="col w2">
+				{html_field type=text name=records_per_page value=$admin_settings->records_per_page helper=$__labels.__globals.HELPERS.records_per_page}
+
+				{html_field type=checkbox name=edit_link_titles value=$admin_settings->edit_link_titles helper=$__labels.__globals.HELPERS.edit_link_titles}
+
+				{html_field type=text name=google_analytics value=$admin_settings->google_analytics helper=$__labels.__globals.HELPERS.google_analytics}
+			</div>
+			<div class="cleaner">&nbsp;</div>
+		</div>
+		
+		<div class="buttons">
+			{html_field type=submit name=save class=save}
+			{html_field type=cancel name=cancel class=cancel}
+			<div class="cleaner">&nbsp;</div>
+		</div>
+		
+	</form>
+{/capture}

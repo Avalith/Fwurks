@@ -1,0 +1,39 @@
+{capture name=content}
+	<h1 class="header">{$__labels.__globals.ACTIONS[$__action]} {$__labels.__globals.FORM_ADD_TITLES.group}</h1>
+	<form method="post">
+		
+		<div class="wrapper">
+			{include file=_shared/errors.html}
+
+			{if count($language_locales) > 1}{tabs_navigation titles=$language_locales selected=$language_locale title=language key=lang}{/if}
+		
+			<div class="col w2">
+				<div class="inner">
+					{if count($language_locales) > 1}
+						{foreach from=$language_locales item=ln}
+							{tab key=$ln.lang}
+								{html_field type=text name=i18n_locales_storage[title][`$ln.lang`] label_name=title value=$data->i18n_locales_storage->title[$ln.lang]}
+							{/tab}
+						{/foreach}
+					{else}
+						{html_field type=text name=title label_name=title value=$data->title}
+					{/if}
+					<br />
+					{html_field type=checkbox name=active value=$data->active}
+				</div>
+			</div>
+			<div class="col w2">
+				<div class="inner">
+					{admin_permissions struct=$permissions}
+				</div>
+			</div>
+			<div class="cleaner">&nbsp;</div>
+		</div>
+		<div class="buttons">
+			{html_field type=submit name=save class=save}
+			{html_field type=cancel name=cancel class=cancel}
+			<div class="cleaner">&nbsp;</div>
+		</div>
+	</form>
+{/capture}
+

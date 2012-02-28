@@ -1,0 +1,6 @@
+<div id="breadcrumbs">
+	{foreach from=$breadcrumbs item=b name=breadcrumbs}
+		{if !$smarty.foreach.breadcrumbs.last}
+			{if $b.type != 'link'}<a href="{url_for link=$b.link}">{/if}{$b.title}{if $b.type != 'link'}</a>{/if} &gt; {else}{$b.title}{/if} 
+	{/foreach}
+</div>

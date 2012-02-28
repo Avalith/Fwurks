@@ -1,0 +1,23 @@
+* { padding: 0; margin: 0;  }
+
+body { font: 12px/18px Verdana, sans-serif; background: #FFF; }
+
+a { text-decoration: none; color: #007bc1; }
+a img { border: none; }
+.cleaner { display: block; height: 1px; overflow: hidden; clear: both; }
+
+li { list-style-type: none outside; display: block; }
+
+h1, h2, h3, h4 { font: normal 28px Arial, Verdana, Helvetica, sans-serif; color: #007bc1; }
+
+h1 { margin: 0 0 20px 0; }
+h2 { font-size: 22px; margin: 0 0 20px 0;  }
+h3 { font-size: 18px; margin-bottom: 5px; }
+h4 { font-size: 14px; margin-bottom: 5px;;  }
+
+p { padding: 0 0 20px 0;  }
+
+
+h2 { margin: 0 0 10px 0;  }
+ul { padding: 0 20px 20px 20px; }
+ul li { display: list-item; padding-bottom: 5px;  }

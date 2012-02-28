@@ -1,0 +1,10 @@
+dashboard			: Dashboard
+
+administration		: Administration
+groups				: Groups
+users				: Users
+settings			: Settings
+
+# CUSTOMS
+pages				: Pages
+homepage			: Home Page

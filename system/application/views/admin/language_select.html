@@ -1,0 +1,5 @@
+{if count($language_locales) > 1}
+	<div id="language_select">
+		{html_field type=select name="laguages_select" data=$language_locales value=$language_locale value_field=lang title_field=language no_label=1}
+	</div>
+{/if}

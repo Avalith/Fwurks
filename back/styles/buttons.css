@@ -1,0 +1,23 @@
+.button {
+	background: #27333a url(images/alert-overlay.png) repeat-x;
+	display: block;
+	float: left; 
+	margin-right: 10px;
+	padding: 5px 10px 6px;
+	color: #FFF;
+	text-decoration: none;
+	font-weight: bold;
+	line-height: 1;
+	-moz-border-radius: 13px;
+	-webkit-border-radius: 13px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+}
+
+.button:hover {
+	background-color: #162229;
+}

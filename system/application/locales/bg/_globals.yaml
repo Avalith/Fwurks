@@ -1,0 +1,144 @@
+META:
+  administration_title			: Административен панел
+  login_title           		: Вход
+
+YES								: Да
+NO 								: Не
+
+DATABASE_FIELDS:
+  id							: ID
+  person_title					: Заглавие
+  slug							: Slug
+  content						: Съдържание
+  group							: Група
+  username						: Потребителско име
+  first_name					: Собствено име
+  last_name						: Фамилия
+  nick_name						: Прякор
+  display_name					: Използвай име
+  custom						: Друго
+  email							: Email
+  active						: Активен
+  admin_group_title				: Група
+  admin_group_id				: Група
+  password						: Парола
+  confirm						: Повтори паролата
+  parent_id						: Parent
+  records_per_page				: Записи на страница
+  edit_link_titles				: Пусни линковете в заглавията
+  heard_about					: Къде чухте за нас?
+  title							: Заглавие
+  description					: Meta Description
+  metatitle						: Meta Тitle
+  keywords						: Meta Keywords
+  navigation					: В навигацията
+  google_analytics				: Google Analytics ID
+  
+  # Specials
+  _delete						: Изтрии
+  
+  
+  ### Customs ###
+
+
+DATABASE_ERRORS:
+  already_exists 				: вече съществува
+  cant_be_empty					: не може да е празно
+  too_long						: твърде дълго
+  not_match 					: не съвпада
+  unknown_error 				: непозната грешка
+  email		 					: невалидно
+  
+  numeric						: само числа
+  alphanumeric					: само букви и числа
+  
+  # Customs #
+
+
+ERRORS:
+  no_entries					: Няма записи
+  
+  # JS #
+  listing_delete				: Сигурен ли сте че искате да изтриете това?
+  tree_delete					: Сигурен ли сте че искате да изтриете това и всички подстраници?
+  tree_deep						: Твърде много нива
+  tree_saved					: Tree order has been saved.
+
+
+ACTIONS:
+  listing						: Listing
+  add							: Добави
+  edit							: Редактирай
+  delete 						: Изтрии
+  profile						: Профил
+  default_group					: По подразбиране
+  apply_filter					: Apply
+  
+  save_tree_order				: Запази структурата
+  expand_tree					: Разпъни дървото
+  collapse_tree 				: Затвори дървото
+  
+
+LISTING_TITLES:
+  # Administration generic titles #
+  admin_groups                  : Групи
+  admin_users                   : Потребители
+  admin_profile                 : Профил
+  admin_settings                : Настройки
+  
+
+FORM_ADD_TITLES:
+  group 						: група
+  user							: потребител
+  listings                      : Списъци
+  
+  # Customs #
+  
+
+FORM_BUTTONS:
+  save							: Запази
+  finish                        : Запази и приключи
+  cancel						: Отказ
+  login							: Вход
+  activate						: Активирай
+  
+  submit						: Submit
+  reset							: Reset
+
+HELPERS:
+  edit_link_titles              : Избери това ако искаш заглавията да са линкове към страницата за редакция.
+  records_per_page              : Колко резултата да се показват на една страница в списъците.
+  google_analytics				: Insert the ID for Google Analytics.
+  
+MONTHS:
+    - Януари
+    - Февруари
+    - Март
+    - Април
+    - Май
+    - Юни
+    - Юли
+    - Август
+    - Септември
+    - Октомври
+    - Ноември
+    - Декември
+    
+PAGING:
+  first			: First
+  prev_num		: Prev %d
+  prev			: Prev
+  next			: Next
+  next_num		: Next %d
+  last			: Last
+  
+FOUND_ROWS		: Found
+
+DISPLAY_NAMES:
+  username		: 1
+  full_name		: 2
+  custom		: 3
+  
+########## CUSTOMS ##########
+
+

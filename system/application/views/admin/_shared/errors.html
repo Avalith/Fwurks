@@ -1,0 +1,7 @@
+{if $errors}
+	<ul class="errors">
+		{foreach from=$errors key=field item=error}
+			<li><label for="id_{$field}">{$error.field} {if $error.language}({$error.language}){/if}</label>: {$error.message}</li>
+		{/foreach}
+	</ul>
+{/if}

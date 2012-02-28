@@ -1,0 +1,51 @@
+{capture name=content}
+	<h1>{$__labels.__globals.ACTIONS[$__action]}</h1>
+	<form method="post">
+		<div class="main_form">
+			
+			{include file=_shared/errors.html}
+			<div class="col w2">
+				<div class="inner">
+					{html_field type=text name=first_name value=$data->first_name}
+					{html_field type=text name=last_name value=$data->last_name}
+				
+					{html_field type=text name=email value=$data->email}
+
+					<br /><br />
+					<h2>Change password</h2>
+					{html_field type=text type=password name=password}
+					{html_field type=text type=password name=password_confirm label_name=confirm}
+				</div>
+			</div>
+			<div class="cleaner">&nbsp;</div>
+			
+		</div>
+		<div class="sidebar_form">
+			<div class="inner">
+				{assign var=group value=$data->holder()}
+				{html_field type=text name=group value=$group->title|default:$group->i18n_locales_storage->title.$language_locale label_name=admin_group_title disabled=1}
+				{html_field type=text name=username value=$data->username disabled=1}
+			
+				<div class="input">
+					<label class="" for="id_display_name">{$__labels.__globals.DATABASE_FIELDS.display_name}:</label>
+					<select id="id_display_name" name="display_name">
+						<option value="{$__labels.__globals.DISPLAY_NAMES.username}" {if $data->display_name == $__labels.__globals.DISPLAY_NAMES.username} selected="selected"{/if}>{$data->username}</option>
+						{if $data->first_name || $data->last_name}
+							<option value="{$__labels.__globals.DISPLAY_NAMES.full_name}" {if $data->display_name == $__labels.__globals.DISPLAY_NAMES.full_name} selected="selected"{/if}>{$data->first_name} {$data->last_name}</option>
+						{/if}
+						<option value="{$__labels.__globals.DISPLAY_NAMES.custom}" {if $data->display_name == $__labels.__globals.DISPLAY_NAMES.custom} selected="selected"{/if}>{$__labels.__globals.DATABASE_FIELDS.custom}</option>
+					</select>
+				</div>
+				<div id='nick_name' style="display: none;">
+					{html_field type=text name=nick_name value=$data->nick_name no_label=1}
+				</div>
+			</div>
+		</div>
+		<div class="cleaner">&nbsp;</div>
+		<div class="buttons">
+			{html_field type=submit name=save class=save}
+			{html_field type=cancel name=cancel class=cancel}
+			<div class="cleaner">&nbsp;</div>
+		</div>
+	</form>
+{/capture}

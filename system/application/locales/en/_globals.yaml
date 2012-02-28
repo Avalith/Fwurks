@@ -1,0 +1,153 @@
+META:
+  administration_title			: Administration Panel
+  login_title           		: Login
+
+YES								: Yes
+NO 								: No
+
+DATABASE_FIELDS:
+  id							: ID
+  person_title					: Title
+  slug							: Slug
+  description					: Description
+  content						: Content
+  group							: Group
+  username						: Username
+  first_name					: First name
+  last_name						: Last name
+  nick_name						: Nick name
+  display_name					: Display name
+  custom						: Custom
+  email							: Email
+  active						: Active
+  admin_group_title				: Group
+  admin_group_id				: Group
+  password						: Password
+  confirm						: Confirm password
+  parent_id						: Parent
+  records_per_page				: Records per page
+  edit_link_titles				: Edit link titles
+  heard_about					: Where did you hear about us?
+  title							: Title
+  navigation                    : This page is part of the main navigation
+  keywords                      : Meta Keywords
+  metatitle                     : Meta Title
+
+  # Specials
+  _delete						: Delete
+  google_analytics				: Google Analytics ID
+  
+  ### Customs ###
+
+
+DATABASE_ERRORS:
+  already_exists 				: already exists
+  cant_be_empty					: can NOT be empty
+  too_long						: too long
+  not_match 					: does NOT match
+  unknown_error 				: unknown error
+  email		 					: not valid
+  
+  numeric						: only numbers
+  alphanumeric					: only letters and numbers
+  
+  # Customs #
+
+
+ERRORS:
+  no_entries					: There are no entries.
+  
+  # JS #
+  listing_delete				: Are you sure you want to delete this?
+  tree_delete					: Are you sure you want to delete this and all it`s children?
+  tree_deep						: Too deep.
+  tree_saved					: Tree order has been saved.
+
+
+ACTIONS:
+  listing						: Listing
+  add							: Add
+  edit							: Edit
+  delete 						: Delete
+  profile						: Profile
+  default_group					: Default
+  apply_filter					: Apply
+  
+  save_tree_order				: Save Tree Order
+  expand_tree					: Expand Tree
+  collapse_tree 				: Collapse Tree
+  
+
+LISTING_TITLES:
+  # Administration generic titles #
+  admin_groups                  : Administration Groups
+  admin_users                   : Administration Users
+  admin_profile                 : Administration Profile
+  admin_settings                : Administration Settings
+  dashboard                     : Dashboard
+  
+  # Customs #
+  pages                         : Pages
+  
+FORM_ADD_TITLES:
+  group 						: group
+  user							: user
+  listings                      : Listing
+  
+  # Customs #
+  
+
+FORM_BUTTONS:
+  save							: Save
+  finish                        : Save and Finish
+  cancel						: Cancel
+  login							: Login
+  activate						: Activate
+  
+  submit						: Submit
+  reset							: Reset
+
+HELPERS:
+  edit_link_titles              : Check this if you want the titles of the lists to link to the edit page
+  records_per_page              : Number of items to be shown in one page on the lists
+  parent                        : Choose a parent page if applicable
+  navigation                    : This feature allows you to create pages outside of the main navigation. Pages outside navigation will not be linked from anywhere in the site structure
+  active                        : If this page is not active it will not be shown in the website. It will be visible only in the admin section
+  title                         : Page title. We recommend to keep it clear and as short as possible.
+  keywords                      : Keywords separated by comma. Help describe the page content to search engines like Google
+  metatitle                     : The title of the page shown on the top if the browser window
+  slug                          : "Name of your page shown in the URL. No spaces allowed. Example: what-we-do"
+  google_analytics				: Insert the ID for Google Analytics.
+  
+MONTHS:
+  - January
+  - February
+  - March
+  - April
+  - May
+  - June
+  - July
+  - August
+  - September 
+  - October
+  - November
+  - December
+
+PAGING:
+  first			: First
+  prev_num		: Prev %d
+  prev			: Prev
+  next			: Next
+  next_num		: Next %d
+  last			: Last
+  
+FOUND_ROWS		: Found
+
+DISPLAY_NAMES:
+  username		: 1
+  full_name		: 2
+  custom		: 3
+	
+########## CUSTOMS ##########
+
+

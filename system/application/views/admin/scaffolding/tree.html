@@ -1,0 +1,17 @@
+{scaffolding_tree params=$_tree}
+
+{capture name=actions}
+	<div class="menu">
+		{$tree_add}
+		{foreach from=$_tree.actions item=a}
+			{if $_tree.user_can[$a.permission]}
+				<a {if $a.id} id="action-button-{$a.id}"{/if} class="button {$a.class}" title="{$__labels.__globals.ACTIONS[$a.title]|default:$a.title}" href="{$a.href|default:$a.title}">{$__labels.__globals.ACTIONS[$a.title]|default:$a.title}</a>
+			{/if}
+		{/foreach}
+		<div class="cleaner">&nbsp;</div>
+	</div>
+{/capture}
+{capture name=content}
+	{$tree}
+	<div class="cleaner">&nbsp;</div>
+{/capture}

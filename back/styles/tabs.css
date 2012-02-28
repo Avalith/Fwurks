@@ -1,0 +1,26 @@
+/* --- Tabs --- */
+.tabs_ul { height: 30px; position: relative; bottom: -2px; z-index: 10; }
+.tabs_ul li { padding: 0 10px 0 0; display: block; float: left;  }
+.tabs_ul li a { display: block; height: 30px; line-height: 30px; border: solid #CCC; border-width: 1px; float: left; padding: 0 30px 0 10px; color: #000;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	
+}
+.tabs_ul li a:hover { border-bottom: 1px solid #CCC; }
+.tabs_ul li.invalid a { color: #900; border-top-color: #900; border-left-color: #900; border-right-color: #900; }
+.tabs_ul li.selected a { color: #000; background: #EEE; border-bottom-color: #EEE; }
+.tabs_ul li.selected.invalid a {border-top-color: #CCC; border-left-color: #CCC; border-right-color: #CCC; }
+
+.tab_container { clear: both; border: 1px solid #CCC; padding: 10px; background: #EEE;
+	-webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+
+}
+
+/*form .tab_container .input { padding: 0;  }*/

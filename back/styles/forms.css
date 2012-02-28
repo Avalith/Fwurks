@@ -1,0 +1,143 @@
+input, textarea, form { background: #FFF; }
+
+form { display: block; }
+
+form .errors { border: 1px solid #dfc7c5; background: #f9e4e1; margin-bottom: 20px; }
+form .errors li { border-top: 1px solid #FFF; padding: 10px 10px 10px 35px; background: url('icons/exclamation.png') 10px 11px no-repeat; }
+form .errors li label {  }
+
+label { display: block; font-weight: bold; margin-bottom: 0px; cursor: pointer; font-size: 10px;  }
+label span { color: #C00;  }
+
+form ul ul { padding: 0 20px 10px; }
+form ul li label { display: inline; padding: 0 0 0 5px;  }
+
+textarea { display: block; width: 99%; padding: 3px;  }
+textarea.rte-default { height: 280px;  }
+
+option { outline: none; padding: 2px;  }
+select { margin-bottom: 4px; border: 2px solid #CCC; outline: none; padding: 2px; height: 24px;  }
+select[multiple=multiple] { height: auto;  }
+
+.input { padding-bottom: 15px; overflow: hidden;  }
+.input label { display: block; font-weight: bold;  }
+.input label span { color: #F00; }
+.input label.checkbox { display: inline; font-weight: normal; padding-left: 5px; }
+
+.input .field textarea,
+.input .field input.field { font-size: 12px; width: 94%; padding: 3px 5px; background: #F5F5F5; border: 2px solid #CCC; outline: none; z-index: 100; }
+
+.input .field textarea:focus, 
+.input .field input.field:focus { border: 2px solid #e6924e; background: #FFF; }
+
+.input .preview { margin: 5px 5px 0 0; padding: 1px; }
+.input .preview a { overflow: hidden; position: relative; display: block; padding: 0; border: 5px solid #FFF; outline: 1px solid #999 }
+.input .preview a .file-img { display: block; }
+.input .file { margin-bottom: 8px;  }
+.input .error { color: #A00; font-size: 90%; font-weight: bold; float: left;   }
+.input.invalid .field { background: #FEE; border-color: #900; }
+
+.image_upload { background: #EEE; border: 1px solid #CCC; margin: 20px 0; padding: 0 20px;   }
+.image_upload .buttons { border: none; background: none; clear: none; margin: 0; padding: 0;  }
+.image_upload .buttons .button { float: none; }
+
+.input.ic { margin-top: 20px; }
+.input.ic img { display: block; border: 1px solid #CCC; background: #EEE; }
+.input.ic .col { margin-right: 10px; }
+
+ul.permissions > li {  display: block; width: 49%; float: left;  }
+ul.permissions strong { display: block; margin-top: 10px; }
+
+.checkbox { display: inline; border: none; background: none; }
+.list .checkbox { display: inline; font-weight: normal;  }
+
+.help { display: block; font-size: 10px; color: #666; }
+
+.buttons { padding: 10px 10px 9px 10px; background: #EDEDED; margin: 10px 0 0 0; border: 1px solid #d5d5d5; }
+.buttons .field { border: none; background: none; padding: 0; }
+.buttons .field { display: block; float: left; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; }
+.buttons .field input { background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; font-size: 10px;  line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
+.buttons .field input:hover { text-decoration: underline; cursor: pointer; }
+
+a.button { display: block; float: left; font-size: 10px; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; font-weight: bold;  }
+a.button span { display: block; background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
+a.button:hover { text-decoration: underline;  }
+
+.many-to-many { border: 2px solid #CCC; margin: 10px 0; padding: 10px 0 0 0; }
+.many-to-many label { margin-left: 2px; }
+.many-to-many .list { clear: both; overflow: auto; padding: 3px 10px 3px 3px; height: 167px; border-top: 2px solid #CCC;  }
+.many-to-many .list li { clear: left; overflow: hidden; margin: 0 0 3px 0; }
+.many-to-many .list li .checkbox { float: left; font-weight: normal; line-height: 14px; }
+.many-to-many ul { overflow: hidden; }
+
+.many-to-many .checkbox-list-filtered-label { float: left; margin-left: 12px; padding-top: 2px; }
+.many-to-many .checkbox-list-filter { float: right; padding: 0 10px 8px 0; }
+.many-to-many .checkbox-list-filter .filter { float: left; border: 1px solid #CCC; padding: 3px; margin-bottom: 1px; }
+.many-to-many .checkbox-list-filter input.checkbox { float: left; margin: 2px 3px 0 10px; }
+.many-to-many .checkbox-list-filter label.checkbox { float: left; padding: 0; }
+
+select optgroup { padding: 5px;  }
+select optgroup option { padding: 3px 5px 3px 15px;  }
+
+.wrapper { border: 1px solid #CCC; padding: 20px; -moz-border-radius: 10px; -webkit-border-radius: 10px; background: #EEE; }
+
+.main_form { width: 75%; float: left; overflow: hidden;  }
+.sidebar_form { width: 20%; float: right; overflow: hidden; margin-left: 4%; background: #EDEDED; border:1px solid #D5D5D5;  }
+.sidebar_form .inner { padding: 20px; }
+.sidebar_form select { width: 90%;  }
+
+/* --- Rounded corners --- */
+.sidebar_form,
+.buttons {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#navigation li li a,
+#navigation li li strong,
+table.listing tfoot p.page-jump a,
+table.listing tfoot p.page-jump input,
+.many-to-many .checkbox-list-filter .filter,
+.input .field textarea,
+.input .field input.field {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.listing_filter{
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-left-radius: 10px;
+}
+
+.no_entries
+{
+	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+}
+
+.many-to-many,
+.menu
+{
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	-webkit-border-top-right-radius: 10px;
+}
+
+
+
+/* --- File types ---  */
+.file-type { background: url(icons/page.png) 5px center no-repeat; padding: 5px 0 5px 30px; font-weight: bold; color: #000; border: solid #999; border-width: 1px 0; margin: 5px 0 10px 0;  }
+.file-type a { }
+.file-type.jpg { background: url(icons/image.png) 5px center no-repeat; }
+
+/* --- Login --- */
+#login { background: $backgroundColor url('images/login_body_bgrd.gif') left top repeat-x; padding: 100px 0; }
+#login .input { padding: 0;  }
+#login .panel { width: 620px; margin: 0 auto;   }
+#login h1 { margin: 0 0 20px 0; padding: 75px 0 0 30px; line-height: 65px; color: #FFF; font-size: 450%; border-left: 5px solid #FFF; float: left;  }
+#login h2 { width: 180px; height: 145px; background: url('images/login_logo_site.gif') left top no-repeat; float: left; text-indent: -1200px; margin-left: 120px; }
+#login form .buttons .field { display: block; float: right; margin: 0 0 0 5px;  }
+#login .panel .footer .logo { display: block; width: 135px; height: 30px; background: url('images/footer_logo.gif') left top no-repeat; text-indent: 1000px; overflow: hidden; float: right;  }
