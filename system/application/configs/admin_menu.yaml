@@ -1,0 +1,45 @@
+# Properties
+# --------------------------------------------------------------------
+# type				: ( link | action | controller )
+# controller		: defines the controller name. if the type is controller it will use this value instead of the key
+# real_controller	: used for the permissions (late explanation)
+# permission_name	: used for the permissions (late explanation)
+# menu				: defines a submenu
+# icon				: add icon class
+# - separator 		: will place a separator in the global scope or in menu scope
+# --------------------------------------------------------------------
+
+
+dashboard:
+  type: controller
+
+## CUSTOMS
+
+pages:
+  type: controller
+  
+books:
+  type: controller
+
+## END CUSTOMS
+
+administration:
+  type: link
+  menu: 
+    groups:
+      type: controller
+      controller: admin_groups
+      
+    users:
+      type: controller
+      controller: admin_users
+      
+    profile: 
+      type: action
+      controller: admin_users
+    
+    settings:
+      type: controller
+      controller: admin_settings
+
+

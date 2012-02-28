@@ -1,0 +1,35 @@
+.icon,
+.icon-text 	{ display: block; background-position: center center; background-repeat: no-repeat;  }
+
+.icon		{ overflow: hidden; width: 16px; height: 16px; text-indent: 1000px; }
+.icon-text 	{ height: 26px; padding: 5px 0 5px 32px; white-space: nowrap; background-position: 10px center; }
+
+.icon-text.groups, 	.icon.groups 		{ background-image: url(icons/users.png); 			}
+.icon-text.users, 	.icon.users 		{ background-image: url(icons/user_business.png); 	}
+.icon-text.add, 	.icon.add 			{ background-image: url(icons/page_add.png); 		}
+.icon-text.view, 	.icon.view 			{ background-image: url(icons/page.png); 			}
+.icon-text.edit, 	.icon.edit 			{ background-image: url(icons/page_edit.png); 		}
+.icon-text.delete, 	.icon.delete 		{ background-image: url(icons/page_delete.png); 	}
+.icon-text.edit-disabled, 	.icon.edit-disabled 	{ background-image: url(icons/page_edit_disabled.png); 		}
+.icon-text.delete-disabled, .icon.delete-disabled 	{ background-image: url(icons/page_delete_disabled.png); 	}
+.icon-text.save, 	.icon.save 			{ background-image: url(icons/disk.png); 			}
+.icon-text.active, 	.icon.active		{ background-image: url(icons/accept.png); 			}
+.icon-text.inactive,.icon.inactive		{ background-image: url(icons/delete.png); 			}
+.icon.expand							{ background-image: url(icons/expand.png);  }
+.icon.collapse							{ background-image: url(icons/collapse.png);  }
+.icon-text.email,	.icon.email			{ background-image: url(icons/email.png); 			}
+.icon-text.email_go,.icon.email_go		{ background-image: url(icons/email_go.png); 		}
+
+.icon-text.report,	.icon.report		{ background-image: url(icons/report.png); 			}
+
+
+.icon-text.arrow_up,		.icon.arrow_up		{ background-image: url(icons/arrow_up.png); 		}
+.icon-text.arrow_down,		.icon.arrow_down	{ background-image: url(icons/arrow_down.png); 		}
+.icon-text.arrow_updown,	.icon.arrow_updown	{ background-image: url(icons/arrow_updown.png); 	}
+
+
+.icon-text.tab-add,		.icon.tab-add		{ background-image: url(icons/tab__plus.png); 		}
+.icon-text.close,		.icon.close			{ background-image: url(icons/cross.png); 			}
+.icon-text.tab-close,	.icon.tab-close		{ background-image: url(icons/cross_circle.png); 	}
+
+.icon.icon-switch-user { background-image: url(icons/user_go.png); }

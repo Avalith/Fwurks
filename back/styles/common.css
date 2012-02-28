@@ -1,0 +1,134 @@
+/* --- Reset styles --- */
+* { margin: 0; padding: 0; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; }
+body { background: #27333a url('images/body_bgrd.gif') left -30px repeat-x; min-width: 860px;}
+
+.cleaner 	{ display: block; height: 1px; overflow: hidden; clear: both; }
+.clear		{ clear: both; }
+.clearLeft	{ clear: left; }
+.clearRight	{ clear: right; }
+
+a { color: #369; text-decoration: none; outline: none; }
+a img { border: none;  }
+
+p { padding: 0 0 20px 0; }
+
+li { list-style: none outside; display: block; }
+
+h1 { margin: 5px 0 15px; font-family: PTSansNarrowRegular, Arial, sans-serif;  }
+h2 { margin-bottom: 10px; }
+h3 { margin-bottom: 5px;  }
+
+/* --- Layout and Basic structue --- */
+#page_container {  }
+
+#header { float:left; width: 100%; }
+#header h1.header { color: #FFF; float: left; margin-bottom: 0px; font-size: 400%; margin: 10px 0 0 20px; line-height: normal;  text-shadow:0 3px 6px rgba(0, 0, 0, 0.75); font-family: 'PTSansNarrowRegular', sans-serif; }
+#header h2 { float: left; margin: 10px 10px 0 40px; width: 128px; height: 122px; background: url('images/antipodes_logo.png') left top no-repeat; }
+#header h2 a { display: block; width: 100%; height: 100%; text-indent: -1900px;  }
+
+#header p { text-align: right;  }
+#header a:hover { text-decoration: underline;  }
+
+#header .info { float:left; position:relative; height: 100px; width: 100%;  color: #7f909a; }
+#header .info .right { float: right; height: 30px; color: #7f909a; padding-right: 10px;}
+#header .info .right a { padding: 0 5px; color: #7f909a; }
+#language_select { position:absolute;  right: 13px; top: 30px;  }
+
+#header .input,
+#header .input select { display: inline; }
+
+#header #breadcrumbs { display: block; position: absolute; top: 50px; left: 210px;    }
+
+#page_content { padding-left: 185px; }
+#page_content .column { position: relative; float: left; }
+
+#cnt { width: 100%; top: -30px; padding: 15px 0 15px 15px; overflow:hidden;  }
+#cnt_inn { padding: 15px; -moz-box-shadow: 0 0 15px #222;  background:#FFF; -moz-border-radius-topleft: 10px; -moz-border-radius-bottomleft: 10px; }
+/*#cnt .cnt_left { background: url('images/layout_content_left.gif') left top repeat-y; }
+#cnt .cnt_bottom { background: url('images/layout_content_bottom.gif') left bottom repeat-x; }
+#cnt .cnt_bottom_left { background: url('images/layout_content_bottom_left.gif') left bottom no-repeat; }
+#cnt .cnt_top_left { background: url('images/layout_content_top_left.gif') left top no-repeat; }*/
+
+#sidebar { width: 200px; right: 185px; top: 140px;  margin-left: -100%; }
+#sidebar .inner { padding: 0 0 ; background: url(images/sidebar_bgrd_bottom.gif) right bottom no-repeat; }
+
+.no_sidebar #page_content { padding-left: 20px; }
+.no_sidebar #sidebar { display: none; }
+
+/* --- Basic Grid System --- */
+.col { float: left; overflow: hidden;  }
+.col .inner { padding: 0 10px 0 0; }
+
+.col.w2 { width: 50%; }
+.col.w3 { width: 33%; }
+.col.w4 { width: 25%; }
+.col.w5 { width: 20%; }
+
+.col.w23 { width: 66%; }
+.col.w34 { width: 75%; }
+
+.box_top { background: #FFF url('images/layout_content_top.gif') left top repeat-x; }
+.box_bottom { background: url('images/layout_content_bottom.gif') left bottom repeat-x; }
+.box_left { background: url('images/layout_content_left.gif') left top repeat-y; }
+.box_right { background: url('images/layout_content_right.gif') right top repeat-y; }
+.box_top_right { background: url('images/layout_content_top_right.gif') right top no-repeat; }
+.box_top_left { background: url('images/layout_content_top_left.gif') left top no-repeat; }
+.box_bottom_right { background: url('images/layout_content_bottom_right.gif') right bottom no-repeat; }
+.box_bottom_left { background: url('images/layout_content_bottom_left.gif') left bottom no-repeat; }
+.box_inn { padding: 30px;  }
+
+.messages ul { background: #FFF; border: solid #CCC; border-width: 1px; padding: 10px;  }
+.messages li { display: block; border-top: 1px solid #CCC; padding: 10px;  }
+.messages li .message_delete { float: right;  }
+.messages li strong,
+.messages li span { display: block; }
+.messages li .content {  }
+
+/* --- Custom --- */
+
+.color { position: relative; float: left; width: 50px; height: 50px; margin: 0 10px 10px 0; }
+.color input { position: absolute; top: 5px; left: 5px; }
+
+/* --------- Rich Text Editor Styles ------------------------------------------------------------------------------------*/
+.rte h1 { font-weight: normal; font-size: 220%; padding: 0 0 0 0; }
+.rte h2 { font-weight: normal; font-size: 180%; padding: 0 0 10px 0; }
+.rte h3 { font-weight: normal; font-size: 160%; padding: 0 0 5px 0; }
+.rte h4 { font-weight: normal; font-size: 140%; padding: 5px 0; }
+.rte h5 { font-size: 120%; padding: 0 0 5px 0; }
+.rte h6 { font-size: 100%; padding: 0 0 5px 0; }
+
+.rte a { text-decoration: underline; }
+.rte a:hover { text-decoration: underline;  }
+.rte a.button {text-decoration: none;}
+
+.rte p { padding: 0 0 20px 0; }
+.rte p a {  }
+.rte p + ul { padding: 0 30px 20px 30px; }
+.rte p + ol { padding: 0 30px 20px 30px; }
+
+.rte ul { padding: 0 30px 20px 30px; }
+.rte ul ul { padding: 10px 30px; }
+.rte ul li { list-style: disc outside; display: list-item; }
+.rte ul li li { list-style: circle; }
+.rte ul li a {  }
+.rte ul + ul { padding: 0 30px 20px 30px; }
+
+.registration .rte ul li { font-size: 140%; line-height: 160%;  }
+
+.rte ol { padding: 20px 30px; }
+.rte ol ol { padding: 10px 30px; }
+.rte ol li { list-style: decimal outside; display: list-item;  }
+.rte ol li a {  }
+.rte ol + ol { padding: 0 30px 20px 30px; }
+
+.rte code { display: block; background: #EEE; border: 1px solid #CCC; font: 0.8em Courier, Tahoma, sans-serif; padding: 10px; margin: 20px 0; white-space: pre; }
+.rte p + code { margin-top: 0; }
+
+.rte blockquote { color: #666; padding: 20px; border-left: 5px solid #CCC; margin: 0 20px 20px 20px;  }
+.rte blockquote p { padding-bottom: 0; line-height: 20px; }
+
+.rte img[align=right],
+.rte table[align=right] { margin-left: 20px; }
+
+.rte img[align=left],
+.rte table[align=left] 	{ margin-right: 20px; }

@@ -1,0 +1,163 @@
+input, textarea, form { background: #FFF; }
+
+#login form { padding: 20px; }
+form { display: block; -moz-border-radius: 15px; -webkit-border-radius: 15px; border-radius: 15px; }
+
+form .errors { border: 1px solid #dfc7c5; background: #f9e4e1; margin-bottom: 0px; }
+form .errors p { float:left; padding: 4px 10px 4px 35px; background: url('icons/forbidden.png') 7px 0px no-repeat; }
+
+
+label { display: block; font-weight: bold; margin-bottom: 0px; cursor: pointer; font-size: 10px;  }
+label span { color: #C00;  }
+
+form ul ul { padding: 0 20px 10px; }
+form ul li label { display: inline; padding: 0 0 0 5px;  }
+
+textarea { display: block; width: 99%; padding: 3px; height: 115px;  }
+textarea.rte-default { height: 280px;  }
+
+option { outline: none; }
+select { border: 1px solid #7F909A; outline: none; padding: 2px 3px; height: 21px; line-height: 13px;}
+select[multiple=multiple] { height: auto;  }
+
+.input { position: relative; padding-bottom: 10px; overflow: hidden; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+.input label { display: block; font-weight: bold;  }
+.input label span { color: #F00; }
+.input label.checkbox { display: inline; font-weight: normal; padding-left: 5px; }
+
+.input .field textarea,
+.input .field input.field { font-size: 11px; width: 100%; padding: 3px 3px; background: #F5F5F5; border: 1px solid #CCC; outline: none; z-index: 100; }
+
+.input .field textarea:focus, 
+.input .field input.field:focus { border: 1px solid #e6924e; background: #FFC; }
+
+.input .preview { margin: 5px 5px 0 0; padding: 1px; }
+.input .preview a { overflow: hidden; position: relative; display: block; padding: 0; border: 5px solid #FFF; outline: 1px solid #999; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; -ie-box-sizing: content-box; }
+.input .preview a .file-img { display: block; }
+.input .file { margin-bottom: 8px;  }
+.input .error { color: #A00; font-size: 90%; font-weight: bold; float: left;   }
+.input.invalid .field { background: #FEE; border-color: #900; }
+
+/*
+ul.permissions > li {  display: block; width: 50%; float: left;  }
+ul.permissions strong { display: block; margin-top: 10px; }
+*/
+ul.permissions > li.has-submenu {  float: left; width: 21.5%; margin: 10px 10px 10px 0; padding: 0 0 0 10px; background: #EEE; border: 1px solid #DDD; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+ul.permissions > li > strong label { font-size: 12px; }
+ul.permissions strong { display: block; margin-top: 10px; margin-bottom: 5px; }
+
+.checkbox { float: left; margin: 21px 0 2px; line-height: 14px; border: none; background: none; }
+.checkbox-list .checkbox { margin: 2px 0;  }
+.list .checkbox { display: inline; font-weight: normal;  }
+
+.help { display: block; position: absolute; bottom: 0; color: #666; line-height: 10px; font-size: 9px; font-weight: normal; }
+
+ 
+
+.buttons { padding: 10px 10px 9px 10px; background: #EDEDED; margin: 10px 0 0 0; border: 1px solid #d5d5d5; }
+.buttons .field { border: none; background: none; padding: 0; }
+.buttons .field { display: block; float: left; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; }
+.buttons .field input { background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; font-size: 10px;  line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
+.buttons .field input:hover { text-decoration: underline; cursor: pointer; }
+.buttons.errors .field { background: url(images/button_bgrd_left.png) left top no-repeat; }
+.buttons.errors .field input { background: url(images/button_bgrd_right.png) right top no-repeat; }
+
+a.button { display: block; float: left; font-size: 10px; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; font-weight: bold;  }
+a.button span { display: block; background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
+a.button:hover { background:#DDD;}
+.menu .button 		{ border-right: 1px solid #D5D5D5; height: 22px; background-position:-10px -1px; margin: 0px; }
+.menu .button span 	{ font: 11px/22px Arial,sans-serif;  background:none; display:inline; padding: 0 7px 0 5px;  } 
+.menu .button .icon { float:left; margin: 3px 0 0 7px; }
+.menu .button:first-child { -moz-border-radius-topleft: 5px; } 
+
+.many-to-many { border: 1px solid #CCC; margin-bottom: 10px; padding: 10px 0 0 0; }
+.many-to-many strong { display: block; margin: 0 0 12px 12px; padding-top: 2px; font-size: 10px; }
+.many-to-many label { margin-left: 2px; }
+.many-to-many .checkbox-list { clear: both; overflow: auto; padding: 3px 10px 3px 10px; height: 136px; border-top: 1px solid #CCC;  }
+.many-to-many .checkbox-list li { clear: left; overflow: hidden; margin: 1px 0; }
+.many-to-many .checkbox-list li .checkbox { float: left; font-weight: normal; }
+.many-to-many ul { overflow: hidden; }
+
+.many-to-many .checkbox-list-filtered-label { float: left; margin-left: 12px; padding-top: 2px; }
+.many-to-many .checkbox-list-filter { float: right; padding: 0 10px 8px 0; }
+.many-to-many .checkbox-list-filter .filter { float: left; width: 130px; border: 1px solid #CCC; padding: 3px; margin-bottom: 1px; }
+.many-to-many .checkbox-list-filter input.checkbox { float: left; margin: 4px 3px 0 10px; }
+.many-to-many .checkbox-list-filter label.checkbox { float: left; margin: 4px 0 0 0; padding: 0; }
+
+select optgroup { padding: 5px;  }
+select optgroup option { padding: 3px 5px 3px 15px;  }
+
+.main_form { float: left; width: 75%; overflow: hidden;  }
+.main_form .inner { padding: 10px 10px 0 0; }
+.sidebar_form { float: right; width: 25%; overflow: hidden; background: #EDEDED; border:1px solid #D5D5D5;  }
+.sidebar_form .inner { padding: 10px 10px 0; }
+.sidebar_form select { width: 100%; height: 19px;  }
+
+
+/* --- Rounded corners --- */
+
+.sidebar_form,
+.buttons {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+.tree, table.listing,
+.many-to-many,
+.many-to-many .menu {
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-radius-bottomright: 10px;
+}
+
+#id_category_id, #id_laguages_select, #id_parent_id,
+#id_display_name,
+#navigation li li a,
+#navigation li li strong,
+table.listing tfoot p.page-jump a,
+table.listing tfoot p.page-jump input,
+.many-to-many .checkbox-list-filter .filter,
+.input .field textarea,
+.input .field input.field,
+{
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.listing_filter{
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-left-radius: 10px;
+}
+
+.no_entries
+{
+	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+}
+
+.many-to-many,
+.menu
+{
+	-moz-border-radius-topleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-right-radius: 5px;
+}
+
+
+/* --- File types ---  */
+.file-type { background: url(icons/page.png) 5px center no-repeat; padding: 5px 0 5px 30px; font-weight: bold; color: #000; border: solid #999; border-width: 1px 0; margin: 5px 0 10px 0;  }
+.file-type a { }
+.file-type.jpg { background: url(icons/image.png) 5px center no-repeat; }
+
+/* --- Login --- */
+#login { background: $backgroundColor url('images/login_body_bgrd.gif') left top repeat-x; padding: 100px 0; }
+#login .input { padding: 0;  }
+#login .panel { width: 620px; margin: 0 auto;   }
+#login h1 { margin: 0 0 20px 0; padding: 75px 0 0 30px; line-height: 65px; color: #FFF; font-size: 450%; border-left: 5px solid #FFF; float: left;  }
+#login h2 { width: 180px; height: 145px; background: url('images/login_logo_site.gif') left top no-repeat; float: left; text-indent: -1200px; margin-left: 120px; }
+#login form .buttons .field { display: block; float: right; margin: 0 0 0 5px;  }
+#login .panel .footer .logo { display: block; width: 135px; height: 30px; margin-top: 20px; background: url('images/footer_logo.gif') left top no-repeat; text-indent: 1000px; overflow: hidden; float: right;  }
+

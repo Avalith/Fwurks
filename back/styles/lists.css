@@ -1,0 +1,104 @@
+/* --- Lists --- */
+table.listing { width: 100%; border-collapse: collapse; border: none; background: #FFF; border: 1px solid #d5d5d5; }
+table.listing th,
+table.listing td { padding: 3px 5px; border: none; text-align: left; border: 1px solid #d5d5d5; }
+table.listing td.movers { padding: 4px 0px; }
+
+table.listing td {  }
+table.listing td a:hover { text-decoration: underline;  }
+
+table.listing tbody {  }
+table.listing th:empty { }
+
+table.listing .odd { background-color: #F5F5F5; }
+table.listing tbody tr:hover { background-color: #EEE; }
+
+table.listing tr.checked-row td { background-color: #E5E5E5; }
+table.listing tr.checked-row:hover td { background-color: #CCC; }
+
+table.listing tr.edited td { background-color: #F7F7C7; }
+table.listing tr.edited:hover td { background-color: #F5F5B7; }
+
+table.listing tr.moving td { background-color: #F5F5B7; margin: 2px 0; }
+
+table.listing td.toggle,
+table.listing th.toggle { width: 20px; text-align: center; padding: 6px 8px 6px 5px;   }
+table.listing .toggle input { line-height: 10px; }
+
+table.listing col.id 		{ width: 20px; }
+table.listing col.active 	{ width: 20px; }
+table.listing col.boolean 	{ width: 20px; }
+table.listing col.icons 	{ width: 23px;  }
+
+table.listing .inactive,
+table.listing .active { margin: 0 auto;  }
+
+table.listing a.active:hover { background-image: url('icons/cross.png'); }
+table.listing a.inactive:hover { background-image: url('icons/tick.png'); }
+
+table.listing td.correct { background-color: #CDC }
+table.listing td.toggle { vertical-align: middle;  }
+table.listing td.toggle .input { padding: 0;  }
+table.listing td span.user { display: block; }
+
+table.listing td.action-button { padding: 0;  }
+table.listing td.action-button span, 
+table.listing td.action-button a { padding: 4px; box-sizing: content-box; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; -ms-box-sizing: content-box; }
+table.listing td.action-button a:hover { background-color: #69C;  }
+
+
+table.listing .limit_col { display: block; height: 20px; position: relative; overflow: hidden; }
+table.listing .limit_col span { display: none; width: 120px; position: absolute; top: 0; left: 0;  }
+table.listing .limit_col:hover span { display: block; }
+
+table.listing thead th { white-space: nowrap; }
+table.listing thead th a { display: block; color: #000; }
+table.listing thead th a:hover { text-decoration: underline;  }
+table.listing thead th.orderup { }
+table.listing thead th.orderdown { }
+
+/* --- Sorting --- */
+table.listing thead th.sorting-d a,
+table.listing thead th.sorting-a a { display: block; }
+table.listing thead th.sorting-a a { background: url(icons/bullet_arrow_up.gif) right top no-repeat; }
+table.listing thead th.sorting-d a { background: url(icons/bullet_arrow_down.gif) right top no-repeat; }
+
+/* --- Pagination --- */
+table.listing tfoot td { text-align: center; }
+table.listing tfoot td:hover { background: #FFF; }
+table.listing tfoot ul li { display: inline; padding: 0 5px; }
+table.listing tfoot ul li.prev { padding-right: 10px; }
+table.listing tfoot ul li.next { padding-left: 10px; }
+
+table.listing tfoot ul li a {  }
+table.listing tfoot ul li.selected a { font-weight: bold; text-decoration: underline;  }
+table.listing tfoot ul li a:hover { text-decoration: underline; }
+
+table.listing tfoot p { padding: 0; }
+table.listing tfoot p.page-now { float: left; }
+table.listing tfoot p.page-jump { float: right; }
+table.listing tfoot p.page-jump a { padding: 0 4px; background: #EEE; line-height: 16px; border: 1px solid #CCC; }
+table.listing tfoot p.page-jump input { width: 50px; padding: 0px 3px; border: 1px solid #CCC; outline: none; }
+
+#statistics table.listing { table-layout: fixed; }
+#statistics table.listing .tar { width: 20%; text-align: right;  }
+
+
+.listing_filter { background: #EEE; margin: -30px -30px 30px -20px; padding: 15px 20px 20px 20px; border-bottom: 1px solid #d5d5d5; position: relative;  }
+.listing_filter .input { width: 150px; float: left; margin-right: 20px; margin-bottom: 0; padding: 0;  }
+.listing_filter .input  { width: 100%;  }
+.listing_filter .input input.field { border-color: #999; }
+.listing_filter .input input.field { padding: 2px;  }
+
+.listing_filter .input.checkbox { margin-top: 20px; }
+
+.listing_filter .button { position: absolute; margin: 0; right: 20px; bottom: 20px; }
+
+.no_entries { border: 1px solid #CCC; background: #EEE; padding: 10px; font-weight: bold;  }
+
+/*#actions { margin-top: 30px; }*/
+.menu { height: 23px; padding: 0; background: #EEE; border: 1px solid #d5d5d5; border-bottom: none; }
+.menu .no_entries 	{ float: right; padding: 0 10px 0 0; line-height: 24px; border: none; background: none; margin: 0;  }
+
+
+

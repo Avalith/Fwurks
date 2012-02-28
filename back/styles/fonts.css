@@ -1,0 +1,31 @@
+/* --- Font import ------------------------------------------------------------------------------------------------------- */
+@font-face {
+	font-family: 'Anivers';
+	src: url('../fonts/Anivers_31.eot');
+	src: local('Anivers Regular'), local('Anivers-Regular'), url('../fonts/Anivers_31.woff') format('woff'), url('../fonts/Anivers_31.otf') format('opentype'), url('../fonts/Anivers_31.svg#Anivers-Regular') format('svg');
+}
+
+@font-face {
+	font-family: 'PTSansNarrowRegular';
+	src: url('../fonts/PTSansNarrow.eot');
+	src: local('../fonts/PT Sans Narrow Regular'), local('../fonts/PTSans-Narrow'), url('../fonts/PTSansNarrow.woff') format('woff'), url('../fonts/PTSansNarrow.ttf') format('truetype'), url('../fonts/PTSansNarrow.svg#PTSans-Narrow') format('svg');
+}
+
+/* --- Common fonts ------------------------------------------------------------------------------------------------------- */
+
+body { font: 11px/16px Verdana, Arial, sans-serif; }
+#header .info { font: 9px/30px Verdana, Arial, sans-serif; }
+#navigation { font-size: 11px; }
+
+h1, h2, h3, h4, h5 { font-weight: normal; }
+
+h1 { font-size: 24px; }
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; } 	
+h6 { font-size: 12px; }
+
+
+/* --- Forms ----------------------------------------------------------------------------------------------------- */
+button, input, textarea, select { font: 11px "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; }

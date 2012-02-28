@@ -1,0 +1,9 @@
+{extends file='layout.tpl'}
+
+{block name='content'}
+	<h1>404</h1>
+	<p>
+		Sorry,<br />
+		The page you are trying to find is not here.
+	</p>
+{/block}
