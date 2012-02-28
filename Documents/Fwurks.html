@@ -1,0 +1,655 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<title>Fwurks - Docs</title>
+	
+	<link href="styles/styles.css" rel="stylesheet" />
+	<link href="styles/print.css" rel="stylesheet" media="print"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/toc.js"></script>
+</head>
+<body>
+
+<h1>Fwurks 2.1 </h1>
+
+
+<h2 id="introduction">Introduction</h2>
+
+	<h3 id="introduction-fwurks">Fwurks?</h3>
+	<p>Fwurks is rapid application development framework for PHP 5, based on the MVC (Model View Controller) design pattern, 
+	experience and good practices. It provides an extensible architecture, components and tools for developing, maintaining, 
+	and deploying complex applications.</p>
+
+	<h3 id="introduction-fundamentals">Fundamentals</h3>
+	<p>This manual assumes that you have general understanding of PHP and at least basic understanding of object oriented programming (OOP). Different functionality within the framework makes use of different technologies:</p> 
+	<ul>
+		<li>
+			<h4 id="introduction-fundamentals-sql">SQL - Structured Query Language</h4>
+			<p>Database computer language designed for the retrieval and management of data in relational database management systems (RDBMS), database schema creation and modification, and database object access control management.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-javascript">JavaScript</h4>
+			<p>Scripting language widely used for client-side development. It is a dynamic, weakly typed, prototype-based language with first-class functions. JavaScript was influenced by many languages and was designed to look like Java, but be easier for non-programmers to work with</p>	
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-ajax">AJAX - Asynchronous JavaScript and XML</h4>
+			<p>Group of interrelated development techniques used for creating interactive applications. With Ajax, applications can retrieve data from the server asynchronously in the background without interfering with the display and behavior of the existing page. Data is retrieved using the XMLHttpRequest object or through the use of Remote Scripting in browsers that do not support it. Despite the name, the use of JavaScript and XML is not required, and they do not have to be used asynchronously.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-json">JSON - JavaScript Object Notation</h4>
+			<p>Lightweight computer data interchange format. It is a text-based, human-readable format for representing simple data structures and objects. The JSON format is often used for transmitting structured data over a network connection in a process called serialization. Its main application is in Ajax application programming, where it serves as an alternative to the use of the XML format.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-yaml">YAML - YAML Ain't a Markup Language</h4>
+			<p>Human-readable data serialization format. Its familiar indented outline and lean appearance makes it especially suited for tasks where humans are likely to view or edit data structures, such as configuration files, dumping during debugging, and document headers. Although well-suited for hierarchical data representation, it also has a compact syntax for a relational data as well.</p>
+			<p>Early in its development, was said to mean "Yet Another Markup Language"</p>
+		</li>
+	</ul>
+	<p>Before you get started, you should understand a few basic concepts.</p>
+	<ul>
+		<li>
+			<h4 id="introduction-fundamentals-oop">OOP - Object Oriented Programming</h4>
+			<p>Programming paradigm that uses "objects" and their interactions to design applications and computer programs. Programming techniques may include features such as encapsulation, modularity, polymorphism, and inheritance.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-orm">ORM - Object Relational Mapping</h4>
+			<p>Programming technique for converting data between incompatible type systems in relational databases and object-oriented programming languages. This creates, in effect, a "virtual object database," which can be used from within the programming language. </p>
+			<p>ORM is Speeding development. For example, eliminating repetitive code like mapping query result fields to object members and vice-versa.</p>
+			<p>Making data access more abstract and portable. ORM implementation classes know how to write vendor-specific SQL, so you don't have to.</p>
+			<p>Supporting OO encapsulation of business rules in your data access layer. You can write (and debug) business rules in your application language of preference, instead of clunky trigger and stored procedure languages.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-rad">RAD - Rapid Application Development</h4>
+			<p>Software development methodology, which involves iterative development and the construction of prototypes. It is a merger of various structured techniques, especially the data driven Information Engineering with prototyping techniques to accelerate software systems development.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-dry">DRY - Don't Repeat Yourself</h4>
+			<p>Process philosophy aimed at reducing duplication. The philosophy emphasizes that information should not be duplicated, because duplication increases the difficulty of change, may decrease clarity, and leads to opportunities for inconsistency.</p>
+		</li>
+		<li>
+			<h4 id="introduction-fundamentals-kiss">KISS - Keep it Simple, Stupid</h4>
+			<p>Design simplicity should be a key goal and unnecessary complexity avoided.<br /><br /> &mdash; "It seems that perfection is reached not when there is nothing left to add, but when there is nothing left to take away" - Exupery</p>
+		</li>
+	</ul>
+
+	<h3 id="introduction-mvc">Models, Views and Controllers Architecture in Fwurks</h3>
+	<p>
+		Architectural pattern used in software engineering. Successful use of the pattern isolates business logic from user interface considerations, resulting in an application where it is easier to modify either the visual appearance of the application or the underlying business rules without affecting the other. In MVC, the model represents the information layer of the application; the view is the presentation layer, corresponding to elements of the user interface; the controller manages the communication of data and the business rules used to manipulate the data to and from the model, and sending the data to the view where it is presented. The view might request simple data directly from a model bypassing the controller.<br /><br />
+		<img src="images_fwurks/mvc.png" />
+	</p>
+	<p>Dispatcher is loading the system. Router parses the URL in order to extract the parameters for this request and using the routes, a request URL is mapped to a controller action (a method in a specific controller class). 
+	Using routes, a request URL is mapped to a controller action (a method in a specific controller class).</p>
+
+
+<h2 id="beginning">Beginning</h2>
+<p>The framework provides a robust base for your application. It can handle every aspect, from the user’s initial request all the way to the final rendering of a web page. And since the framework follows the principles of MVC, it allows you to easily customize and extend most aspects of your application.</p>
+<p>The framework also provides a basic organizational structure, from filenames to database table names, keeping your entire application consistent and logical. This concept is simple but powerful. Follow the conventions and you’ll always know exactly where things are and how they’re organized.</p>
+
+	<h3 id="beginning-installation">Installation</h3>
+		<h4 id="beginning-installation-requirements">Requirements</h4>
+			<h5 id="beginning-installation-requirements-server">HTTP Server</h5>
+				<ul>
+					<li>PHP 5.3.0 or newer version. Optional JSON support.</li>
+				</ul>
+			<h5 id="beginning-installation-requirements-db">Database Server</h5>
+				<ul>
+					<li>DatabaseMySQL 5.0 or newer</li>
+				</ul>
+			<h5 id="beginning-installation-requirements-opt">Optional</h5>
+				<ul>
+					<li>ImageMagick v6.3.8-3</li>
+				</ul>
+
+		<h4 id="beginning-installation-permissions">Permissions</h4>
+			<p>These files and folders need read and write permission for all users.</p>
+			<ul>
+				<li>/public/files</li>
+				<li>/public/styles/__compiled.css</li>
+				<li>/system/application/temp</li>
+			</ul>
+
+	<h3 id="beginning-folder_strucuture">Folder Structure</h3>
+		<ul class="tree">
+			<li class="source-file"><strong>index.php</strong> - The dispatcher that starts the framwork. System paths can be changed here: public, back ,system, application. Admin only application can be set from here.</li>
+			<li class="source-file"><strong>.htacces</strong> - holds base rewrite rule and other site specific rewrites.</li>
+			<li>
+				<strong>back</strong> - Files used in the backend only. The path to this folder can be changed in the Dispatcher (index.php). 
+				<ul>
+					<li><strong>javascripts</strong></li>
+					<li><strong>styles</strong></li>
+				</ul>
+			</li>
+			<li>
+				<strong>public</strong> - Files used in the fronend only. The path to this folder can be changed in the Dispatcher (index.php).
+				<ul>
+					<li><strong>files</strong> - Files used in the frontend mostly managed from the backend. </li>
+					<li><strong>javascripts</strong> - Javascripts files used in the frontend</li>
+					<li>
+						<strong>styles</strong> - CSS files used in the front end
+						<ul>
+							<li><strong>images</strong></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<strong>system</strong> - The whole system lies here. This is the default name. The path to this folder can be changed in the Dispatcher (index.php). 
+				<ul>
+					<li>
+						<strong>application</strong> - This is where lies an application. The path to this folder can be changed in the Dispatcher (index.php).
+						<ul>
+							<li>
+								<strong>configs</strong> - This is where the config files are placed.
+								<ul>
+									<li class="source-file">admin_menu.yaml</li> - Here is the admin menu structure
+									<li class="source-file">admin_routes.config.php</li> - The admin routes
+									<li class="source-file">application.config.php</li> - The basic configuration for the application
+									<li class="source-file">public_routes.config.php</li> - The public routes 
+								</ul>
+							</li>
+							<li>
+								<strong>controllers</strong>
+								<ul>
+									<li><strong>admin</strong>- Here are placed the admin controllers</li> 
+									<li><strong>public</strong>- Here are placed the public controllers</li> 
+									<li><strong>application.controller.php</strong></li>
+								</ul>
+							</li>
+							<li><strong>library</strong> - The folder where the application libraries are placed</li> 
+							<li><strong>locales</strong> - In this folder are placed the diffrent yamls for the diffrent languages</li>
+							<li><strong>models</strong></li>
+							<li>
+								<strong>temp</strong> - Here are the cached templates and locales
+								<ul>
+									<li><strong>locales_compile</strong></li>
+									<li>
+										<strong>tpl_cache</strong>
+										<ul>
+											<li><strong>admin</strong></li>
+											<li><strong>public</strong></li>
+										</ul>
+									</li>
+									<li>
+										<strong>tpl_compile</strong>
+										<ul>
+											<li><strong>admin</strong></li>
+											<li><strong>public</strong></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<strong>views</strong>
+								<ul>
+									<li><strong>admin</strong></li>
+									<li><strong>configs</strong></li>
+									<li><strong>public</strong></li>
+								</ul>
+							</li>
+						</ul>
+						
+					</li>
+					<li>
+						<strong>configs</strong>
+						<ul>
+							<li class="source-file"><strong>database.config.php</strong> - The database configuration</li>
+							<li class="source-file"><strong>session.config.php</strong> - The session configuration </li>
+							<li class="source-file"><strong>system.config.php</strong> - The main configuration file</li>
+						</ul>
+					</li>
+					<li><strong>library</strong> - Here are placed the framework libraries</li>
+				</ul>
+			</li>
+		</ul>
+
+	<h3 id="beginning-conventions">Conventions</h3>
+
+		<h4 id="beginning-conventions-files_and_classes">Classes</h4>
+
+		<h4 id="beginning-conventions-models_and_database">Models and Database Tables</h4>
+
+		<h4 id="beginning-conventions-controller">Controllers</h4>
+
+		<h4 id="beginning-conventions-views">Views</h4>
+
+
+<h2 id="development">Development</h2>
+
+	<h3 id="development-configuration">Configuration</h3>
+
+		<h4 id="development-configuration-system">System</h4>
+			<dl>
+				<dt>show_errors</dt>				<dd>0 or 1</dd>
+				<dt>show_exceptions</dt>			<dd>0 or 1</dd>
+				<dt>FORCE_COMPILE</dt>				<dd>Force recompilation of the templates on every refresh.</dd>
+				<dt>folder_configs</dt>				<dd>Sets the config folder path</dd>
+				<dt>folder_controllers</dt>			<dd>Sets the controllers folder path</dd>
+				<dt>folder_models</dt>				<dd>Sets the models folder path</dd>
+				<dt>folder_views</dt>				<dd>Sets the views folder path</dd>
+				<dt>folder_locales</dt>				<dd>Sets the locales folder path</dd>
+				<dt>folder_alibrary</dt>			<dd>Sets the library folder path</dd>
+				<dt>folder_temp</dt>				<dd>Sets the temp folder path</dd>
+				<dt>libraryPath</dt>				<dd>Sets the System library folder path</dd>
+				<dt>systemConfigsPath</dt>			<dd>Sets the System config folder path</dd>	
+			</dl>
+		
+		<h4 id="development-configuration-database">Database</h4>
+			<dl>
+				<dt>adapter</dt>				<dd>Sets the database adapter</dd>
+				<dt>host</dt>				<dd>The database server’s hostname</dd>
+				<dt>port</dt>				<dd>The database server’s port</dd>
+				<dt>name</dt>				<dd>The name of the database for this connection to use</dd>
+				<dt>user</dt>				<dd>The username for the database</dd>
+				<dt>pass</dt>				<dd>The password for the database</dd>
+				<dt>save_cache</dt>				<dd>0 or 1</dd>
+				<dt>cache_folder</dt>				<dd>Sets the cache folder</dd>
+				<dt>cache_expire</dt>				<dd>Sets the expiration cache time in minutes</dd>
+				<dt></dt>				<dd></dd>
+				
+			</dl>
+		
+		<h4 id="development-configuration-application">Application</h4>
+			<dl>
+				<dt>admin_path</dt>					<dd>Sets the admin folder path</dd>
+				<dt>installed_locales</dt>			<dd>Array of the locales you want to have in your site. You have to create folder in /system/application/locales/ with the locale's name.</dd>
+				<dt>default_locale</dt>				<dd>Sets the default locale</dd>
+				<dt>has_i18n</dt>					<dd></dd>
+				<dt>has_mirror</dt>					<dd></dd>
+			</dl>
+		
+		<h4 id="development-configuration-routes">Routes</h4>
+			<p>There are 2 route files (Admin and Public), they define url patterns for the application.</p>
+			
+		<h4 id="development-configuration-customs">Customs</h4>
+			
+	
+	<h3 id="development-controllers">Controllers</h3>
+		<h4 id="development-controllers-base">Base Controller</h4>
+			<dl>
+				<dt>__controller</dt>				<dd>Current controller name</dd>
+				<dt>__action</dt>					<dd>Current action name</dd>
+				<dt>__view</dt>						<dd>Current template</dd>
+				<dt>__globals</dt>					<dd>Globals texts for the current locale</dd>
+				<dt>__session</dt>					<dd>User session</dd>
+				<dt>__paths</dt>					<dd>Array of all(files,styles,javascripts) public paths</dd>
+				<dt>__models</dt>					<dd>Quick model assignment</dd>
+				<dt>__beforeFilters</dt>			<dd>Array of the functions executed before the filter function</dd>
+				<dt>__afterFilters</dt>				<dd>Array of the functions executed after the filter function</dd>
+				<dt>__includeJavascripts</dt>		<dd>array of the javascript files included in the current controller</dd>
+				<dt>__includeCSS</dt>				<dd>array of the css files included in the current controller</dd>
+				<dt>__defaultAction</dt>			<dd>Default action name called if no action is specified</dd>
+				
+				<dt>__initialize()</dt>				<dd>Executed at the end of the contstructor</dd>
+				<dt>__executeController</dt>		<dd>Executes the controller. This method is called from the router.</dd>
+				<dt>assignModels()</dt>				<dd>Assigns the models from $this->__models in the controller for easy use with $this. All model names are divided with comma(,) and a model can be assigned with different name with 'as'</dd>
+				<dt>addBeforeFilter()</dt>			<dd>Add Before filter functions. $this->addBeforeFilter("function1","function2")</dd>
+				<dt>addAfterFilter()</dt>			<dd>Add After filter functions. $this->addAfterFilter("function1","function2")</dd>
+				<dt>includeJavascript()</dt>		<dd>Adds javascript filenames to be included in the header. $this->includeJavascript("file1","file2")</dd>
+				<dt>includeCss()</dt>				<dd>Adds css filenames to be included in the header. $this->includeCss("file1","file2")</dd>
+				<dt>loadLibrary()</dt>				<dd>Load library from the library folder in the application. $this->loadLibrary("library")</dd>
+			</dl>
+		
+		<h4 id="development-application">Application</h4>
+			<p>This controllers extends the base controller. By default the application controller contains the error404 action.</p>
+
+			<h5 id="development-application-public">Public</h5>
+				<dl>
+					<dt>Public</dt>					<dd>All controllers should extend this controller.</dd>
+					<dt>Home</dt>					<dd>This is the controller loaded by default.</dd>
+				</dl>
+				
+			<h5 id="development-application-admin">Admin</h5>
+				
+				<h6 id="development-application-admin-simple">Simple</h6>
+					<dl>
+						<dt>_model</dt>						<dd>Sets the model you want to use</dd>
+						<dt>_columns</dt>					<dd>Array of the column you want to include into the listing</dd>
+						<dt>_joins</dt>						<dd>Array of the joins: array( array('model' => 'Model', 'type' => 'LEFT', 'ON' => 'model.id = table.id') )</dd>
+						<dt>_buttons</dt>					<dd>Array of buttons for the listing after add: array( array('title' => 'Button Title', 'class' => 'icon icon-type', 'href' => 'button_action/$primary', 'permission' => 'edit') )</dd>
+						<dt>_actions</dt>					<dd>Array of buttons for the listing after delete/edit: array( array('title' => 'some_action', 'class' => 'some_action_class', 'href' => 'some_action', 'permission' => 'edit', 'id' => 'some_action') )</dd>
+						<dt>_conditions</dt>				<dd>Sets the conditions for the listing</dd>
+						<dt>_group</dt>						<dd>Sets the grouping condition for the listing</dd>
+						<dt>_order</dt>						<dd>Sets the order condition for the listing</dd>
+						<dt>_limit</dt>						<dd>Sets the limit condition for the listing</dd>
+						<dt>_filters</dt>					<dd>Array of fields for building a filter for the listing: array('filter_name' => 'field_name')</dd>
+						<dt>_paging</dt>					<dd>0 or 1</dd>
+						<dt>_sorting</dt>					<dd>0 or 1</dd>
+						<dt>_listing_has_checkboxes</dt>	<dd>0 or 1</dd>
+						<dt>_listing_has_ordering</dt>		<dd>0 or 1</dd>
+						<dt>_find_before_delete</dt>		<dd></dd>
+						
+						<dt>_before_load()</dt>				<dd>Method called before add and edit</dd>
+						<dt>_after_load()</dt>				<dd>Method called after add and edit</dd>
+						<dt>_before_listing()</dt>			<dd>Method called before listing on the index</dd>
+						<dt>_after_listing()</dt>			<dd>Method called after listing on the index</dd>
+					</dl>
+				<h6 id="development-application-scaffolding">Scaffolding</h6>
+					<dl>
+						<dt></dt>				<dd></dd>
+						<dt></dt>				<dd></dd>
+						<dt></dt>				<dd></dd>
+					</dl>
+			
+	<h3 id="development-models">Models</h3>
+		
+	<h3 id="development-views">Views</h3>
+		<h4 id="development-views-smarty">Smarty</h4>
+			<a href="http://www.smarty.net/v3_overview">Smarty Template Engine v3</a>
+
+
+<h2 id="core_components">Core Components</h2>
+	<h3 id="core_components-predefined_functions">Predefined Functions</h3>
+		<dl>
+			<dt>d($var)</dt>				<dd>Prints debug information for a variable</dd>
+			<dt>de($var)</dt>				<dd>Prints debug information for a variable and exits</dd>
+			<dt>is_ajax()</dt>				<dd>Checks if it is AJAX request</dd>
+			<dt>is_email($email)</dt>		<dd>Checks if a string is a valid email</dd>
+			<dt>is_post()</dt>				<dd>Check if post</dd>
+		</dl>
+	
+	<h3 id="core_components-database">Database</h3>
+		<h4 id="core_components-database-sql">SQL</h4></strong>
+			<dl>
+				<dt>host</dt>						<dd></dd>
+				<dt>name</dt>						<dd></dd>
+				<dt>user</dt>						<dd></dd>
+				<dt>pass</dt>						<dd></dd>
+				<dt>port</dt>						<dd></dd>
+				<dt>connection</dt>					<dd></dd>
+				<dt>is_connected</dt>				<dd>true if connected</dd>
+				<dt>last_id</dt>					<dd>holds the last id</dd>
+				<dt>affected_rows</dt>				<dd>holds the count of the affected rows</dd>
+				<dt>total_rows</dt>					<dd>holds the count of the total rows</dd>
+				
+				<dt>connect()</dt>					<dd></dd>
+				<dt>__destruct()</dt>				<dd></dd>
+				<dt>query()</dt>					<dd>Executes a query</dd>
+				<dt>fetch_result()</dt>				<dd>Fetch results</dd>
+				<dt>escape()</dt>					<dd>Escapes a string</dd>
+				<dt>is_connected()</dt>				<dd></dd>
+				
+				<dt>abstract insert()</dt>			<dd>Inserts a record to the database. It is used in the ORM</dd>
+				<dt>abstract update()</dt>			<dd>Updates a record. It is used in the ORM</dd>
+				<dt>abstract delete()</dt>			<dd>Deletes a records. It is used in the ORM</dd>
+				<dt>abstract fetch()</dt>			<dd>Fetches results. It is used in the ORM</dd>
+				<dt>abstract last_id()</dt>			<dd>Returs the last record's id.</dd>
+				<dt>abstract affected_rows()</dt>	<dd>Returns the number of affected rows</dd>
+				<dt>abstract total_rows()</dt>		<dd>Returns the number of rows</dd>
+				<dt>abstract qstr()</dt>			<dd>Quotes and escapes string</dd>
+			</dl>
+		
+		<h4 id="core_components-database-mysql">MySQL</h4>
+			<p>Extends the SQL abstraction</p>
+		<h4 id="core_components-database-mysqli">MySQLi</h4>
+			<p>Extends the SQL abstraction</p>
+		<h4 id="core_components-database-orm">ORM</h4>
+			<p>The ORM class includes the ORMResult and ORMResultSet classes.</p>
+			<dl>
+				<dt>i18n_suffix</dt>						<dd>Suffix used for the internationalization table name</dd>
+				<dt>i18n_table_name</dt>					<dd>Internationalization table name, generated by the table name and the suffix</dd>
+				<dt>has_i18n</dt>							<dd>Is there an internationalization table, if null it will be set to the value in the Application Config</dd>
+				<dt>has_mirror</dt>							<dd>Are the records are mirrored or no, if null it will be set to the value in the Application Config</dd>
+				<dt>i18n_locale</dt>						<dd>Current locale</dd>
+				<dt>i18n_locale_code</dt>					<dd>The code of the current locale</dd>
+				<dt>i18n_locales</dt>						<dd>All the locales</dd>
+				<dt>i18n_fk_field</dt>						<dd>Name of the internationalization table foreign key column linking to the main table</dd>
+				<dt>i18n_locale_field</dt>					<dd>Name of the internationalization table locale column</dd>
+				
+				<dt>::find_all()</dt>						<dd>(conditions ,order, limit , joins(Array) , selector , selector_type = 'only') - Finds all records from table.</dd>
+				<dt>::find_all_by_field1_and_field1()</dt>	<dd>(value1, value2 ,order, limit , joins(Array) , selector , selector_type = 'only') Finds all records from table. This is a magic method</dd>
+				<dt>::find_first()</dt>						<dd>(conditions,order	,joins,selector,selector_type ,limit'); - Finds the first results from table</dd>
+				<dt>::add()</dt>							<dd></dd>
+				<dt>::update()</dt>							<dd></dd>
+				<dt>::delete()</dt>							<dd></dd>
+			</dl>
+		
+		<h4 id="core_components-database-activerecord">Active Record</h4>
+			<dl>
+				<dt>new_record</dt>						<dd>Determines if this record is a new one thus choosing insert or update</dd>
+				<dt>dont_validate_fields</dt>			<dd>Fields not to be validated or skip the whole validation process if false.</dd>
+				<dt>dont_escape_fields</dt>				<dd>Fields not to be htmlspecialchar-ed or skip the whole escaping if false.</dd>
+				<dt>storage</dt>						<dd>Stores all the data</dd>
+				<dt>old_storage</dt>					<dd>Clone of the storage before updating attributes</dd>
+				<dt>errors</dt>							<dd>Error array, mainly filled after the validation process.</dd>
+				<dt>stored_primary_keys</dt>			<dd>Array of primary keys' values stored on load</dd>
+				<dt>many_to_many</dt>					<dd>The many to many relation</dd>
+				<dt>save()</dt>							<dd>Adds or upates record(if exists).</dd>
+				<dt>__invoke()</dt>						<dd>Return current record data</dd>
+				<dt>__storage()</dt>					<dd>Return current record data</dd>
+				<dt>validate()</dt>						<dd>Validates the attributes</dd>
+				<dt>before_load()</dt>					<dd></dd>
+				<dt>after_load()</dt>					<dd></dd>
+				<dt>before_update_storage()</dt>		<dd></dd>
+				<dt>after_update_storage()</dt>			<dd></dd>
+				<dt>before_validation()</dt>			<dd></dd>
+				<dt>before_validation_on_create()</dt>	<dd></dd>
+				<dt>before_validation_on_update()</dt>	<dd></dd>
+			</dl>
+	
+	<h3 id="core_components-inflector">Inflector</h3>
+		<dl>
+			<dt>singularize</dt>			<dd>singularize returns given string as singular</dd>
+			<dt>pluralize</dt>				<dd>returns given string as plural</dd>
+			<dt>tableize</dt>				<dd>returns given string as plural and exchanges white spaces with underscore</dd>
+			<dt>underscore</dt>				<dd>returns given string with white spaces exchanged with underscore</dd>
+			<dt>classify</dt>				<dd>convert string to CamelCase</dd>
+			<dt>is_singular</dt>			<dd>checks if the word is singular</dd>
+			<dt>is_plural</dt>				<dd>Checks if the word is plural</dd>
+			<dt>to_slug</dt>				<dd>Convert string to slug</dd>
+		</dl>
+
+	<h3 id="core_components-paging">Paging</h3>
+		<dl>
+			<dt>page</dt>							<dd>Default:1</dd>
+			<dt>rpp</dt>							<dd>Record per page. Default:10</dd>
+			<dt>pages_to_show</dt>					<dd>Number of pages to show(always odd).Default:10</dd>
+			<dt>limit</dt>							<dd></dd>
+			<dt>show_numbered</dt>					<dd>Display numbers pages. Default true</dd>
+			
+			<dt>build()</dt>						<dd>Builds the pagination and returns array</dd>
+			<dt>current_page</dt>					<dd></dd>
+			<dt>page_first</dt>						<dd></dd>
+			<dt>page_prev_num</dt>					<dd></dd>
+			<dt>page_prev</dt>						<dd></dd>
+			<dt>pages</dt>							<dd></dd>
+			<dt>page_next</dt>						<dd></dd>
+			<dt>page_next_num</dt>					<dd></dd>
+			<dt>page_last</dt>						<dd></dd>
+			<dt>total_pages</dt>					<dd></dd>
+			<dt>pages_to_show</dt>					<dd></dd>
+			<dt>show_numbered</dt>					<dd></dd>
+			<dt>records_per_page</dt>				<dd></dd>
+		</dl>
+	<h3 id="core_components-smarty">Smarty Customs</h3>
+		<h4 id="core_components-smarty-paging">Smarty_Function_Paging</h4>
+		
+		<h4 id="core_components-smarty-htmlfields">Html fields</h4>
+			<h5 id="core_components-smarty-htmlfields-base">HtmlForm_Field</h5>
+				<dl>
+					<dt>type</dt>								<dd>The type ot fhe field: button, cancel, checkbox, cheboxlist, date, file, hidden, label, password, picture, radio, radiolist, text, select</dd>
+					<dt>id</dt>									<dd>Default: id_$name</dd>
+					<dt>name</dt>								<dd>Field name</dd>
+					<dt>value</dt>								<dd>Field value</dd>
+					<dt>label</dt>								<dd>Field label</dd>
+					<dt>label_name</dt>							<dd>Field label name</dd>
+					<dt>no_label</dt>							<dd>Removes the label if true. Default: false</dd>
+					<dt>no_semicolon</dt>						<dd>Removes the semicolon from the label if true. Default: false</dd>
+					<dt>translate_label</dt>					<dd>Default: true</dd>
+							
+					<dt>class</dt>								<dd></dd>
+					<dt>label_class</dt>						<dd></dd>
+					<dt>helper</dt>								<dd></dd>
+						
+					<dt>rel</dt>								<dd></dd>
+					<dt>lang</dt>								<dd></dd>
+						
+					<dt>mandatory</dt>							<dd>Add * to the end of the label</dd>
+					<dt>disabled</dt>							<dd>Adds disabled attribute</dd>
+					<dt>tabindex</dt>							<dd>Adds tabindex attribute</dd>
+						
+					<dt>class_wrapper</dt>						<dd>Default: input</dd>
+					<dt>class_helper</dt>						<dd>Default: help</dd>
+					<dt>class_field_wrapper</dt>				<dd>Default: field_wrapper</dd>
+					<dt>class_field</dt>						<dd>Default: field</dd>
+						
+					<dt>style_wrapper</dt>						<dd>Default: input</dd>
+					<dt>style_helper</dt>						<dd>Default: help</dd>
+					<dt>style_field_wrapper</dt>				<dd>Default: field</dd>
+					<dt>style_field</dt>						<dd>Default: field</dd>
+					
+					<dt>function label()</dt>					<dd>Build the label for the input</dd>
+					<dt>public function helper()</dt>			<dd>Build the helper for the input</dd>
+					<dt>protected function innerHtml()</dt>		<dd></dd>
+					<dt>public function html()</dt>				<dd></dd>
+					<dt>protected function reinit()</dt>		<dd></dd>
+					<dt> public function field()</dt>			<dd></dd>
+				</dl>
+				
+			<h5 id="core_components-smarty-htmlfields-simple">HtmlForm_SimpleField</h5>
+				<p>Extends HtmlForm_Field</p>
+				<dl>
+					<dt>$maxlength</dt>							<dd>Sets the max length</dd>
+					<dt>function field()</dt>					<dd>Builds the field</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-button">HtmlForm_ButtonField</h5>
+				<p>Extends HtmlForm_SimpleField</p>
+				<dl>
+					<dt>$type</dt>					<dd>Default: button</dd>
+					<dt>$class_field</dt> 			<dd>Default: button</dd>
+					<dt>reinit()</dt>				<dd>Sets the value for the button</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-cancel">HtmlForm_CancelField</h5>
+				<p>Extends HtmlForm_ButtonField</p>
+				<dl>
+					<dt>function reinit()</dt>		<dd></dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-check">HtmlForm_CheckboxField</h5>
+				<p>Extends HtmlForm_ButtonField</p>
+				<dl>
+					<dt>$field_value</dt>		<dd>Sets the field value. Default: 1</dd>
+					<dt>$value_field</dt>		<dd>Default: id</dd>
+					<dt>$label_class</dt>		<dd>Sets the label class. Default: checkbox</dd>
+					<dt>$class_field </dt>		<dd>Sets the field class. Default: checkbox</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-checklist">HtmlForm_CheckboxListField</h5>
+				<p>Extends the HtmlForm_Field</p>
+				<dl>
+					<dt>$data</dt>								<dd>Sets the date for the checkbox.Must be array()</dd>
+					<dt>$class_field_wrapper</dt>				<dd>Sets the field value. Default: list</dd>
+					<dt>$value_field</dt>						<dd>Sets the value field for the options. Default: id</dd>
+					<dt>$title_field</dt>						<dd>Sets the title filed(The field which will be displayed on opitons). Default: title</dd>
+					<dt>$filter</dt>							<dd>Sets the Filter. Default: false</dd>
+					
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-date">HtmlForm_DateField</h5>
+				<p>Extends HtmlForm_Field</p>
+				<dl>
+					<dt>$format</dt>							<dd>Sets the date format. Default:DD-MMMM-YYYY</dd>
+					<dt>$start_year</dt>						<dd>Sets the start year for the calendar. Dfault: 1920</dd>
+					<dt>$end_year</dt>							<dd>Sets the end year for the calendar</dd>
+					<dt>$end_year_add</dt>						<dd></dd>
+					<dt>$time</dt>								<dd></dd>	
+					<dt>$months</dt>							<dd></dd>
+					<dt>$show_empty_option = 0</dt>				<dd></dd>
+					<dt>$empty_option_value</dt>				<dd></dd>
+					<dt>$empty_option_title</dt>				<dd></dd>
+					<dt>$dont_use_fieldname</dt>				<dd></dd>
+					<dt>$day_name</dt>							<dd>Sets field name for the day.Default: day</dd>
+					<dt>$month_name</dt>						<dd>Sets field name for the month.Default: month</dd>
+					<dt>$year_name</dt>							<dd>Sets field name for the year.Default: year</dd>
+					<dt>$picker</dt>							<dd>Date picker.Default: false</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-file">HtmlForm_FileField</h5>
+				<p>Extends the HtmlForm_SimpleField</p>
+				<dl>
+					<dt>protected $class_field</dt>					<dd>Sets the class field. Default: file</dd>
+					<dt>protected $class_field_wrapper</dt>			<dd>Sets the class for the field wrapper. Default: file_field</dd>
+					<dt>protected $path;</dt>						<dd></dd>
+					<dt>protected $uploaded;</dt>					<dd></dd>
+					<dt>function field()</dt>						<dd></dd>
+					<dt>function file_type()</dt>					<dd></dd>
+					<dt>function extension()</dt>					<dd></dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-hidden">HtmlForm_HiddenField</h5>
+				<p>Extends HtmlForm_Field</p>
+
+			<h5 id="core_components-smarty-htmlfields-label">HtmlForm_LabelField</h5>
+				<p>Extends HtmlForm_Field</p>
+				<dl>
+					<dt>$class_field</dt>				<dd>Default: button</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-picture">HtmlForm_PictureField</h5>
+				<p>Extends HtmlForm_FileField</p>
+				<dl>
+					<dt>$class_wrapper</dt>							<dd>Default: input croppable</dd>
+					<dt>$class_image </dt>							<dd>Default: file-img</dd>
+					<dt>$prefix</dt>								<dd>The prefix for the path. Default: '80x70/'</dd>
+					<dt>$img_size</dt>								<dd>The size of the image</dd>
+					<dt>$croppable</dt>								<dd></dd>
+					<dt>$cropped_width</dt>							<dd>Default:80 </dd>
+					<dt>$cropped_height</dt>						<dd>Default:70</dd>
+					<dt>$cropper_maxwidth</dt>						<dd>Default:500</dd>
+					<dt>$cropper_maxheight</dt>						<dd>Default:300</dd>
+					<dt>$cropper_coords</dt> 						<dd>Default: array('x' => null, 'y' => null, 'x2' => null, 'y2' => null)</dd>
+					<dt>$keep_ratio</dt>							<dd>Default:1</dd>
+				</dl> 
+			
+			<h5 id="core_components-smarty-htmlfields-radio">HtmlForm_RadioField</h5>
+				<p>Extends HtmlForm_Field</p>
+				<dl>
+					<dt>$checked;</dt>								<dd>Default:1</dd>
+					<dt>$value</dt>									<dd>Default:1</dd>
+					<dt>$group_name</dt>							<dd>Default:1</dd>
+					<dt>$label_class</dt>							<dd>Default:checkbox</dd>
+					<dt>$class_field</dt>							<dd>Default:checkbox</dd>
+					<dt>$no_semicolon</dt>							<dd>Default:1</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-radiolist">RadioList</h5>
+				<p>Extends the HtmlForm_field</p>
+				<dl>
+					<dt>$data</dt>									<dd>The data for the radio.Must be Array.</dd>
+					<dt>$class_field_wrapper</dt>					<dd>The class for the field wrapper.Default:list</dd>
+					<dt>$value_field</dt>							<dd>The field for the radio valiue.Default:id</dd>
+					<dt>$title_field</dt>							<dd>The title field.Default:title</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-select">HtmlForm_SelectField</h5>
+				<p>Extends HtmlForm_Field </p>
+				<dl>
+					<dt>$value_field</dt>							<dd>Default:id</dd>
+					<dt>$title_field</dt>							<dd>Default:title</dd>
+					<dt>$data</dt>									<dd>The data for teh select. Must be Array.</dd>
+					<dt>$default</dt>								<dd>Sets the default value</dd>
+					<dt>$show_empty_option;</dt>					<dd>Displays empty options if true.Default:1</dd>
+					<dt>$empty_option_value</dt>					<dd>The value for empty option.Default:1</dd>
+					<dt>$empty_option_title </dt>					<dd>Default: &nbsp;</dd>
+					<dt>$size</dt>									<dd>Default:1</dd>
+					<dt>$disabled_values</dt>						<dd>Array of the disabled values</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-textarea">HtmlForm_TextareaField </h5>
+				<p>Extends the HtmlForm_field</p>
+				<dl>
+					<dt>$rows</dt>									<dd>The rows for the text area. Default 7</dd>
+				</dl>
+			
+			<h5 id="core_components-smarty-htmlfields-rte">HtmlForm_RteField </h5>
+				<p>extends HtmlForm_TextareaField</p>
+				<dl>
+					<dt>$class</dt>								<dd>Sets the class for the rte. Default:default</dd>
+					<dt>$ib_folder</dt>							<dd>Sets the folder for the image browser</dd>
+					<dt>$ib_show_libs_select</dt>				<dd>Default: false</dd>
+				</dl>
+	
+</body>
+</html>

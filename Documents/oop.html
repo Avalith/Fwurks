@@ -1,0 +1,670 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Object Oriented Programming</title>
+	
+	<link href="styles/styles.css" rel="stylesheet" />
+	<link href="styles/print.css" rel="stylesheet" media="print"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/toc.js"></script>
+</head>
+<body>
+
+<h1>Object Oriented Programming</h1>
+
+<h2>Fundamentals</h2>
+
+<p>Object oriented programming revolves around the concept of grouping code and data together in logical units called classes. This process is usually referred to as encapsulation, since its goal is that of dividing an application into separate entities whose internal components can change without altering their external interfaces. Thus, classes are essentially a representation of a set of functions (also called methods) and variables (called properties or members) designed to work together and to provide a specific interface to the outside world. It is important to understand that classes are blueprints that are instantiated into objects, which can then interact with the rest of the application. You can think of classes as the blueprints for building a car, while objects are, in fact, the cars themselves as they come out of the production line. Just like a single set of blueprints can be used to produce an arbitrary number of cars, an individual class can normally be instantiated into an arbitrary number of objects.</p>
+
+<h3>Defining a Class</h3>
+
+<p>Every class definition begins with the keyword &quot;<strong>class</strong>&quot;, followed by a class name, followed by a pair of curly braces which enclose it's definition (methods and properties).</p>
+
+<code><strong>class</strong> MyClass
+{
+	<em>...class body...</em>
+}
+</code>
+
+
+<h3>Instantiating a Class</h3>
+<p>Once you have defined a class, you need to instantiate it in order to take advantage of the functionality it offers. This is done by using the &quot;<strong>new</strong>&quot; keyword:</p>
+
+<code><var>$object</var> = <strong>new</strong> MyClass();</code>
+
+<p>An object is always passed by reference. In the next case $object and $object_copy will point to the same object.</p>
+
+<code><var>$object</var> = <strong>new</strong> MyClass();
+<var>$object_copy</var> = <var>$object</var>;
+</code>
+
+
+<h2>Class Methods and Properties</h2>
+
+<p>From outside the scope of a class, its methods are called using the indirection operator &quot;-&gt;&quot; same applies for the properties but without using the dollar sign for the property variable.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public</strong> <var>$property</var> = <cite>'MyClass :: property'</cite>;
+
+	<strong>public function</strong> test()
+	{
+		<strong>echo</strong> <cite>'MyClass :: test() called'</cite>;
+	}
+}
+
+<var>$object</var> = <strong>new</strong> MyClass();
+<var>$object</var>-&gt;test(); 		<em>//Output: &quot;MyClass :: test() called&quot;</em>
+<strong>echo</strong> <var>$object</var>-&gt;property; 	<em>//Output: &quot;MyClass :: property&quot;</em>
+</code>
+
+<h3>Withing the Class</h3>
+
+<p>In order to allow object to call methods or get properties inside the object's scope, PHP defines a special variable called &quot;$this&quot;. It is only defined within an object's scope, and always points to the object itself.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public function</strong> test()
+	{
+		<strong>echo</strong> <cite>'MyClass :: test() called'</cite>;
+	}
+
+	<strong>public function</strong> callTest()
+	{
+		<var>$this</var>-&gt;test();
+	}
+}
+
+<var>$object</var> = <strong>new</strong> MyClass();
+<var>$object</var>-&gt;callTest(); 		<em>//Output: &quot;MyClass :: test() called&quot;</em>
+</code>
+
+
+<h2>Constructor and Destructor</h2>
+
+<p>The constructor and destructor are special class methods that are called, on object creation and destruction.</p>
+<p>Constructors are useful for initializing an object's properties, or for performing startup procedures, such as, for example, connecting to a database, or opening a remote file. Destructors are useful for performing cleanup procedures&nbsp;- such as disconnecting from a remote resource, or deleting temporary files.</p>
+<p>Constructors and destructors are defined by defining a magic method __construct() or __destruct()</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public function</strong> __construct()
+	{
+		<strong>echo</strong> 'Constructed';
+	}
+
+	<strong>public function</strong> __destruct()
+	{
+		<strong>echo</strong> 'Destructed';
+	}
+}
+
+<strong>new</strong> MyClass();
+
+<em>// Output: &quot;Constructed&quot;</em>
+<em>// Output: &quot;Destructed&quot;</em>
+
+</code>
+
+<p>Destruction occurs when all references to an object are gone, and this may not necessarily take place when you expect it, or even when you want it to. In fact, while you can unset() a variable that references an object, or overwrite it with another value, the object itself may not be destroyed right away because a reference to it is held elsewhere. </p>
+
+<p>For example, in the following script the destructor is not called when unset() $a, because $b still references the object:</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public function</strong> __construct()
+	{
+		<strong>echo</strong> 'Constructed';
+	}
+
+	<strong>public function</strong> __destruct()
+	{
+		<strong>echo</strong> 'Destructed';
+	}
+}
+
+<var>$a</var> = <strong>new</strong> MyClass();
+<var>$b</var> = <var>$a</var>;
+<strong>unset</strong>(<var>$a</var>);
+</code>
+
+<p>So what will happen if we have something like this? What is needed to be unset to destruct the object?</p>
+
+<code><img src="images_oop/reference.png" style="float: left; padding: 15px 15px 15px 0; margin-right: 15px; border-right: 1px solid #ccc;" /><strong>class</strong> MyClass
+{
+	<strong>public function</strong> __construct()
+	{
+		<strong>echo</strong> 'Constructed';
+	}
+
+	<strong>public function</strong> __destruct()
+	{
+		<strong>echo</strong> 'Destructed';
+	}
+}
+
+<var>$a</var> = <strong>new</strong> MyClass();
+
+<var>$b</var> = <var>$a</var>;
+<var>$c</var> = <var>$a</var>;
+<var>$d</var> = <var>$c</var>;
+</code>
+
+<p>Even if an object still has one or more active references, the __destruct() method is called at the end of script execution&nbsp;- therefore, you are guaranteed that, at some point, your destructor will be executed. However, there is no way to determine the order in which any two objects in your scripts will be destroyed. This can sometimes cause problems when an object depends on another to perform one or more functions&nbsp;- for example, if one of your classes encapsulates a database connection and another class needs that connection to flush its data to the database, you should not rely on your destructors to perform a transparent flush to the database when the object is deleted: the instance of the first class that provides database connectivity could, in fact, be destroyed before the second, thus making it impossible for the latter to save its data to the database.</p>
+
+
+
+<h2>Inheritance</h2>
+
+<p>This allows a class to extend another class, essentially adding new methods and properties, as well as overriding existing ones.</p>
+
+<code><strong>class</strong> ClassA
+{
+	<strong>public function</strong> test()
+	{
+		<strong>echo</strong> <cite>'ClassA :: test() called'</cite>;
+	}
+	
+	<strong>public function</strong> method()
+	{
+		<strong>echo</strong> <cite>'ClassA :: method() called'</cite>;
+	}
+}
+
+
+<strong>class</strong> ClassB <strong>extends</strong> ClassA
+{
+	<strong>public function</strong> method()
+	{
+		<strong>echo</strong> <cite>'ClassB :: method() called'</cite>;
+	}
+}
+
+
+<strong>class</strong> ClassC <strong>extends</strong> ClassB
+{
+	<strong>public function</strong> method()
+	{
+		<strong>parent</strong>::method();
+	}
+}
+
+
+<strong>class</strong> ClassD <strong>extends</strong> ClassC
+{
+	<strong>public function</strong> method()
+	{
+		ClassA::method();
+	}
+}
+
+
+<var>$a</var> = <strong>new</strong> ClassA();
+<var>$b</var> = <strong>new</strong> ClassB();
+<var>$c</var> = <strong>new</strong> ClassC();
+<var>$d</var> = <strong>new</strong> ClassD();
+
+
+<var>$a</var>-&gt;test(); 	<em>//Output: &quot;ClassA :: test() called&quot;</em>
+<var>$a</var>-&gt;method(); 	<em>//Output: &quot;ClassA :: method() called&quot;</em>
+
+<var>$b</var>-&gt;test(); 	<em>//Output: &quot;ClassA :: test() called&quot;</em>
+<var>$b</var>-&gt;method(); 	<em>//Output: &quot;ClassB :: method() called&quot;</em>
+
+<var>$c</var>-&gt;test(); 	<em>//Output: &quot;ClassA :: test() called&quot;</em>
+<var>$c</var>-&gt;method(); 	<em>//Output: &quot;ClassB :: method() called&quot;</em>
+
+<var>$d</var>-&gt;test(); 	<em>//Output: &quot;ClassA :: test() called&quot;</em>
+<var>$d</var>-&gt;method(); 	<em>//Output: &quot;ClassA :: method() called&quot;</em>
+</code>
+
+
+
+
+<h2>Visibility</h2>
+<p>Visibility modifiers enables you to determine the scope from which each component of your class can be accessed (often referred to as &quot;PPP&quot;).</p>
+
+<ul>
+	<li><strong>Public</strong> 	- the resource can be accessed from any scope.</li>
+	<li><strong>Protected</strong> 	- the resource can be accessed from within the class scope and its descendants.</li>
+	<li><strong>Private</strong> 	- the resource can be accessed only from within the class scope.</li>
+</ul>
+
+
+
+<h2>Final</h2>
+<p>Final is a special modifier to prevent the method to be overridden by child classes. If the whole class is defined as final it cannot be extended.</p>
+
+
+
+<h2>Static Methods and Properties</h2>
+
+<p>Unlike regular methods and properties, their static counterparts exist and are accessible as part of the class itself, as opposed to existing only within the scope of one of its instances. This allows you to treat classes as true containers of interrelated functions and data elements. You can call any static method/property using the class name and the scope resolution operator &quot;::&quot;.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public static</strong> <var>$property</var> = <cite>'static property'</cite>;
+	
+	<strong>public static function</strong> method()
+	{
+		<strong>echo</strong> <strong>self</strong>::<var>$property</var>;
+		<strong>echo</strong> <cite>'static method called'</cite>;
+	}
+}
+
+<strong>echo</strong> MyClass::<var>$property</var>;
+MyClass::method();
+</code>
+
+<h3>Late Static Binding</h3>
+
+<p>As of PHP 5.3.0, PHP implements a feature called late static bindings which can be used to reference the called class in a context of static inheritance.</p>
+<p>This feature was named "late static bindings" with an internal perspective in mind. "Late binding" comes from the fact that static::  will no longer be resolved using the class where the method is defined but it will rather be computed using runtime information. It was also called a "static binding" as it can be used for (but is not limited to) static method calls.</p>
+
+<h4>Limitations of self::</h4>
+<p>Static references to the current class like &quot;<strong>self::</strong>&quot; or &quot;<strong>__CLASS__</strong>&quot; are resolved using the class in which the function belongs, as in where it was defined:</p>
+
+<code><strong>class</strong> MyClassA
+{
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> who() 
+	{
+		<strong>echo</strong> __CLASS__;
+	}
+	
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> test()
+	{
+		<strong>self</strong>::who();
+	}
+}
+
+<strong>class</strong> MyClassB <strong>extends</strong> MyClassA
+{
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> who() 
+	{
+		<strong>echo</strong> __CLASS__;
+	}
+}
+
+MyClassB::test();
+</code>
+
+<p>The above example will output: &quot;<strong>MyClassA</strong>&quot;, because test() is defined in MyClassA and therefore &quot;<strong>self::</strong>&quot; refers to MyClassA</p>
+
+<h4>Overcoming the Limitation</h4>
+<p>Late static bindings tries to solve that limitation by introducing a keyword that references the class that was initially called at runtime. Basically, a keyword that would allow you to reference MyClassB from test() in the previous example. It was decided not to introduce a new keyword but rather use static that was already reserved.</p>
+
+<code><strong>class</strong> MyClassA
+{
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> who() 
+	{
+		<strong>echo</strong> __CLASS__;
+	}
+	
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> test()
+	{
+		<strong>static</strong>::who(); <em>// late static binding</em>
+	}
+}
+
+<strong>class</strong> MyClassB <strong>extends</strong> MyClassA
+{
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> who() 
+	{
+		<strong>echo</strong> __CLASS__;
+	}
+}
+
+MyClassB::test();
+</code>
+<p>The above example will output: &quot;<strong>MyClassB</strong>&quot;</p>
+
+
+
+
+<h2>Constants</h2>
+
+<p>Class constants work in the same way as regular constants, except they are scoped within a class. They are called the same way as static properties. Class constants are public, and accessible from all scopes and can NOT be final, this means they can always be overridden so you have to be careful not to use the same name for different constants in parent and child classes.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>const</strong> CONSTANT = <cite>'constant property'</cite>;
+}
+
+<strong>echo</strong> MyClass::CONSTANT;
+</code>
+
+
+
+<h2>Abstractions and Interfaces</h2>
+
+<p>Both are used to create a series of constraints on the base design of a group of classes. 
+
+
+<h3>Abstract Classes</h3>
+
+<p>An abstract class essentially defines the basic skeleton of a specific type of encapsulated entity. Abstract classes cannot be used directly, but they must be extended so that the descendant class provides a full complement of methods. You must declare a class as abstract so long as it has (or inherits without providing a body) at least one abstract method.</p>
+
+<code><strong>abstract class</strong> DataStore_Adapter
+{
+	<strong>private</strong> <var>$id</var>;
+
+	<strong>abstract public function</strong> insert();
+	
+	<strong>abstract public function</strong> update();
+	
+	<strong>public function</strong> save()
+	{
+		<strong>if</strong>(!is_null(<var>$this</var>-&gt;id))
+		{
+			<var>$this</var>-&gt;update();
+		}
+		<strong>else</strong>
+		{
+			<var>$this</var>-&gt;insert();
+		}
+	}
+}
+
+<strong>class</strong> PDO_DataStore_Adapter <strong>extends</strong> DataStore_Adapter
+{
+	<strong>public function</strong> __construct(<var>$dsn</var>)
+	{
+		<em>...</em>
+	}
+	<strong>public function</strong> insert()
+	{
+		<em>...</em>
+	}
+	<strong>public function</strong> update()
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+
+
+<h3>Interfaces</h3>
+
+
+<p>Interfaces, on the other hand, are used to specify an API that a class must implement. This allows you to create a common &quote;contract&quote; that your classes must implement in order to satisfy certain logical requirements&nbsp;- for example, you could use interfaces to abstract the concept of database provider into a common API that could then be implemented by a series of classes for different database adapters.</p>
+
+<code><strong>interface</strong> DataStore_Adapter 
+{
+	<strong>public function</strong> insert();
+	
+	<strong>public function</strong> update();
+	
+	<strong>public function</strong> save();
+	
+	<strong>public function</strong> newRecord(<var>$name</var> = <strong>null</strong>);
+}
+
+<strong>class</strong> PDO_DataStore_Adapter <strong>implements</strong> DataStore_Adapter
+{
+	<strong>public function</strong> insert()
+	{
+		<em>...</em>
+	}
+	
+	<strong>public function</strong> update()
+	{
+		<em>...</em>
+	}
+	
+	<strong>public function</strong> save()
+	{
+		<em>...</em>
+	}
+	
+	<strong>public function</strong> newRecord(<var>$name</var> = <strong>null</strong>)
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+<p>If you fail to define all of the methods for a particular interface, or all of the arguments for any given interface method, you will see fatal error.</p>
+
+<p>It is also possible to implement more than one interface in the same class.</p>
+
+<code><strong>class</strong> PDO_DataStore_Adapter <strong>implements</strong> DataStore_Adapter, SeekableIterator
+{
+	<em>...</em>
+}
+</code>
+<p>In the above example, we need to define the methods for both DataStore_Adapter and SeekableIterator.</p>
+<p>Additionally, a class can extend another class, as well as implement multiple interfaces at the same time.</p>
+<p><strong>Remember</strong>&nbsp;- a class can only extend one parent class, but it can implement multiple interfaces.</p>
+
+<code><strong>class</strong> PDO_DataStore_Adapter <strong>extends</strong> PDO <strong>implements</strong> DataStore_Adapter, SeekableIterator
+{
+	<em>...</em>
+}
+</code>
+
+
+<h2>Determining an Object's Class</h2>
+
+<p>It is often convenient to be able to determine whether a given object is an instance of a particular class, or whether it implements a specific interface. This can be done by using the &quot;instanceof&quot; operator. Naturally, this allows you to inspect all of the ancestor classes of your object, as well as any interfaces. </p>
+
+<code><strong>if</strong>(<var>$obj</var> <strong>instanceof</strong> MyClass)
+{
+	<strong>echo</strong> <cite>'$obj is an instance of MyClass'</cite>;
+}
+</code>
+
+
+
+<h2>Type Hinting</h2>
+<p>This allows you to specify that the parameter to a function or class method can only be of a specific class (or one of its subclasses), or an array. However, you may not specify any other scalar types.</p>
+
+<code><strong>function</strong> function_name(MyClass <var>$obj</var>)
+{
+	<em>...</em>
+}
+
+<strong>function</strong> function_name(<strong>array</strong> <var>$var</var>)
+{
+	<em>...</em>
+}
+</code>
+
+
+
+<h2>Magic Methods</h2>
+<p>There are some method names reserved by php, that are called on special events. You cannot have functions with these names in any of your classes unless you want the magic functionality associated with them.</p>
+
+
+<h3>__construct() and __destruct()</h3>
+<p>These methods are called when instantiating a new object(construct) and unsetting all object references(destruct).</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public function</strong> __construct()
+	{
+		<strong>echo</strong> <cite>'Constructed'</cite>;
+	}
+
+	<strong>public function</strong> __destruct()
+	{
+		<strong>echo</strong> <cite>'Destructed'</cite>;
+	}
+}
+
+new MyClass();
+
+<em>// Output: &quot;Constructed&quot;</em>
+<em>// Output: &quot;Destructed&quot;</em>
+</code>
+
+<h3>__call()</h3>
+<p>This method is executed when calling a non-existent method of a class.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public</strong> <strong>function</strong> __call(<var>$method_name</var>, <var>$params</var>)
+	{
+		<strong>return</strong> call_user_func_array(<strong>array</strong>(<var>$this</var>, <cite>'_'</cite>.<var>$method_name</var>), <var>$params</var>);
+	}
+	
+	<strong>private</strong> <strong>function</strong> _printSomething(<var>$param</var>)
+	{
+		<strong>echo</strong> <var>$param</var>;
+	}
+}
+
+<var>$object</var> = <strong>new</strong> MyClass();
+
+<var>$object</var>-&gt;printSomething(<cite>'Hello World!'</cite>);
+</code>
+
+
+<h3>__callStatic()</h3>
+<p>This method is executed when calling a non-existent static method of a class.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>public</strong> <strong>static</strong> <strong>function</strong> __callStatic(<var>$method_name</var>, <var>$params</var>)
+	{
+		<strong>return</strong> call_user_func_array(<strong>array</strong>(<var>self</var>, <cite>'_'</cite>.<var>$method_name</var>), <var>$params</var>);
+	}
+	
+	<strong>private function</strong> _printSomething(<var>$param</var>)
+	{
+		<strong>echo</strong> <var>$param</var>;
+	}
+}
+
+<var>$object</var> = <strong>new</strong> MyClass();
+
+<var>$object</var>::printSomething(<cite>'Hello World!'</cite>);
+</code>
+
+
+<h3>__get() and __set()</h3>
+<p>These methods are called when accessing or assigning an undefined object property</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>private</strong> <var>$storage</var> = <strong>array</strong>();
+	
+	<strong>public</strong> <strong>function</strong> __get(<var>$var_name</var>)
+	{
+		<strong>return</strong> <var>$this</var>-&gt;<var>$var_name</var>;
+	}
+	
+	<strong>public</strong> <strong>function</strong> __set(<var>$var_name</var>, <var>$var_value</var>)
+	{
+		<var>$this</var>-&gt;<var>$var_name</var> = <var>$var_value</var>;
+	}
+}
+</code>
+
+
+<h3>__isset() and __unset()</h3>
+<p>These methods are called when passing an undefined property to the isset()/unset() constructs.</p>
+
+<code><strong>class</strong> MyClass
+{
+	<strong>private</strong> <var>$storage</var> = <strong>array</strong>();
+	
+	<strong>public</strong> <strong>function</strong> __isset(<var>$var_name</var>)
+	{
+		<strong>return</strong> isset(<var>$this</var>-&gt;<var>$var_name</var>);
+	}
+	
+	<strong>public</strong> <strong>function</strong> __unset(<var>$var_name</var>)
+	{
+		unset(<var>$this</var>-&gt;<var>$var_name</var>);
+	}
+}
+</code>
+
+<h3>__sleep() and __wakeup()</h3>
+<p>Sleep method is executed prior to any serialization. It can clean up the object and is supposed to return an array with the names of all variables of that object that should be serialized. If the method doesn't return anything then NULL is serialized and E_NOTICE is issued. The intended use of __sleep is to commit pending data or perform similar cleanup tasks. Also, the method is useful if you have very large objects which do not need to be saved completely.</p>
+<p>Wakeup method is executed after unserialization. This method can reconstruct any resources that the object may have. The intended use of __wakeup is to reestablish any database connections that may have been lost during serialization and perform other reinitialization tasks.</p>
+
+<code><strong>class</strong> Connection
+{
+	<strong>protected</strong> <var>$link</var>;
+	<strong>private</strong> <var>$server</var>;
+	<strong>private</strong> <var>$username</var>;
+	<strong>private</strong> <var>$password</var>;
+	<strong>private</strong> <var>$db</var>;
+
+	<strong>public function</strong> __construct(<var>$server</var>, <var>$username</var>, <var>$password</var>, <var>$db</var>)
+	{
+		<var>$this</var>-&gt;server = <var>$server</var>;
+		<var>$this</var>-&gt;username = <var>$username</var>;
+		<var>$this</var>-&gt;password = <var>$password</var>;
+		<var>$this</var>-&gt;db = <var>$db</var>;
+		<var>$this</var>-&gt;connect();
+	}
+
+	<strong>private function</strong> connect()
+	{
+		<var>$this</var>-&gt;link = mysql_connect(<var>$this</var>-&gt;server, <var>$this</var>-&gt;username, <var>$this</var>-&gt;password);
+		mysql_select_db(<var>$this</var>-&gt;db, <var>$this</var>-&gt;link);
+	}
+
+	<strong>public function</strong> __sleep()
+	{
+		<strong>return</strong> <strong>array</strong>(<cite>'server'</cite>, <cite>'username'</cite>, <cite>'password'</cite>, <cite>'db'</cite>);
+	}
+
+	<strong>public function</strong> __wakeup()
+	{
+		<var>$this</var>-&gt;connect();
+	}
+}
+</code>
+
+
+
+<h3>__toString()</h3>
+<p>This method is called when trying to directly echo or print() an object. Return value must be string.</p>
+<code><strong>class</strong> TestClass
+{
+	<strong>public</strong> <strong>function</strong> __toString()
+	{
+		<strong>return</strong> <cite>'TestClass'</cite>;
+	}
+}
+
+<var>$class</var> = <strong>new</strong> TestClass();
+<strong>echo</strong> <var>$class</var>;
+</code>
+
+<h3>__clone()</h3>
+<p>This method is called right before trying to clone an object with &quot;clone&quot;.</p>
+<code><strong>class</strong> MyCloneable
+{
+	<strong>public function</strong> __clone()
+	{
+		<em>// do sum stuff before the clone</em>
+	}
+}
+
+<var>$object</var> = new MyCloneable();
+<var>$cloned</var> = clone <var>$object</var>;
+</code>
+
+
+<h3>__invoke()</h3>
+<p>This method is called when trying to call instance as a function.</p>
+<code><strong>class</strong> TestClass
+{
+	<strong>public</strong> <strong>function</strong> __invoke(<var>$arg</var> = <cite>'Hello World!'</cite>)
+	{
+		<strong>return</strong> <var>$arg</var>;
+	}
+}
+
+<var>$class</var> = <strong>new</strong> TestClass();
+<strong>echo</strong> <var>$class</var>();
+</code>
+
+
+</body>
+</html>

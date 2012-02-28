@@ -1,0 +1,438 @@
+<html>
+<head>
+	<title>Conventions for Writing Good and Readable Code</title>
+	
+	<link href="styles/styles.css" rel="stylesheet" />
+	<link href="styles/print.css" rel="stylesheet" media="print"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/toc.js"></script>
+</head>
+<body>
+
+<h1>Conventions<br />Writing Good and Readable Code</h1>
+
+<h2>Introduction</h2>
+<h3>Standardization is Important</h3>
+<p>The experience of many projects leads to the conclusion that using coding standards makes the project go smoother. Are standards necessary for success? Of course not. But they help, and we need all the help we can get! Be honest, most arguments against a particular standard come from the ego. Few decisions in a reasonable standard really can be said to be technically deficient, just matters of taste. So be flexible, control the ego a bit, and remember any project is fundamentally a team effort.</p>
+
+<h3>Good Points</h3>
+<ul>
+	<li>Programmers can go into any code and figure out what's going on</li>
+	<li>New people can get up to speed quickly</li>
+	<li>People new to PHP are spared the need to develop a personal style and defend it to the death</li>
+	<li>People new to PHP are spared making the same mistakes over and over again</li>
+	<li>People make fewer mistakes in consistent environments</li>
+	<li>Programmers have a common enemy - standards</li>
+</ul>
+
+<h3>Bad Points</h3>
+<ul>
+	<li>The standard is usually stupid because it's not what I do</li>
+	<li>Standards are unnecessary as long as people are consistent</li>
+	<li>Standards enforce too much structure</li>
+	<li>People ignore standards anyway</li>
+</ul>
+
+<h3>Enforcement</h3>
+<p>Any serious concerns about the standard should be brought up and worked out within the group. Once finalized hopefully people will play the adult and understand that this standard is reasonable, and has been found reasonable by many other programmers, and therefore is worthy of being followed even with personal reservations.</p>
+
+<h2>PHP Tags</h2>
+<p>Do not use short tags, use only <strong>&lt;?php ?&gt;</strong> - it is always available in any system and setup.</p>
+
+
+<h2>Naming</h2>
+<p>Names are the heart of programming. In the past people believed knowing someone's true name gave them magical power over that person. If you can think up the true name for something, you give yourself and the people coming after power over the code. Don't laugh!</p>
+<p>All names should be in English and grammatically correct. Names like &quot;foo&quot;, &quot;qwe&quot;, &quot;asd&quot;, &quot;q4da3&quot;, &quot;ApSD&quot;, &quot;tmp&quot; and so on should be avoided since they do not describe anything. Names should not contain numbers, numbers should be described with letters unless there is a good reason for it.</p>
+
+
+<h3>Classes</h3>
+<p>All class names start with Capital letter and are CammelCased. When confronted with a situation where you could use an all upper case abbreviation instead use an initial upper case letter followed by all lower case letters.</p>
+<code><strong>class</strong> MyClassName
+{
+	<em>...</em>
+}</code>
+
+
+<h3>Variables and Properties</h3>
+<p>All variable and property names start with small letter and are cammelCased or under_scored, except special ones that start with _underscore or __double_underscore. When confronted with a situation where you could use an all upper case abbreviation instead use an initial upper case letter followed by all lower case letters.</p>
+<code><var>$this_is_my_var</var>
+<var>$thisIsMyVar</var>
+<var>$_thisIsMySpecalVar</var>
+<var>$__thisIsMyReallySpecalVar</var>
+<var>$htmlContent</var>
+<var>$html_content</var>
+</code>
+
+
+<h3>Functions and Methods</h3>
+<p>Usually every method and function performs an action, so the name should make clear what it does.</p>
+<p>All method names start with small letter and are cammelCased, except special ones that start with _underscore or __double_underscore. All function names start with small letter and are under_scored. That way it is very easy to distinguish methods from functions and vise versa. When confronted with a situation where you could use an all upper case abbreviation instead use an initial upper case letter followed by all lower case letters.</p>
+<code>this_is_my_function()
+thisIsMyMethod()
+_thisIsMySpecialMethod()
+__thisIsMyReallySpecalMethod()
+
+getHtmlContent()
+get_html_content()
+</code>
+
+<h3>Constants</h3>
+<p>All constant names are UPPERCASED and under_scored</p>
+<code>MY_CONSTANT_NAME</code>
+
+<h2>Braces {} Policy</h2>
+<p>Place the opening and closing brace on new line under keywords and aligned with them.</p>
+<code><strong>if</strong>(<em>...conditions...</em>)
+{
+	<em>...long statement...</em>
+}
+<strong>else if</strong>(<em>...conditions...</em>)
+{
+	<em>...long statement...</em>
+}
+
+<strong>while</strong>(<em>...conditions...</em>)
+{
+	<em>...long statement...</em>
+}
+</code>
+
+
+
+<h2>Indentation and New Lines</h2>
+
+<h3>Tabs vs Spaces</h3>
+<p>It is best to keep on using tabs all the time, for the simple reasons that it is much easier to align everything using them, and tabs require less space in a file than multiple spaces. Also, if you set your editor to 8 spaces tab width, but another developer prefers to have tabs represented as 4, it doesn't matter in the slightest.</p>
+
+<h3>Linefeed</h3>
+<p>The three major operating systems (Unix, Windows and Mac OS) use different ways to represent the end of a line. Unix systems use the newline character (\n), Mac systems use a carriage return (\r), and Windows systems are terribly wasteful using carriage return followed by a line feed (\r\n).</p>
+<p>Use simple newlines all the time, because the Windows way just doubles the size of your line breaks and the Mac OS way is technically incorrect in that a carriage return should only return you to the beginning of the line, ala the old typewriter systems.</p>
+
+
+<h3>Statements Within Class Body</h3>
+<p>Everything between the curly braces should be indented, the braces should be on separate line.</p>
+<code><strong>class</strong> ClassName
+{
+	<em>...class body...</em>
+}
+</code>
+
+<h3>Statements Within Method/Function Body</h3>
+<p>The statements between the curly braces should be indented, the braces should be on separate line.</p>
+<code><strong>function</strong> functionName()
+{
+	<em>...method or function body...</em>
+}
+</code>
+
+<h3>Statements Within Blocks</h3>
+<p>The statements between the curly braces should be indented, the braces should be on separate line. In case the statements are short it is better to use one line syntax, if this is not making the code harder to read. Also there should be a space between the braces and the statement.</p>
+<code><strong>foreach</strong>(<var>$array</var> <strong>as</strong> <var>$a</var>)
+{
+	<em>...long statement...</em>
+}
+
+<strong>foreach</strong>(<var>$array</var> <strong>as</strong> <var>$a</var>){ <em>...short statement...</em> }
+</code>
+<code><strong>for</strong>(<var>$i</var> = 0; <var>$i</var> &lt; 10; <var>$i</var>++)
+{
+	<em>...long statement...</em>
+}
+
+<strong>for</strong>(<var>$i</var> = <span>0</span>; <var>$i</var> &lt; <span>10</span>; <var>$i</var>++){ <em>...short statement...</em> }
+</code>
+<code><strong>while</strong>(<var>$i</var> &lt; <span>10</span>)
+{
+	<em>...long statement...</em>
+}
+
+<strong>while</strong>(<var>$i</var> &lt; <span>10</span>){ <em>...short statement...</em> }
+</code>
+
+
+<h3>Statements Within Switch and Case Body</h3>
+<p>The statements between the curly braces and case/break should be indented, the braces should be on separate line and there should be an empty line after the &quot;break;&quot;. It is possible to write braces after the &quot;case:&quot; and before the &quot;break;&quot; if needed. In case the statements are short it is better to use one line syntax, if this is not making the code harder to read. Also the statements and cases should be aligned.</p>
+<code><strong>switch</strong>(<var>$variable</var>)
+{
+	<strong>case</strong> <cite>'value0'</cite>:
+	<strong>case</strong> <cite>'value1'</cite>:
+		<em>...long statement...</em>
+	<strong>break</strong>;
+	
+	<strong>case</strong> <cite>'value2'</cite>:
+	{
+		<em>...very long statement...</em>
+		<em>...very long statement...</em>
+		<em>...very long statement...</em>
+		<em>...very long statement...</em>
+		<em>...very long statement...</em>
+		<em>...very long statement...</em>
+		<em>...very long statement...</em>
+	}
+	<strong>break</strong>;
+	
+	<strong>case</strong> <cite>'value3'</cite>:
+		<em>...long statement...</em>
+	<strong>break</strong>;
+	
+	<strong>default</strong>:
+		<em>...long statement...</em>
+	<strong>break</strong>;
+}
+
+<strong>switch</strong>(<var>$variable</var>)
+{
+	<strong>case</strong> <cite>'value0'</cite>:
+	<strong>case</strong> <cite>'value1'</cite>:		<em>...short statement...</em>		<strong>break</strong>;
+	<strong>case</strong> <cite>'value2'</cite>:		<em>...short statement...</em>		<strong>break</strong>;
+	<strong>case</strong> <cite>'value3'</cite>:		<em>...short statement...</em>		<strong>break</strong>;
+	
+	<strong>default</strong>:			<em>...short statement...</em>		<strong>break</strong>;
+}
+</code>
+
+<h3>Statements Within IF Body</h3>
+<p>The statements between the curly braces should be indented, the braces should be on separate line.</p>
+<code><strong>if</strong>(<em>...conditions...</em>)
+{
+	<em>...long statement...</em>
+}
+<strong>else if</strong>( <em>...conditions && condition(...)</em> )
+{
+	<em>...long statement...</em>
+}
+<strong>else</strong>
+{
+	<em>...long statement...</em>
+}
+</code>
+
+<p>In case the statements are short it is better to use one line syntax, if this is not making the code harder to read. Also the conditions and statements  should be aligned. In some cases a space between the brace and the conditions might be needed, for example if there is function in the conditions.</p>
+<code><strong>if</strong>		(<em>...conditions...</em>)			{ <em>...short statement...</em> }
+<strong>else if</strong>	( <em>...longer conditions...</em> )	{ <em>...short statement...</em> }
+<strong>else</strong>							{ <em>...short statement...</em> }
+</code>
+
+<p>When using shorthand operator, braces should be used in there are more than one conditions.</p>
+<code><var>$variable</var> = <em>...conditions...</em> ? <em>...statement...</em> : <em>...statement...</em>;
+<var>$variable</var> = ( <em>...conditions && conditions(...)</em> ) ? <em>...statement...</em> : <em>...statement...</em>;
+</code>
+
+<p>Short hand operator may be split in multiple lines for better readability.</p>
+<code><var>$variable</var> = ( <em>...conditions && conditions(...)</em> ) 
+	? <em>...statement...</em> 
+	: <em>...statement...</em>
+;
+</code>
+
+
+<h3>Empty lines</h3>
+<p>It is essential to divide the code on different portions with an empty line or even more. Thus making it a lot easier to read and understand.</p>
+
+
+<h3>Spaces</h3>
+Write spaces before and after all the operators except increment and decrement, also after the comma sign.
+<code><var>$foo</var> = <cite>'asd'</cite>;
+
+<strong>if</strong>(<var>$bar</var> &gt; <var>$baz</var>){ <em>...</em> }
+
+<strong>for</strong>(<var>$i</var> = <span>0</span>; <var>$i</var> &lt; <span>10</span>; <var>$i</var>++){ <em>...</em> }
+
+<strong>foreach</strong>(<var>$array</var> <strong>as</strong> <var>$a</var>){ <em>...</em> }
+
+<var>$increment</var>++;
+++<var>$increment</var>;
+</code>
+
+
+
+
+<h2 id="naming-classes">Classes</h2>
+
+<h3>Method and Property Modifiers</h3>
+
+<h4>Visibility Modifiers - Public, Protected, Private</h4>
+<p>Every method or property MUST be declared with specific visibility as public, protected or private<p>
+<code><strong>class</strong> MyClass
+{
+	<strong>public</strong> <var>$public_property</var>;
+	
+	<strong>protected</strong> <var>$protected_property</var>;
+	
+	<strong>private</strong> <var>$private_property</var>;
+	
+	
+	<strong>public function</strong> public_function()
+	{
+		<em>...</em>
+	}
+	
+	
+	<strong>protected function</strong> protected_function()
+	{
+		<em>...</em>
+	}
+	
+	
+	<strong>private function</strong> private_function()
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+<h4>Access Modifiers - Static, Constant</h4>
+<p>The static access modifier is after access level modifiers. The const access modifier is always alone, and constant names are UPPER_CASED_UNDER_SCORED.</p>
+<code><strong>class</strong> MyClass
+{
+	<strong>const</strong> CONSTANT = <cite>'value'</cite>;
+	
+	<strong>public static</strong> <var>$static_property</var>;
+	
+	<strong>protected static function</strong> static_method()
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+<h4>Final, Abstract</h4>
+<p>Final and abstract keywords are always first</p>
+<code><strong>class</strong> MyClass
+{
+	<strong>final public</strong> <var>$final_property</var>;
+	
+	<strong>abstract protected function</strong> abstract_method();
+}
+</code>
+
+<h4>Summary</h4>
+<code>class MyClass
+{
+	<strong>const</strong> CONSTANT = <span>1</span>;
+	
+	[<strong>final</strong>|<strong>abstract</strong>] <strong>public</strong>|<strong>protected</strong>|<strong>private</strong> [<strong>static</strong>] <var>$property_name</var>
+	
+	[<strong>final</strong>|<strong>abstract</strong>] <strong>public</strong>|<strong>protected</strong>|<strong>private</strong> [<strong>static</strong>] function method_name()
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+
+
+<h2>No Magic Numbers</h2>
+<p>A magic number is a bare-naked number used in source code. It's magic because no-one has a clue what it means including the author inside, after 3 months.</p>
+<code><strong>if</strong>		(<var>$foo</var> == <span>22</span>)	{ do_something(); }
+<strong>else if</strong>	(<var>$foo</var> == <span>19</span>)	{ do_something_smart(); }
+<strong>else if</strong>	(<var>$foo</var> == <span>43</span>)	{ do_something_stupid(); }
+<strong>else</strong>					{ whatever(); }
+</code>
+<p>In the above example what do 22 and 19 mean? If there was a number change or the numbers were just plain wrong???</p>
+
+<p>Instead of magic numbers use a real name that means something. You should define these numbers as CONSTANT variable.</p>
+<code><strong>define</strong>(<cite>'SOMETHING'</cite>, 			<span>22</span>);
+<strong>define</strong>(<cite>'SOMETHING_SMART'</cite>, 	<span>19</span>);
+<strong>define</strong>(<cite>'SOMETHING_STUPID'</cite>, 	<span>43</span>);
+
+<strong>if</strong>		(<var>$foo</var> == SOMETHING)		{ do_something(); }
+<strong>else if</strong>	(<var>$foo</var> == SOMETHING_SMART)	{ do_something_smart(); }
+<strong>else if</strong>	(<var>$foo</var> == SOMETHING_STUPID)	{ do_something_stupid(); }
+<strong>else</strong>								{ whatever(); }
+</code>
+
+
+
+
+<h2>Dynamic Variables</h2>
+<p>There are two ways for writing dynamic variables, but this one is easier to read and understand. So always use braces after the dollar sign.</p>
+<code>${<var>$variable</var>}</code>
+
+<h2>Strings</h2>
+<p>When writing a variable inside a string and this variable put braces if needed. If there is no variables inside the string user apostrophe instead of quote signs, this way is faster.</p>
+<code><cite>&quot;This is <var>$simple_variable<var>&quot;</cite>
+<cite>&quot;This is </cite>{<var>$more</var>->complex[<cite>'variable'</cite>]}<cite>&quot;</cite>
+<cite>'simple string'</cite>
+</code>
+
+
+
+<h2>Comments</h2>
+<p>Comment your code damn it!</p>
+<p>Put PHPDoc comment before every function, class, method and property</p>
+<code><strong>require_once</strong> <cite>'Extender.php'</cite>;
+<strong>require_once</strong> <cite>'InterfaceClass.php'</cite>;
+<strong>require_once</strong> <cite>'AnotherInterface.php'</cite>;
+
+<em>/**
+ * Ad qui maluisset disputationi consectetuer. 
+ * Insolens paulo ubique gloriatur eum possim sententiae mel no, an nec 
+ * theophrastus deterruisset. Cum doctus accusamus similique et, 
+ * te eum consul omnesque. Sit insolens petentium in, ius ei veritus 
+ * inciderint. Ut suas aeterno imperdiet nam, per at lucilius 
+ * scriptorem. Ad pro scaevola recteque, ad enim constituam eos, qui 
+ * ea malorum convenire imperdiet. Errem ponderum similique, in graeco 
+ * regione virtute ius.
+ * 
+ * @package PackageName
+ * @subpackage SubPackageName
+ * 
+ * @uses 'Extender.php'
+ * @uses 'InterfaceClass.php'
+ * @uses 'AnotherInterface.php'
+ * 
+ * @version 1.2.3
+ *  
+ * @author Author Name
+ */</em>
+<strong>class</strong> MyClass <strong>extends</strong> Extender <strong>implements</strong> InterfaceClass, AnotherInterface 
+{
+	<em>/**
+	 * Sit insolens petentium in, ius ei veritus inciderint. Ut suas 
+	 * aeterno imperdiet nam, per at lucilius scriptorem.
+	 * 
+	 * @static
+	 * @access public
+	 * @var string|integer Per at lucilius scriptorem.
+	 * 
+	 * @author Author Name
+	 */</em>
+	<strong>public static</strong> <var>$variable</var>;
+	
+	
+	<em>/**
+	 * Te eum consul omnesque. Sit insolens petentium in, ius ei veritus 
+ 	 * inciderint.
+	 * 
+	 * @access private
+	 * @var mixed Sit insolens petentium in.
+	 * 
+	 * @author Autho Name
+	 */</em>
+	<strong>private</strong> <var>$var</var>;
+	
+	
+	<em>/**
+	 * Ad pro scaevola recteque, ad enim constituam eos, qui ea malorum 
+	 * convenire imperdiet. Errem ponderum similique, in graeco regione 
+	 * virtute ius.
+	 *
+	 * @access protected
+	 * 
+	 * @param string 	$param	Ad qui maluisset disputationi consectetuer. 
+	 * @param mixed 	$param_2	Sit insolens petentium in, ius ei veritus inciderint.
+	 * @param object 	$param_3 	Ut suas aeterno imperdiet nam, per at lucilius.
+	 * 
+	 * @author Author Name
+	 */</em>
+	<strong>protected function</strong> method(<var>$param</var>, <var>$param_2</var>, SomeClass <var>$param_3</var>)
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+
+</body>
+</html>

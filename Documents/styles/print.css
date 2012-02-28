@@ -1,0 +1,7 @@
+body 		{ width: auto; margin: 0; padding: 0; font-size: 11px; background: #FFF }
+h1			{ border-top: none; }
+p 			{ padding-right: 0; }
+code 		{ font-size: 11px; background: #FFF; }
+
+#toc-toc 	{ position: static; width: auto; }
+#toc 		{ position: static; width: auto; padding: 10px 7px; background: none; border: none; }

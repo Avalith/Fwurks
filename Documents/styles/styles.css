@@ -1,0 +1,54 @@
+* { margin: 0; padding: 0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box }
+		
+body { width: 65%; padding: 0px 8.5% 100px; font: 11px Verdana, Tahoma, Arial, sans-serif; background: #ddd }
+
+h1, h2, h3, h4, h5, h6 { clear: left; font-family: "Trebuchet MS", Tahoma, Arial, sans-serif; }
+h1 { padding: 150px 0 30px; font-size: 32px; border-top: 10px solid #999;  }
+h2 { padding: 100px 0 20px; font-size: 24px; border-bottom: 3px double #999; }
+h3 { padding: 30px 0 10px;	font-size: 16px; border-bottom: 1px dotted #AAA; }
+h4 { padding: 15px 0 5px; 	font-size: 13px; }
+h5 { padding: 10px 0 5px; 	font-size: 12px; }
+h6 { padding: 10px 0 5px; 	font-size: 11px; }
+
+p  { margin: 5px 0 15px; text-align: justify; }
+
+a { outline: none; }
+
+ol { padding: 0 0 10px 25px; list-style: outside decimal; }
+ul { padding: 0 0 30px 25px; list-style: outside circle; }
+li { padding: 3px 0 0; }
+
+dl { border-left: 1px solid #CCC; margin: 0 0 10px 0; padding: 0 0 0 10px; overflow: hidden; }
+dt, dd { float: left; padding: 3px 0; }
+dt { clear: left; width: 35%; font-weight: bold; }
+dd { width: 65%; }
+
+.number 	{ font-size:80%; }
+h2 .number 	{ font-size:65%; }
+h3 .number 	{ font-size:75%; }
+h4 .number 	{ font-size:85%; }
+
+#toc-toc { position: fixed; top: 0; right: 10px; width: 35%; padding: 10px 0 10px 7px; font-size: 20px; }
+#toc { position: fixed; top: 44px; right: 10px; bottom: 10px; width: 35%; padding: 10px 7px 10px 7px; background: #e5e5e5; border: 3px double #999; overflow-x: none; overflow-y: auto; } 
+#toc ul { padding: 0 0 10px 18px;  } 
+#toc li { position: relative; padding: 0; list-style: none; }
+#toc a { display: block; padding: 0px 5px; color: #000; height: 16px; line-height: 14px; font-size: 11px; text-decoration: none; }
+#toc a:hover, #toc .selected { background: #FFF; }
+#toc .button { display: block; position: absolute; top: 0; right: 0; width: 16px; height: 16px; }
+#toc .button.collapse { background: url(icons/minus-white.png) 0px 0px no-repeat; }
+#toc .button.expand { background: url(icons/plus-white.png) 0px 0px no-repeat; }
+.up-to-toc { float: right; color: #999; font-size: 12px; font-weight: bold; text-decoration: none; }
+.up-to-toc:hover { color: #000; }
+
+code { overflow: hidden; display: block; margin: 10px 0; padding: 10px; font: 11px "Lucida Console", sans-serif; background: #eee; border: 1px dashed #666; white-space: pre; }
+code em 	{ color: #666; font-style: normal; }
+code strong { color: #00F; font-weight: normal; }
+code var 	{ color: #600; font-style: normal; }
+code cite 	{ color: #080; font-style: normal; }
+code span 	{ color: #F00; }
+
+ul.tree { padding-top: 10px; padding-left: 3px; }
+.tree ul { padding: 0; }
+.tree li { padding: 0 0 0 22px; background: url(icons/folder.png) 0px 1px no-repeat; list-style: none; }
+.tree li.source-file { background: url(icons/page_white_code.png) 0px 1px no-repeat; }
+
