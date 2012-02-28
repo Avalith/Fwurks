@@ -1,0 +1,36 @@
+/* --- Tree --- */
+
+.tree { border: 1px solid #999; background: #FFF; padding: 10px 0;  }
+.tree ul { background: url(tree/ul.gif) 1px 1px repeat-y; margin-left: 20px;   }
+.tree li { list-style-type: none; display: block; width: 100%; position: relative; background: url(tree/tire.gif) 1px 0 no-repeat; }
+.tree li a { height: 20px; line-height: 20px; }
+.tree li.last { background: url(tree/tire_last.gif) 1px 1px no-repeat; }
+.tree li.open { background: url(tree/tire_open.gif) 1px 1px no-repeat; padding-top: 20px; }
+.tree li.last.open { background: url(tree/tire_last_open.gif) 1px 1px no-repeat; padding-top: 20px; }
+
+.tree li a.switch { display: none; width: 11px; height: 15px; overflow: hidden; background: #FF0; position: absolute; top: 5px; left: 16px; background: #FFF url(tree/plus.gif) left top no-repeat; cursor: pointer; text-indent: -100px; z-index: 50; }
+.tree li a.switch.active { background: #FFF url(tree/plus.gif) -12px top no-repeat; height: 11px; }
+
+.tree li a.title { display: block; width: 95%; padding-left: 5px; height: 20px; line-height: 20px; overflow: hidden; font-weight: bold; position: absolute; left: 30px; top: 0; }
+.tree li a.title:hover { text-decoration: underline; cursor: pointer; background: #f9f9f9; }
+
+.tree li .items { display: block; height: 20px; position: absolute; top: 2px; right: 10px; }
+.tree li .items a { height: 16px; float: left; margin-left: 5px; }
+.tree li .items img { vertical-align: text-bottom; margin: 0 0 -2px 0; }
+
+
+/* JTree */
+
+.jTreeDraglet { border: 1px solid #ccc; background: #FFF; padding: 5px 40px 5px 10px;  }
+.jTreeDraglet ul { background: #FFF url(tree/ul.gif) 1px 1px repeat-y; margin-left: 20px;   }
+.jTreeDraglet li {  list-style-type: none; display: block; width: 100%; position: relative; background: url(tree/tire.gif) 1px 0 no-repeat; }
+.jTreeDraglet li a { height: 20px; line-height: 20px; padding: 0 0 0 13px;  }
+
+.jTreeDraglet li.last { background: url(tree/tire_last.gif) 1px 1px no-repeat; }
+.jTreeDraglet li.open { background: url(tree/tire_open.gif) 1px 1px no-repeat;  }
+.jTreeDraglet li.last.open { background: url(tree/tire_last_open.gif) 1px 1px no-repeat;  }
+
+
+.jTreeDraglet .items { display: none; }
+
+.tree li.jTreePlacement { height: 20px; background: #EEE url(tree/ul.gif) 1px 1px repeat-y; }

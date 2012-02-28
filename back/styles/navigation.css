@@ -1,0 +1,18 @@
+/* --- Navigation --- */
+#navigation {  }
+#navigation li { display: block; }
+#navigation li strong,
+#navigation li a { display: block; padding-left: 15px; line-height: 30px; background: #2f3e46 url('images/nav_li_a_bgrd.gif') right top repeat-y; border-top: 1px solid #364a56; color: #7f909a; }
+/*#navigation li a span { display: block; height: 30px; width: 20px; }*/
+#navigation li a:hover { background: #273339; color: #b9d2e0; }
+
+#navigation li ul { padding: 10px 15px; background: #324550 url('images/nav_li_li_a_bgrd.gif') right top repeat-y; }
+#navigation li li a,
+#navigation li li strong { background: none; border-top: none; line-height: 20px; }
+#navigation li li ul { padding-bottom: 5px; }
+#navigation li li li a,
+#navigation li li li strong { text-indent: 35px; }
+
+#navigation li.selected > a { background: url("images/nav_li_parent.gif") 7px 13px no-repeat;  }
+#navigation li li.selected > a { background: url("images/nav_li_parent.gif") 15px 7px no-repeat;  }
+#navigation li.selected_parent > a { }

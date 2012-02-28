@@ -1,0 +1,10 @@
+dashboard			: Dashboard
+
+administration		: Администрация
+groups				: Групи
+users				: Потребители
+settings			: Настройки
+
+# CUSTOMS
+pages				: Страници
+homepage			: Home Page

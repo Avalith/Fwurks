@@ -1,0 +1,12 @@
+/* 
+
+	Firefox custom styles
+	---------------------
+	
+*/
+
+
+/* --- Tabs --- */
+select option { padding-right: 5px; }
+.no_entries,
+.menu { margin-left: -1px; }

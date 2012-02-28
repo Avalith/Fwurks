@@ -1,0 +1,46 @@
+{capture name=actions}
+	{if $title}<h1>{$title}</h1>{/if}
+	
+{/capture}
+
+{capture name=content}
+	<form method="POST">
+		<table>
+			<thead>
+				<tr>
+					<td></td>
+					<td width="200">File Name</td>
+					<td></td>
+					<td width="200">Model Name</td>
+					<td width="200">Table Name</td>
+					<td></td>
+					<td>i18n</td>
+					<td>Mirror</td>
+					<td></td>
+					<td>Files</td>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$models item=m name=models}
+					{assign var=i value=$smarty.foreach.models.index}
+					<tr>
+						<td>{html_field type=checkbox name=models[`$i`][create] no_label=1 value=1}</td>
+						<td>{html_field type=text name=models[`$i`][filename] value=$m->filename no_label=1}</td>
+						<td></td>
+						<td>{html_field type=text name=models[`$i`][modelname] value=$m->modelname no_label=1}</td>
+						<td>{html_field type=text name=models[`$i`][tablename] value=$m->tablename no_label=1}</td>
+						<td></td>
+						<td>{if $m->has_i18n}{html_field type=checkbox name=models[`$i`][has_i18n] no_label=1 value=1}{/if}</td>
+						<td>{if $m->has_mirror}{html_field type=checkbox name=models[`$i`][has_mirror] no_label=1 value=1}{/if}</td>
+						<td></td>
+						<td>{html_field type=checkbox name=models[`$i`][has_files] no_label=1}</td>
+					</tr>
+				{/foreach}
+			</tbody>
+		</table>
+		<div class="buttons">
+			{html_field type=submit value=Create}
+			<div class="cleaner">&nbsp;</div>
+		</div>
+	</form>
+{/capture}
