@@ -1,5 +1,49 @@
 <?php
 
+class RouterException		extends Exception			{}
+class RouterRouteException	extends RouterException		{}
+
+class RouterRoute
+{
+	public $key;
+	public $path;
+	
+	public $controller;
+	public $action;
+	public $params;
+	
+	public function __construct($key, $path, $params)
+	{
+		$this->key 		= $key;
+		$this->path		= $path;
+		$this->params	= $params;
+	}
+	
+	public function __toString()
+	{
+		
+	}
+}
+
+class RouterRequest
+{
+	public $route;
+	public $get;
+	public $post;
+	
+	public $is_ajax;
+	public $response_type;
+	
+	public function __construct($route, array $get = array(), array $post = array(), $is_ajax = false, $response_type = 'html')
+	{
+		$this->route			= $route;
+		$this->get				= $get;
+		$this->post				= $post;
+		$this->is_ajax			= $is_ajax;
+		$this->response_type	= $response_type;
+	}
+}
+
 final class Router
 {
 	public static $atom_all = array();
@@ -34,10 +78,10 @@ final class Router
 		$post	= $_POST;
 		unset($_GET, $POST);
 		
-		return self::request(self::find(implode('/', $url)), $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'), 'html');
+		echo self::request(self::find(implode('/', $url)), $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
 	
-	public static function request($route, $get = array(), $post = array(), $is_ajax = false, $data_type = 'html')
+	public static function request($route, $get = array(), $post = array(), $is_ajax = false, $response_type = 'html')
 	{
 		$controller	= $route->controller	= $route->params['controller'];
 		$action		= $route->action		= 'action__' . $route->params['action'];
@@ -48,21 +92,18 @@ final class Router
 		$controller_classname = Inflector::classify($controller) . '_Controller';
 		
 		// If controller class or file exists load
-		if(class_exists($controller_classname) || file_exists($class = Paths_Config::$atom_controllers . $controller . '.controller.php'))
+		if(class_exists($controller_classname, false) || file_exists($class = Paths_Config::$atom_controllers . $controller . '.controller.php'))
 		{
 			if($class){ require_once $class; }
 			
-			$object		= new $controller_classname($route);
-			$content	= $object->__executeController();
-			
-			// TODO questioning this
-			if($data_type == 'html'){ $content = $object->__render(); }
-			
-			return $content;
+			$object = new $controller_classname(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+		}
+		else
+		{
+			throw new RouterException('Missing controller: ' . $controller_classname);
 		}
 		
-		d($class);
-		d($route);
+		return $object->__executeController();
 	}
 	
 	
@@ -124,7 +165,7 @@ final class Router
 	public static function route($route_name, $params = array(), $add = null, $atom = null)
 	{
 		$route = self::$routes[$route_name];
-		if(!$route){ throw new RouterException('Missing route: ' . $route_name); }
+		if(!$route){ throw new RouterRouteException('Missing route: ' . $route_name); }
 		
 		$url_parts = explode('/', trim($route[0], '/'));
 		foreach($url_parts as $i => &$u)
@@ -140,7 +181,7 @@ final class Router
 					}
 					else
 					{
-						throw new RouterException('Missing required route variable: ' . $key);
+						throw new RouterRouteException('Missing required route variable: ' . $key);
 					}
 				}
 				else
@@ -163,50 +204,6 @@ final class Router
 	private function __construct(){}
 	
 }
-
-class RouterException extends Exception{}
-
-class RouterRoute
-{
-	public $key;
-	public $path;
-	
-	public $controller;
-	public $action;
-	public $params;
-	
-	public function __construct($key, $path, $params)
-	{
-		$this->key 		= $key;
-		$this->path		= $path;
-		$this->params	= $params;
-	}
-	
-	public function __toString()
-	{
-		
-	}
-}
-
-class RouterRequest
-{
-	public $route;
-	public $get;
-	public $post;
-	
-	public $is_ajax;
-	
-	public function __construct($route, array $get = array(), array $post = array(), $is_ajax = false)
-	{
-		$this->route 	= $route;
-		$this->get		= $get;
-		$this->post		= $post;
-		$this->is_ajax	= $is_ajax;
-		
-	}
-}
-
-
 
 /**
  * Redirects to a page or link

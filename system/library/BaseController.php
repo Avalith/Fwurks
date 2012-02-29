@@ -2,7 +2,7 @@
 
 abstract class BaseController
 {
-	protected $__route;
+	protected $__request;
 	protected $__paths;
 	
 	protected $__view;
@@ -14,7 +14,7 @@ abstract class BaseController
 	public $__styles				= array();
 	
 	
-	final public function __construct($route)
+	final public function __construct(RouterRequest $request)
 	{
 		$this->__route	 	= $route;
 		
