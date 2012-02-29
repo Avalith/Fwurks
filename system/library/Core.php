@@ -8,9 +8,10 @@ require_once Paths_Config::$app_configs . 'Application.config.php';
 
 require_once Paths_Config::$library . 'Inflector.php';
 require_once Paths_Config::$library . 'Router.php';
+require_once Paths_Config::$library . 'BaseController.php';
 
-//require_once Paths_Config::$library . 'AutoLoader.php';
-//spl_autoload_register('AutoLoader::load', true, true);
+require_once Paths_Config::$library . 'AutoLoader.php';
+spl_autoload_register('AutoLoader::load', true, true);
 
 
 

@@ -2,7 +2,7 @@
 
 final class Application_Config
 {
-	public static $resources_folder = 'app';
+	public static $folder_resources = 'app';
 	
 	public static $atom_default = 'public';
 	

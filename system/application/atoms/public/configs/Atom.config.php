@@ -2,7 +2,7 @@
 
 final class Atom_Config
 {
-	public static $resources_folder = 'public';
+	public static $folder_resources = 'public';
 	
 	public static function load()
 	{

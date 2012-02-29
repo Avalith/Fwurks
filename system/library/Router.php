@@ -40,7 +40,7 @@ final class Router
 	public static function request($route, $get = array(), $post = array(), $is_ajax = false, $data_type = 'html')
 	{
 		$controller	= $route->controller	= $route->params['controller'];
-		$action		= $route->action		= $route->params['action'];
+		$action		= $route->action		= 'action__' . $route->params['action'];
 		unset($route->params['controller'], $route->params['action']);
 		
 		$get = array_merge($get, $route->params);
@@ -50,7 +50,7 @@ final class Router
 		// If controller class or file exists load
 		if(class_exists($controller_classname) || file_exists($class = Paths_Config::$atom_controllers . $controller . '.controller.php'))
 		{
-			require_once $class;
+			if($class){ require_once $class; }
 			
 			$object		= new $controller_classname($route);
 			$content	= $object->__executeController();
