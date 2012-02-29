@@ -24,8 +24,8 @@ final class Router
 		self::$atom_current = isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
 		Paths_Config::set_atom(self::$atom_current);
 		
-		require_once Paths_Config::$atom_configs . '/' . 'Atom.config.php';
-		require_once Paths_Config::$atom_configs . '/' . 'Routes.config.php';
+		require_once Paths_Config::$atom_configs . 'Atom.config.php';
+		require_once Paths_Config::$atom_configs . 'Routes.config.php';
 		self::$routes = get_class_vars('Routes_Config');
 		
 		// TODO get locale not a language
@@ -120,24 +120,51 @@ final class Router
 		
 		return $regexp;
 	}
-		
-	public static function route($route_name = null, array $params = array(), $add = null)
+	
+	public static function route($route_name, $params = array(), $add = null, $atom = null)
 	{
-		de('TODO');
-		
 		$route = self::$routes[$route_name];
+		if(!$route){ throw new RouterException('Missing route: ' . $route_name); }
 		
-		$url_parts = explode('/', $route[0]);
-		foreach($url_parts as &$u){ if($u{0} == ':'){ $u = $params[$u]; } }
+		$url_parts = explode('/', trim($route[0], '/'));
+		foreach($url_parts as $i => &$u)
+		{
+			if($u{0} == ':')
+			{
+				$key = ltrim(substr($u, 1), '?');
+				if(!($val = $params[$key]))
+				{
+					if($u{1} == '?')
+					{
+						unset($url_parts[$i]);
+					}
+					else
+					{
+						throw new RouterException('Missing required route variable: ' . $key);
+					}
+				}
+				else
+				{
+					$u = $val;
+				}
+			}
+		}
 		
-		$url = self::url_for('//' . implode('/', $url_parts) . '/' . $add);
+		$atom = $atom ?: self::$atom_current;
+		if($atom != Application_Config::$atom_default){ array_unshift($url_parts, $atom); }
 		
-		return $url;
+		$url_parts[] = '';
+		
+		// TODO locale
+		
+		return Paths_Config::$base . implode('/', $url_parts);
 	}
 	
 	private function __construct(){}
 	
 }
+
+class RouterException extends Exception{}
 
 class RouterRoute
 {

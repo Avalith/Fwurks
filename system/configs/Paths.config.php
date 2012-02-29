@@ -4,7 +4,13 @@
 // with trailing slash
 final class Paths_Config
 {
+	/**
+	 * @default: '/'
+	 */
+	public static $base = '/fwurks/';
+	
 	public static $root;
+	
 	public static $system;
 	public static $resources;
 	

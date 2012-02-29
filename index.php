@@ -4,31 +4,31 @@ final class Dispatcher
 {
 	/**
 	 * The name of your system folder
-	 * @default: system
+	 * @default: 'system'
 	 */
 	public static $folder_system = 'system';
 	
 	/**
 	 * The name of your application folder inside the system folder
-	 * @default: application
+	 * @default: 'application'
 	 */
 	public static $folder_application = 'application';
 	
 	/**
 	 * The name of your configs folder inside the system folder
-	 * @default: configs
+	 * @default: 'configs'
 	 */
 	public static $folder_configs = 'configs';
 	
 	/**
 	 * The name of your library folder inside the system folder
-	 * @default: library
+	 * @default: 'library'
 	 */
 	public static $folder_library = 'library';
 	
 	/**
 	 * The name of your resource folder
-	 * @default: resources
+	 * @default: 'resources'
 	 */
 	public static $folder_resources = 'resources';
 	
