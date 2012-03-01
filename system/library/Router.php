@@ -76,7 +76,7 @@ final class Router
 		
 		$get	= $_GET;
 		$post	= $_POST;
-		unset($_GET, $POST);
+		unset($_GET, $_POST);
 		
 		echo self::request(self::find(implode('/', $url)), $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}

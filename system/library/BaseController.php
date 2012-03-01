@@ -16,7 +16,7 @@ abstract class BaseController
 	
 	final public function __construct(RouterRequest $request)
 	{
-		$this->__route	 	= $route;
+		$this->__request = $request;
 		
 		$res		= '/' . Dispatcher::$folder_resources . '/' . Application_Config::$folder_resources . '/';
 		$res_atom	= $res . Atom_Config::$folder_resources . '/';
@@ -62,12 +62,15 @@ abstract class BaseController
 		
 		foreach($this->__before_filters as $filter){ $this->$filter(); }
 		
-		$this->{$this->__route->action}();
+		$content = $this->{$this->__request->route->action}();
 		
 		foreach($this->__after_filters as $filter){ $this->$filter(); }
+		
+		$this->{'__render_' . $this->__request->response_type}($content);
 	}
 	
-	public final function __render()
+	
+	public final function __render_html()
 	{
 		de('TODO RENDER');
 		
@@ -81,11 +84,16 @@ abstract class BaseController
 		return $template->fetch($view_file.'.tpl');
 	}
 	
+	public final function __render_json($data)
+	{
+		return json_encode(get_object_vars($data));
+	}
+	
+	
 	protected final function __before_filter($filter)
 	{
 		$this->__before_filters = array_merge($this->__before_filters, func_get_args());
 	}
-	
 	
 	protected final function __after_filter($filter)
 	{
@@ -106,7 +114,6 @@ abstract class BaseController
 	{
 		require_once Paths_Config::$atom_library . $name . '.php';
 	}
-	
 }
 
 

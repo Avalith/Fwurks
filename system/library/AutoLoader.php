@@ -19,7 +19,7 @@ class AutoLoader
 		}
 		else if(substr($class_name, -7) == '_Config')
 		{
-			$class_file =Paths_Config::$configs . Inflector::to_file($class_name) . '.php';
+			$class_file = Paths_Config::$configs . Inflector::to_file($class_name) . '.php';
 		}
 		else
 		{
