@@ -3,7 +3,7 @@
 require_once getcwd() . '/' . Dispatcher::$folder_system . '/' . Dispatcher::$folder_configs .'/Paths.config.php';
 
 require_once Paths_Config::$configs . 'System.config.php';
-require_once Paths_Config::$configs . 'Session.config.php';
+
 require_once Paths_Config::$app_configs . 'Application.config.php';
 
 require_once Paths_Config::$library . 'Inflector.php';

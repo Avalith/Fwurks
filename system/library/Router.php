@@ -30,7 +30,7 @@ final class Router
 	
 	public static $locale_all = array();
 	public static $locale_current;
-	public static $locale_single;
+	public static $locale_force;
 	
 	public static $routes;
 	
@@ -46,14 +46,13 @@ final class Router
 		self::$atom_current		= isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
 		Paths_Config::set_atom(self::$atom_current);
 		
-		
-		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
-		self::$locale_current	= isset($url[0]) && in_array($url[0], self::$locale_all) ? array_shift($url) : Application_Config::$locale_default;
-		self::$locale_single	= count(self::$locale_all) == 1;
-		
-		
 		require_once Paths_Config::$atom_configs . 'Atom.config.php';
 		require_once Paths_Config::$atom_configs . 'Routes.config.php';
+		
+		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
+		self::$locale_current	= isset($url[0]) && in_array($url[0], self::$locale_all) && array_shift($url);
+		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
+		
 		
 		self::$routes = get_class_vars('Routes_Config');
 		foreach(self::$routes as $key => &$r){ $r = new RouterRoute($key); }
@@ -63,7 +62,9 @@ final class Router
 		$post	= $_POST;
 		unset($_GET, $_POST);
 		
-		echo self::request(self::find(implode('/', $url)), $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
+		$route = self::find(implode('/', $url));
+		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; redirect($route); }
+		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
 	
 	public static function request(RouterRoute $route, $get = array(), $post = array(), $is_ajax = false, $response_type = 'html')
@@ -116,6 +117,7 @@ class RouterRoute
 	
 	
 	private $parts		= array();
+	private $add;
 	
 	public function __construct($key)
 	{
@@ -171,9 +173,11 @@ class RouterRoute
 		$route = clone $this;
 		$route->params = array_merge($route->params, $params);
 		
+		$route->add		= $add;
 		$route->atom	= $route->params['atom']	?: Router::$atom_current; 
 		$route->locale	= $route->params['locale']	?: Router::$locale_current; 
 		unset($route->params['atom'], $route->params['locale']);
+		
 		
 		$route_variables = array('controller', 'action');
 		
@@ -195,7 +199,7 @@ class RouterRoute
 						}
 						else
 						{
-							throw new RouterRouteException('Missing route variable: {' . $v . '} for ' . $p['name'] . ' - ' . $p['default']);
+							throw new RouterRouteException('Missing route variable: {' . $v . '} for ' . $p['name'] . ' - ' . $p['default'] .' of $' . $route->key);
 						}
 					}
 					
@@ -207,16 +211,19 @@ class RouterRoute
 					$p['value'] = $route->params[$p['name']] ?: $p['default'];
 				}
 				
-				if(!$p['optional'] && !$p['value']){ throw new RouterRouteException('Missing route part: ' . $p['name']); }
+				if(!$p['optional'] && !$p['value']){ throw new RouterRouteException('Missing route part: ' . $p['name'] .' of $' . $route->key); }
 			}
 			
 			if(in_array($p['name'], $route_variables)){ $route->{$p['name']} = $p['value']; }
-			
 		}
+		
+		if(!($route->controller	|| $route->controller	= $route->params['controller']	)){ throw new RouterRouteException('Missing route part: controller of $'	. $route->key); }
+		if(!($route->action		|| $route->action		= $route->params['action']		)){ throw new RouterRouteException('Missing route part: action of $'		. $route->key); }
+		unset($route->params['controller'], $route->params['action']);
 		
 		foreach($route->parts as $_p)
 		{
-			// unset($route->params[$p['name']]);
+			unset($route->params[$_p['name']]);
 		}
 		
 		return $route;
@@ -234,8 +241,8 @@ class RouterRoute
 	{
 		$url = array();
 		
-		$this->atom		!= Application_Config::$atom_default	&& $url[] = $this->atom;
-		$this->locale	!= Application_Config::$locale_default	&& $url[] = $this->locale;
+		$this->atom != Application_Config::$atom_default && $url[] = $this->atom;
+		Router::$locale_force && $url[] = $this->locale;
 		
 		foreach($this->parts as $p)
 		{
@@ -245,42 +252,23 @@ class RouterRoute
 			}
 		}
 		
+		$url[] = $this->add;
+		
+		// TODO: add
 		return Paths_Config::$base . implode('/', $url);
 	}
 }
 
 
-
-
-
-/**
- * Redirects to a page or link
- *
- * @param integer|string|array $url 'back' or -1, 'action_name', array(':controller' => 'controller_name', ':action' => 'action_name')
- */
-/*
-function redirect($url = null)
-{
-	$url = Router::url_for($url);
-//	if(headers_sent())	{ echo '<html><head><meta http-equiv="refresh" content="0; url="'.$url.'"></head></html>'; }
-//	else				{ header("Location: ".$url); }
-	
-	header('Location: '.$url);
-	exit;
-}
-*/
-
-/**
- * Returns absolute path
- *
- * @param string $route route name
- * @param array	 $params array with params  
- * @param string $add additional url
- * @return stirng
- */
-function route($route = null, $params = array(), $add = null)
+function route($route, $params = array(), $add = null)
 {
 	return Router::$routes[$route]->url($params, $add);
+}
+
+function redirect($route)
+{
+	header('Location: '. $route);
+	exit;
 }
 
 ?>

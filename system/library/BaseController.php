@@ -1,33 +1,38 @@
 <?php
 
-abstract class BaseController
+interface Controller
+{
+	public function __construct(RouterRequest $request);
+}
+
+abstract class BaseController implements Controller
 {
 	protected $__request;
-	protected $__paths;
 	
 	protected $__view = null;
 	
 	private $__before_filters		= array();
 	private $__after_filters		= array();
 	
+	public $__paths;
 	public $__javascripts			= array();
 	public $__styles				= array();
 	
 	
-	public final function __construct(RouterRequest $request)
+	public function __construct(RouterRequest $request)
 	{
 		$this->__request = $request;
 		
-		$res		= '/' . Dispatcher::$folder_resources . '/' . Application_Config::$folder_resources . '/';
+		
+		$res		= Paths_Config::$base . Dispatcher::$folder_resources . '/' . Application_Config::$folder_resources . '/';
 		$res_atom	= $res . Atom_Config::$folder_resources . '/';
 		
 		$this->__paths = array
 		(
-			'styles'		=> $res_atom . 'styles/',
-			'javascripts'	=> $res_atom . 'javascripts/',
-		
-			'public'		=> $res,
-			'files'			=> $res . 'files/'
+			'resources'		=> $res,
+			'files'			=> $res . Application_Config::$folder_files . '/',
+			'styles'		=> $res_atom . Atom_Config::$folder_styles . '/',
+			'javascripts'	=> $res_atom . Atom_Config::$folder_javascripts . '/',
 		);
 		
 		/*
@@ -101,23 +106,23 @@ abstract class BaseController
 		return $this->{'__render_' . $this->__request->response_type}($data, $vars);
 	}
 	
-	public final function __render_($data, $vars)
+	private final function __render_($data, $vars)
 	{
 		return $data;
 	}
 	
-	public final function __render_html($data, $vars)
+	private final function __render_html($data, $vars)
 	{
 		// Set view file for loading
 		return (new Template())->assign($vars)->fetch($this->__view());
 	}
 	
-	public final function __render_json($data, $vars)
+	private final function __render_json($data, $vars)
 	{
 		return json_encode($data);
 	}
 	
-	public final function __view()
+	private final function __view()
 	{
 		return $this->__request->route->controller . '/' . ($view === null ? $this->__request->route->action : $this->__view) . '.html';
 	}

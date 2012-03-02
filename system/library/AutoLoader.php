@@ -6,7 +6,6 @@ class AutoLoader
 	(
 //		'ClassName'			=> '/subpath/',
 		'Template'			=> '/template/',
-		
 	);
 	
 	public static function load($class_name)
@@ -21,16 +20,22 @@ class AutoLoader
 		}
 		else if(substr($class_name, -7) == '_Config')
 		{
-			$class_file = Paths_Config::$configs . Inflector::to_file($class_name) . '.php';
+			$filename = Inflector::to_file($class_name) . '.php';
+			
+			   file_exists($class_file = Paths_Config::$configs . $filename)
+			|| file_exists($class_file = Paths_Config::$app_configs . $filename)
+			|| file_exists($class_file = Paths_Config::$atom_configs . $filename)
+			|| $class_file = null;
 		}
 		else
 		{
-			file_exists($class_file = Paths_Config::$atom_library . $class_name . '.php') || file_exists($class_file = Paths_Config::$app_models . Inflector::to_file($class_name) . '.model.php') || $class_file = null;
+			   file_exists($class_file = Paths_Config::$atom_library . $class_name . '.php')
+			|| file_exists($class_file = Paths_Config::$app_models . Inflector::to_file($class_name) . '.model.php')
+			|| $class_file = null;
 		}
 		
 		if($class_file){ require_once $class_file; }
 	}
-	
 }
 
 ?>
