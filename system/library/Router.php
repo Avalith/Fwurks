@@ -42,24 +42,14 @@ final class Router
 		
 		$url = preg_split('#/+#', $url, null, PREG_SPLIT_NO_EMPTY);
 		
-		foreach(glob(Paths_Config::$app_atoms . '*', GLOB_ONLYDIR) as $dir)
-		{
-			$dir = explode('/', $dir);
-			self::$atom_all[] = array_pop($dir);
-		}
-		
-		self::$atom_current = isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
+		foreach(glob(Paths_Config::$app_atoms . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$atom_all[] = array_pop($dir); }
+		self::$atom_current		= isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
 		Paths_Config::set_atom(self::$atom_current);
 		
 		
-		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir)
-		{
-			$dir = explode('/', $dir);
-			self::$locale_all[] = array_pop($dir);
-		}
-		
-		self::$locale_single = count(self::$locale_all) == 1;
-		self::$locale_current = isset($url[0]) && in_array($url[0], self::$locale_all) ? array_shift($url) : Application_Config::$locale_default;
+		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
+		self::$locale_current	= isset($url[0]) && in_array($url[0], self::$locale_all) ? array_shift($url) : Application_Config::$locale_default;
+		self::$locale_single	= count(self::$locale_all) == 1;
 		
 		
 		require_once Paths_Config::$atom_configs . 'Atom.config.php';
@@ -73,14 +63,6 @@ final class Router
 		$post	= $_POST;
 		unset($_GET, $_POST);
 		
-//		de(self::find(implode('/', $url)), self::find(implode('/', $url)) . '');
-		$r = route('default', array('controller' => 'map', 'id' => 'test', 'atom' => 'my-atom'));
-//		d($r, "$r");
-		
-		$r = route('custom', array('controller' => 'map', 'id' => 'test', 'atom' => 'my-atom', 'action' => 'act', 'ddd' => '1111-222'));
-		de($r, "$r");
-		
-		
 		echo self::request(self::find(implode('/', $url)), $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
 	
@@ -93,7 +75,9 @@ final class Router
 		{
 			if($class){ require_once $class; }
 			
-			return BaseController::run($controller_classname, new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+			$controller = new $controller_classname(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+			$content = $controller->__execute();
+			return $controller->__render($content, get_object_vars($controller));
 		}
 		else
 		{
