@@ -5,16 +5,54 @@ abstract class BaseController
 	protected $__request;
 	protected $__paths;
 	
-	protected $__view;
+	protected $__view = null;
 	
-	protected $__before_filters		= array();
-	protected $__after_filters		= array();
+	private $__before_filters		= array();
+	private $__after_filters		= array();
 	
 	public $__javascripts			= array();
 	public $__styles				= array();
 	
 	
-	final public function __construct(RouterRequest $request)
+	
+	public final static function run($controller, RouterRequest $request)
+	{
+		$controller = new $controller($request);
+		
+		$content = $controller->__executeController();
+		
+		//de(123);
+		
+		return self::{'__render_' . $request->response_type}($controller, $content);
+		
+	}
+	
+	public final static function __render_($controllers, $data)
+	{
+		return $data;
+	}
+	
+	public final static function __render_html($controller, $data)
+	{
+		
+		// Set view file for loading
+		d($controller);
+		de(get_object_vars($controller));
+		
+		$template = new Template();
+		$template->assign(get_object_vars($controller));
+		
+		
+		return $template->fetch($controller->__view().'.tpl');
+	}
+	
+	public final static function __render_json($controllers, $data)
+	{
+		return json_encode(get_object_vars($data));
+	}
+	
+	
+	public final function __construct(RouterRequest $request)
 	{
 		$this->__request = $request;
 		
@@ -62,31 +100,11 @@ abstract class BaseController
 		
 		foreach($this->__before_filters as $filter){ $this->$filter(); }
 		
-		$content = $this->{$this->__request->route->action}();
+		$content = $this->{'action__' . $this->__request->route->action}();
 		
 		foreach($this->__after_filters as $filter){ $this->$filter(); }
 		
-		$this->{'__render_' . $this->__request->response_type}($content);
-	}
-	
-	
-	public final function __render_html()
-	{
-		de('TODO RENDER');
-		
-		// Set view file for loading
-		$this->__view === null && $this->__view = $this->__action;
-		
-		// $view_file = strpos($this->__view, '../') === 0 ? substr($this->__view, 3) : $this->__controller.'/'.$this->__view;
-		
-		$template = clone Template();
-		$template->assign(get_object_vars($this));
-		return $template->fetch($view_file.'.tpl');
-	}
-	
-	public final function __render_json($data)
-	{
-		return json_encode(get_object_vars($data));
+		return $content;
 	}
 	
 	
@@ -113,6 +131,11 @@ abstract class BaseController
 	protected final function __library($name)
 	{
 		require_once Paths_Config::$atom_library . $name . '.php';
+	}
+	
+	public final function __view_file()
+	{
+		return $controller->__request->route->controller . '/' . ($view === null ? $controller->__request->route->action : $this->__view);
 	}
 }
 

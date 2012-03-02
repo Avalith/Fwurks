@@ -41,7 +41,20 @@ final class Dispatcher
 
 require_once Dispatcher::$folder_system . '/' . Dispatcher::$folder_library . '/Core.php';
 
-Dispatcher::load();
-//try { Dispatcher::load(); } catch(Exception $e){ if(SystemConfig::$show_exceptions){ d($e->getTraceAsString(), '<span style="color: #900;">'.$e->getMessage().'</span>', false, false); } }
+try
+{
+	Dispatcher::load();
+}
+catch(Exception $e)
+{
+	if(System_Config::PRODUCTION)
+	{
+		// REDIRECT 404
+	}
+	else
+	{
+		d(str_replace(getcwd(), '', $e->getTraceAsString()), '<span style="color: #900;">'.$e->getMessage().'</span><br />' . get_class($e) . ' in ' . str_replace(getcwd(), '', $e->getFile()) . ' (' . $e->getLine() . ')' . '</span>', false, false);
+	}
+}
 
 ?>

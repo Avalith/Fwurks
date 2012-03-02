@@ -3,28 +3,6 @@
 class RouterException		extends Exception			{}
 class RouterRouteException	extends RouterException		{}
 
-class RouterRoute
-{
-	public $key;
-	public $path;
-	
-	public $controller;
-	public $action;
-	public $params;
-	
-	public function __construct($key, $path, $params)
-	{
-		$this->key 		= $key;
-		$this->path		= $path;
-		$this->params	= $params;
-	}
-	
-	public function __toString()
-	{
-		
-	}
-}
-
 class RouterRequest
 {
 	public $route;
@@ -44,66 +22,85 @@ class RouterRequest
 	}
 }
 
+
 final class Router
 {
 	public static $atom_all = array();
 	public static $atom_current;
+	
+	public static $locale_all = array();
+	public static $locale_current;
+	public static $locale_single;
 	
 	public static $routes;
 	
 	
 	public static function start()
 	{
+		$url = strtolower($_GET['route']);
+		unset($_GET['route']);
+		
+		$url = preg_split('#/+#', $url, null, PREG_SPLIT_NO_EMPTY);
+		
 		foreach(glob(Paths_Config::$app_atoms . '*', GLOB_ONLYDIR) as $dir)
 		{
 			$dir = explode('/', $dir);
 			self::$atom_all[] = array_pop($dir);
 		}
 		
-		$url = strtolower($_GET['route']);
-		unset($_GET['route']);
-		
-		$url = preg_split('#/+#', $url, null, PREG_SPLIT_NO_EMPTY);
-		
 		self::$atom_current = isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
 		Paths_Config::set_atom(self::$atom_current);
 		
+		
+		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir)
+		{
+			$dir = explode('/', $dir);
+			self::$locale_all[] = array_pop($dir);
+		}
+		
+		self::$locale_single = count(self::$locale_all) == 1;
+		self::$locale_current = isset($url[0]) && in_array($url[0], self::$locale_all) ? array_shift($url) : Application_Config::$locale_default;
+		
+		
 		require_once Paths_Config::$atom_configs . 'Atom.config.php';
 		require_once Paths_Config::$atom_configs . 'Routes.config.php';
-		self::$routes = get_class_vars('Routes_Config');
 		
-		// TODO get locale not a language
+		self::$routes = get_class_vars('Routes_Config');
+		foreach(self::$routes as $key => &$r){ $r = new RouterRoute($key); }
+		
 		
 		$get	= $_GET;
 		$post	= $_POST;
 		unset($_GET, $_POST);
 		
+//		de(self::find(implode('/', $url)), self::find(implode('/', $url)) . '');
+		$r = route('default', array('controller' => 'map', 'id' => 'test', 'atom' => 'my-atom'));
+//		d($r, "$r");
+		
+		$r = route('custom', array('controller' => 'map', 'id' => 'test', 'atom' => 'my-atom', 'action' => 'act', 'ddd' => '1111-222'));
+		de($r, "$r");
+		
+		
 		echo self::request(self::find(implode('/', $url)), $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
 	
-	public static function request($route, $get = array(), $post = array(), $is_ajax = false, $response_type = 'html')
+	public static function request(RouterRoute $route, $get = array(), $post = array(), $is_ajax = false, $response_type = 'html')
 	{
-		$controller	= $route->controller	= $route->params['controller'];
-		$action		= $route->action		= 'action__' . $route->params['action'];
-		unset($route->params['controller'], $route->params['action']);
-		
 		$get = array_merge($get, $route->params);
 		
-		$controller_classname = Inflector::classify($controller) . '_Controller';
-		
-		// If controller class or file exists load
-		if(class_exists($controller_classname, false) || file_exists($class = Paths_Config::$atom_controllers . $controller . '.controller.php'))
+		$controller_classname = Inflector::classify($route->controller) . '_Controller';
+		if(class_exists($controller_classname, false) || file_exists($class = Paths_Config::$atom_controllers . $route->controller . '.controller.php'))
 		{
 			if($class){ require_once $class; }
 			
-			$object = new $controller_classname(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+			return BaseController::run($controller_classname, new RouterRequest($route, $get, $post, $is_ajax, $response_type));
 		}
 		else
 		{
 			throw new RouterException('Missing controller: ' . $controller_classname);
 		}
 		
-		return $object->__executeController();
+		return null;
 	}
 	
 	
@@ -111,99 +108,166 @@ final class Router
 	{
 		$url = '/' . $url;
 		
-		foreach(self::$routes as $route => $r)
-		{
-			$r['regexp'] = self::build($r[0]);
-			if(preg_match("#{$r['regexp']}#ui", $url, $url_parts)){ break; }
-		}
+		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", $url, $url_parts)){ break; } }
+		foreach($url_parts as $i => $u){ if(is_numeric($i)){ unset($url_parts[$i]); } }
 		
-		if($r[1])
-		{
-			foreach($r[1] as $k => $part)
-			{
-				if(preg_match('#\$([\w\d_]+)#ui', $part, $key)){ $url_parts[$k] = strtr($part, array($key[0] => $url_parts[$key[1]])); }
-			}
-		}
-		else { $r[1] = array(); }
-		
-		foreach($url_parts as $k => $p){ if(is_string($k)){ $r[1][$k] = $p; } }
-		
-		return new RouterRoute($route, trim($r[0], '/'), $r[1]);
-	}
-	
-	private static function build($path)
-	{
-		$path = explode('/', trim($path, '/'));
-		
-		if($path)
-		{
-			$regexp = array();
-			
-			foreach($path as $p)
-			{
-				if(preg_match('#^:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
-				{
-					$r = "/(?P<{$var['name']}>" . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
-					$regexp[] = $var['opt'] ? "(?:$r)?" : $r;
-				}
-				else if($p == '*')
-				{
-					$regexp[] = '/(?P<__wildcard__>[/\w\d_-]+)';
-				}
-				else
-				{
-					$regexp[] = '/' . $p;
-				}
-			}
-			
-			$regexp = '^' . implode('', $regexp) . '$';
-		}
-		
-		return $regexp;
-	}
-	
-	public static function route($route_name, $params = array(), $add = null, $atom = null)
-	{
-		$route = self::$routes[$route_name];
-		if(!$route){ throw new RouterRouteException('Missing route: ' . $route_name); }
-		
-		$url_parts = explode('/', trim($route[0], '/'));
-		foreach($url_parts as $i => &$u)
-		{
-			if($u{0} == ':')
-			{
-				$key = ltrim(substr($u, 1), '?');
-				if(!($val = $params[$key]))
-				{
-					if($u{1} == '?')
-					{
-						unset($url_parts[$i]);
-					}
-					else
-					{
-						throw new RouterRouteException('Missing required route variable: ' . $key);
-					}
-				}
-				else
-				{
-					$u = $val;
-				}
-			}
-		}
-		
-		$atom = $atom ?: self::$atom_current;
-		if($atom != Application_Config::$atom_default){ array_unshift($url_parts, $atom); }
-		
-		$url_parts[] = '';
-		
-		// TODO locale
-		
-		return Paths_Config::$base . implode('/', $url_parts);
+		return $route->url($url_parts);
 	}
 	
 	private function __construct(){}
 	
 }
+
+class RouterRoute
+{
+	public $key;
+	public $path;
+	public $regexp;
+	
+	public $atom;
+	public $locale;
+	public $controller;
+	public $action;
+	public $params;
+	
+	
+	private $parts		= array();
+	
+	public function __construct($key)
+	{
+		$route = Router::$routes[$key];
+		if(!$route){ throw new RouterRouteException('Missing route: ' . $key); }
+		
+		$this->key 			= $key;
+		$this->path			= trim($route[0], '/');
+		$this->params		= $route[1];
+		
+		$path				= explode('/', trim($this->path, '/'));
+		$regexp				= array();
+		foreach($path as $p)
+		{
+			if(preg_match('#^:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
+			{
+				$part = array('name' => $var['name'], 'regexp' => $var['regexp'], 'default' => $this->params[$var['name']]);
+				$r = "/(?P<{$var['name']}>" . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
+				
+				if($var['opt'])
+				{
+					$part['optional'] = True;
+					$r = "(?:$r)?";
+				}
+				
+				$regexp[] = $r;
+				
+				if($part['default'] && preg_match_all('#\{([\w\d_]+)\}#', $part['default'], $matches))
+				{
+					$part['vars'] = $matches[1];
+					unset($this->params[$var['name']]);
+				}
+				
+				$this->parts[$var['name']] = $part;
+			}
+			else if($p == '*')
+			{
+				de('TODO WILDCART ROUTE');
+				$regexp[] = '/(?P<__wildcard__>[/\w\d_-]+)';
+			}
+			else
+			{
+				$this->parts[] = array('raw' => $p);
+				$regexp[] = '/' . $p;
+			}
+		}
+		
+		$this->regexp = '^' . implode('', $regexp) . '$';
+	}
+	
+	public function url($params, $add = null)
+	{
+		$route = clone $this;
+		$route->params = array_merge($route->params, $params);
+		
+		$route->atom	= $route->params['atom']	?: Router::$atom_current; 
+		$route->locale	= $route->params['locale']	?: Router::$locale_current; 
+		unset($route->params['atom'], $route->params['locale']);
+		
+		$route_variables = array('controller', 'action');
+		
+		
+		foreach($route->parts as &$p)
+		{
+			if($p['raw']){ $p['value'] = $p['raw']; }
+			else
+			{
+				if($p['vars'])
+				{
+					$search		= array();
+					$replace	= array();
+					foreach($p['vars'] as $v)
+					{
+						if($route->params[$v])
+						{
+							$search[] = "{{$v}}"; $replace[] = $route->params[$v];
+						}
+						else
+						{
+							throw new RouterRouteException('Missing route variable: {' . $v . '} for ' . $p['name'] . ' - ' . $p['default']);
+						}
+					}
+					
+					$p['value']		= str_replace($search, $replace, $p['default']); 
+					$p['value_url']	= $route->params[$p['name']];
+				}
+				else
+				{
+					$p['value'] = $route->params[$p['name']] ?: $p['default'];
+				}
+				
+				if(!$p['optional'] && !$p['value']){ throw new RouterRouteException('Missing route part: ' . $p['name']); }
+			}
+			
+			if(in_array($p['name'], $route_variables)){ $route->{$p['name']} = $p['value']; }
+			
+		}
+		
+		foreach($route->parts as $_p)
+		{
+			// unset($route->params[$p['name']]);
+		}
+		
+		return $route;
+	}
+	
+	public function change($part, $value)
+	{
+		d('TODO ROUTE CHANGE');
+		
+		$this->parts[$part] && $this->parts[$part]['value'] = $value;
+		return $this;
+	}
+	
+	public function __toString()
+	{
+		$url = array();
+		
+		$this->atom		!= Application_Config::$atom_default	&& $url[] = $this->atom;
+		$this->locale	!= Application_Config::$locale_default	&& $url[] = $this->locale;
+		
+		foreach($this->parts as $p)
+		{
+			if(!$p['optional'] && $p['value'] || $p['optional'] && $p['value'] != $p['default'])
+			{
+				$url[] = $p['vars'] ? $p['value_url'] : $p['value'];
+			}
+		}
+		
+		return Paths_Config::$base . implode('/', $url);
+	}
+}
+
+
+
+
 
 /**
  * Redirects to a page or link
@@ -230,9 +294,9 @@ function redirect($url = null)
  * @param string $add additional url
  * @return stirng
  */
-function route($route_name = null, $params = array(), $add = null)
+function route($route = null, $params = array(), $add = null)
 {
-	return Router::route($route_name, $params, $add);
+	return Router::$routes[$route]->url($params, $add);
 }
 
 ?>

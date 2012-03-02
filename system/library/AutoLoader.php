@@ -4,7 +4,9 @@ class AutoLoader
 {
 	protected static $library = array
 	(
-		'ClassName'			=> '/subpath/',
+//		'ClassName'			=> '/subpath/',
+		'Template'			=> '/template/',
+		
 	);
 	
 	public static function load($class_name)
@@ -23,7 +25,7 @@ class AutoLoader
 		}
 		else
 		{
-			file_exists($class_file = Paths_Config::$app_library . $class_name . '.php') || file_exists($class_file = Paths_Config::$app_models . Inflector::to_file($class_name) . '.model.php') || $class_file = null;
+			file_exists($class_file = Paths_Config::$atom_library . $class_name . '.php') || file_exists($class_file = Paths_Config::$app_models . Inflector::to_file($class_name) . '.model.php') || $class_file = null;
 		}
 		
 		if($class_file){ require_once $class_file; }

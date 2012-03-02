@@ -47,7 +47,7 @@ function d($var = null, $label = null, $return = false, $backtrace = false)
 	$type = gettype($var);
 	$regexps = array
 	(
-		'/\[([\w\d\?]*)(?>:(protected|private))\] =>/u' => '[<strong style="color: #069;">\\1</strong> : <span style="color: #666;">\\2</span>] =>',
+		'/\[([\w\d\?]*)(:[\w\d\?]+)?(?>:(protected|private))\] =>/u' => '[<strong style="color: #069;">\\1</strong> <span style="color: #666;">\\3</span>\\2] =>',
 		'/\[([\w\d\?]*)] =>/u' => '[<strong style="color: #069;">\\1</strong>] =>',
 	);
 	$dump = preg_replace(array_keys($regexps), array_values($regexps), print_r($var, true));
@@ -86,10 +86,10 @@ function d($var = null, $label = null, $return = false, $backtrace = false)
  */
 function de($var = null, $label = null, $backtrace = true){ d($var, $label, false, $backtrace); exit; }
 
-function df($var, $file = 'log')
-{
-	file_put_contents(SystemConfig::$filesPath.'temp/'.$file.'.log', print_r($var, 1)."\n\n");
-	chmod(SystemConfig::$filesPath.'temp/'.$file.'.log', 0777);
-}
+//function df($var, $file = 'log')
+//{
+//	file_put_contents(SystemConfig::$filesPath.'temp/'.$file.'.log', print_r($var, 1)."\n\n");
+//	chmod(SystemConfig::$filesPath.'temp/'.$file.'.log', 0777);
+//}
 
 ?>

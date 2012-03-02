@@ -26,33 +26,36 @@ final class Paths_Config
 	public static $atom_configs			= 'configs';
 	public static $atom_controllers		= 'controllers';
 	public static $atom_library			= 'locales';
-	public static $atom_views			= 'models';
+	public static $atom_views			= 'views';
+	public static $atom_temp			= 'temp';
 	
 	
 	public static function load()
 	{
-		self::$root	 				= getcwd() . '/';
+		self::$root			= getcwd() . '/';
 		
-		self::$system	 			= self::$root . Dispatcher::$folder_system . '/';
+		self::$system		= self::$root			. Dispatcher::$folder_system		. '/';
+		self::$resources	= self::$root			. Dispatcher::$folder_resources		. '/';
 		
-		self::$configs				= self::$system . Dispatcher::$folder_configs . '/';
-		self::$library				= self::$system . Dispatcher::$folder_library . '/';
-		self::$application			= self::$system . Dispatcher::$folder_application . '/';
+		self::$configs		= self::$system			. Dispatcher::$folder_configs		. '/';
+		self::$library		= self::$system			. Dispatcher::$folder_library		. '/';
+		self::$application	= self::$system			. Dispatcher::$folder_application	. '/';
 		
-		self::$app_atoms			= self::$application . self::$app_atoms . '/';
-		self::$app_configs			= self::$application . self::$app_configs . '/';
-		self::$app_locales			= self::$application . self::$app_locales . '/';
-		self::$app_models			= self::$application . self::$app_models . '/';
+		self::$app_atoms	= self::$application	. self::$app_atoms					. '/';
+		self::$app_configs	= self::$application	. self::$app_configs				. '/';
+		self::$app_locales	= self::$application	. self::$app_locales				. '/';
+		self::$app_models	= self::$application	. self::$app_models					. '/';
 		
-		self::$resources	 		= self::$root . Dispatcher::$folder_resources . '/';
 	}
 	
 	public static function set_atom($atom)
 	{
-		self::$atom_configs			= self::$app_atoms . $atom . '/' . self::$atom_configs . '/';
-		self::$atom_controllers		= self::$app_atoms . $atom . '/' . self::$atom_controllers . '/';
-		self::$atom_library			= self::$app_atoms . $atom . '/' . self::$atom_library . '/';
-		self::$atom_views			= self::$app_atoms . $atom . '/' . self::$atom_views . '/';
+		$atom = self::$app_atoms . $atom . '/';
+		self::$atom_configs			= $atom . self::$atom_configs		. '/';
+		self::$atom_controllers		= $atom . self::$atom_controllers	. '/';
+		self::$atom_library			= $atom . self::$atom_library		. '/';
+		self::$atom_views			= $atom . self::$atom_views			. '/';
+		self::$atom_temp			= $atom . self::$atom_temp			. '/';
 	}
 }
 

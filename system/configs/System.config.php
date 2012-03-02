@@ -2,7 +2,7 @@
 
 final class System_Config
 {
-	const DEVELOPMENT = 1;
+	const PRODUCTION = false;
 	
 	
 	/**
