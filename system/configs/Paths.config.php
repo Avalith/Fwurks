@@ -4,10 +4,7 @@
 // with trailing slash
 final class Paths_Config
 {
-	/**
-	 * @default: '/'
-	 */
-	public static $base = '/fwurks/';
+	public static $base;
 	
 	public static $root;
 	
@@ -32,6 +29,8 @@ final class Paths_Config
 	
 	public static function load()
 	{
+		self::$base			= Dispatcher::$url_base;
+		
 		self::$root			= getcwd() . '/';
 		
 		self::$system		= self::$root			. Dispatcher::$folder_system		. '/';

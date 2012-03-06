@@ -3,6 +3,12 @@
 final class Dispatcher
 {
 	/**
+	 * The base url to the framework
+	 * @default: '/'
+	 */
+	public static $url_base = '/fwurks/';
+	
+	/**
 	 * The name of your system folder
 	 * @default: 'system'
 	 */
