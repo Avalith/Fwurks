@@ -9,7 +9,7 @@ abstract class BaseController implements Controller
 {
 	public $__request;
 	
-	protected $__view = null;
+	protected $__view;
 	
 	private $__before_filters		= array();
 	private $__after_filters		= array();
@@ -45,7 +45,7 @@ abstract class BaseController implements Controller
 	
 	private final function __view()
 	{
-		return $this->__request->route->controller . '/' . ($view === null ? $this->__request->route->action : $this->__view) . '.html';
+		return $this->__request->route->controller . '/' . ($this->__view === null ? $this->__request->route->action : $this->__view) . '.html';
 	}
 }
 
