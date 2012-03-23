@@ -49,10 +49,10 @@ final class Router
 		require_once Paths_Config::$atom_configs . 'Atom.config.php';
 		require_once Paths_Config::$atom_configs . 'Routes.config.php';
 		
-		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
-		self::$locale_current	= isset($url[0]) && in_array($url[0], self::$locale_all) && array_shift($url);
-		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
 		
+		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
+		isset($url[0]) && in_array($url[0], self::$locale_all) && self::$locale_current	= array_shift($url);
+		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
 		
 		self::$routes = get_class_vars('Routes_Config');
 		foreach(self::$routes as $key => &$r){ $r = new RouterRoute($key); }
@@ -176,6 +176,7 @@ class RouterRoute
 		$route->add		= $add;
 		$route->atom	= $route->params['atom']	?: Router::$atom_current; 
 		$route->locale	= $route->params['locale']	?: Router::$locale_current; 
+		
 		unset($route->params['atom'], $route->params['locale']);
 		
 		

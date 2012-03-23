@@ -7,7 +7,7 @@ interface Controller
 
 abstract class BaseController implements Controller
 {
-	protected $__request;
+	public $__request;
 	
 	protected $__view = null;
 	
