@@ -38,6 +38,7 @@ final class Router
 	public static function start()
 	{
 		$url = strtolower($_GET['route']);
+		
 		unset($_GET['route']);
 		
 		$url = preg_split('#/+#', $url, null, PREG_SPLIT_NO_EMPTY);
@@ -63,6 +64,8 @@ final class Router
 		unset($_GET, $_POST);
 		
 		$route = self::find(implode('/', $url));
+		
+		de($route);
 		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; redirect($route); }
 		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
@@ -115,7 +118,6 @@ class RouterRoute
 	public $action;
 	public $params;
 	
-	
 	private $parts		= array();
 	private $add;
 	
@@ -132,10 +134,12 @@ class RouterRoute
 		$regexp				= array();
 		foreach($path as $p)
 		{
-			if(preg_match('#^:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
+			if(preg_match('#^(?P<key>[\w]+)?:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
 			{
 				$part = array('name' => $var['name'], 'regexp' => $var['regexp'], 'default' => $this->params[$var['name']]);
-				$r = "/(?P<{$var['name']}>" . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
+				$r = "/(?P<{$var['name']}>" . ($var['key'] ? "{$var['key']}:" : '') . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
+				
+				$part['has_key'] = !!$var['key'];
 				
 				if($var['opt'])
 				{
@@ -210,6 +214,11 @@ class RouterRoute
 				else
 				{
 					$p['value'] = $route->params[$p['name']] ?: $p['default'];
+					if($p['has_key'])
+					{
+						$p['value'] = explode(':', $p['value']);
+						$p['value'] = $p['value'][1];
+					}
 				}
 				
 				if(!$p['optional'] && !$p['value']){ throw new RouterRouteException('Missing route part: ' . $p['name'] .' of $' . $route->key); }

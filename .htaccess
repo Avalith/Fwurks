@@ -10,7 +10,7 @@ RewriteEngine On
 RewriteBase /fwurks/
 
 
-RewriteRule ^([0-9A-Za-z_\/-]*)$ index.php?route=$1 [L,QSA]
+RewriteRule ^([0-9A-Za-z\/:_-]*)$ index.php?route=$1 [L,QSA]
 
 ErrorDocument 404 /fwurks/index.php?route=/404/
 
