@@ -65,7 +65,6 @@ final class Router
 		
 		$route = self::find(implode('/', $url));
 		
-		de($route);
 		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; redirect($route); }
 		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
