@@ -25,7 +25,7 @@ abstract class BaseController implements Controller
 	public final function __execute()
 	{
 		foreach($this->__before_filters	as $filter){ $this->$filter(); }
-		$content = $this->{'action__' . $this->__request->route->action}();
+		$content = $this->{'action__' . $this->__request->route->action}($this->__request->get);
 		foreach($this->__after_filters	as $filter){ $this->$filter(); }
 		
 		return $content;
