@@ -65,6 +65,10 @@ final class Router
 		
 		$route = self::find(implode('/', $url));
 		
+		$route->locale = Application_Config::$locale_default;
+		
+		d("$route");
+		de($route);
 		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; redirect($route); }
 		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
@@ -173,6 +177,8 @@ class RouterRoute
 	
 	public function url($params, $add = null)
 	{
+		
+		
 		$route = clone $this;
 		$route->params = array_merge($route->params, $params);
 		
@@ -230,11 +236,6 @@ class RouterRoute
 		if(!($route->action		|| $route->action		= $route->params['action']		)){ throw new RouterRouteException('Missing route part: action of $'		. $route->key); }
 		unset($route->params['controller'], $route->params['action']);
 		
-		foreach($route->parts as $_p)
-		{
-			unset($route->params[$_p['name']]);
-		}
-		
 		return $route;
 	}
 	
@@ -251,17 +252,21 @@ class RouterRoute
 		$url = array();
 		
 		$this->atom != Application_Config::$atom_default && $url[] = $this->atom;
-		Router::$locale_force && $url[] = $this->locale;
+		($this->locale || Router::$locale_force) && $url[] = $this->locale;
 		
+		
+		d($this->parts);
 		foreach($this->parts as $p)
 		{
-			if(!$p['optional'] && $p['value'] || $p['optional'] && $p['value'] != $p['default'])
+			if($p['value'])
 			{
 				$url[] = $p['vars'] ? $p['value_url'] : $p['value'];
 			}
 		}
 		
-		$url[] = $this->add;
+		$url[] = null;
+		$this->add && $url[] = $this->add;
+		
 		
 		// TODO: add
 		return Paths_Config::$base . implode('/', $url);
