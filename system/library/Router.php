@@ -1,5 +1,9 @@
 <?php
 
+namespace library;
+use Exception, Paths_Config, Application_Config, Atom_Config;
+
+
 class RouterException		extends Exception			{}
 class RouterRouteException	extends RouterException		{}
 
@@ -67,8 +71,6 @@ final class Router
 		
 		$route->locale = Application_Config::$locale_default;
 		
-		d("$route");
-		de($route);
 		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; redirect($route); }
 		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}

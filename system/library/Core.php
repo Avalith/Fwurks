@@ -2,33 +2,15 @@
 
 require_once getcwd() . '/' . Dispatcher::$folder_system . '/' . Dispatcher::$folder_configs .'/Paths.config.php';
 
-require_once Paths_Config::$configs . 'System.config.php';
+require_once Paths_Config::$configs			. 'System.config.php';
+require_once Paths_Config::$app_configs		. 'Application.config.php';
+require_once Paths_Config::$library			. 'Inflector.php';
+require_once Paths_Config::$library			. 'Router.php';
+require_once Paths_Config::$library			. 'BaseController.php';
+require_once Paths_Config::$library			. 'AutoLoader.php';
+require_once Paths_Config::$app_atoms		. 'ApplicationController.php';
 
-require_once Paths_Config::$app_configs . 'Application.config.php';
-
-require_once Paths_Config::$library . 'Inflector.php';
-require_once Paths_Config::$library . 'Router.php';
-require_once Paths_Config::$library . 'BaseController.php';
-
-require_once Paths_Config::$library . 'AutoLoader.php';
-spl_autoload_register('AutoLoader::load', true, true);
-
-
-
-
-
-//require_once __DIR__.'/types/Type.php';
-//require_once __DIR__.'/types/String.php';
-
-//require_once __DIR__.'/../configs/database.config.php';
-
-//require_once __DIR__.'/Registry.php';
-//require_once __DIR__.'/Localizer.php';
-//require_once __DIR__.'/Template.php';
-//require_once __DIR__.'/BaseController.php';
-//require_once __DIR__.'/database/DataBase.php';
-
-//ini_set('display_errors', SystemConfig::$show_errors);
+spl_autoload_register('library\AutoLoader::load', true, true);
 
 
 // removing notices
@@ -91,5 +73,19 @@ function de($var = null, $label = null, $backtrace = true){ d($var, $label, fals
 //	file_put_contents(SystemConfig::$filesPath.'temp/'.$file.'.log', print_r($var, 1)."\n\n");
 //	chmod(SystemConfig::$filesPath.'temp/'.$file.'.log', 0777);
 //}
+
+
+function bench($text, callable $func, $iterations = 10000)
+{
+	$start = microtime(1);
+	
+	for($i = $iterations; $i; $i--){ $func(); }
+	
+	$time = explode('.', number_format((microtime(1) - $start)/$iterations, 50));
+	$time = implode(' ', str_split($time[0], 3)) . '.' . substr(implode(' ', str_split($time[1], 3)), 0, 15);
+	
+	
+	echo $time, ': ', $text, '<br />'; 
+}
 
 ?>

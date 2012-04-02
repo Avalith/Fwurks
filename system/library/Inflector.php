@@ -1,5 +1,7 @@
 <?php
 
+namespace library;
+
 /**
  * Inflector
  * 

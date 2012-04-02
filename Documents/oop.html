@@ -41,29 +41,13 @@
 
 <h2>Class Methods and Properties</h2>
 
-<p>From outside the scope of a class, its methods are called using the indirection operator &quot;-&gt;&quot; same applies for the properties but without using the dollar sign for the property variable.</p>
+<p>To access a method you use the indirection operator &quot;-&gt;&quot; same applies for the properties but without using the dollar sign for the property variable.</p>
+<p>In order to allow object to call methods or get properties inside the object's scope, PHP defines a special variable called &quot;$this&quot;. It is only defined within an object's scope, and always points to the object itself.</p>
 
 <code><strong>class</strong> MyClass
 {
 	<strong>public</strong> <var>$property</var> = <cite>'MyClass :: property'</cite>;
 
-	<strong>public function</strong> test()
-	{
-		<strong>echo</strong> <cite>'MyClass :: test() called'</cite>;
-	}
-}
-
-<var>$object</var> = <strong>new</strong> MyClass();
-<var>$object</var>-&gt;test(); 		<em>//Output: &quot;MyClass :: test() called&quot;</em>
-<strong>echo</strong> <var>$object</var>-&gt;property; 	<em>//Output: &quot;MyClass :: property&quot;</em>
-</code>
-
-<h3>Withing the Class</h3>
-
-<p>In order to allow object to call methods or get properties inside the object's scope, PHP defines a special variable called &quot;$this&quot;. It is only defined within an object's scope, and always points to the object itself.</p>
-
-<code><strong>class</strong> MyClass
-{
 	<strong>public function</strong> test()
 	{
 		<strong>echo</strong> <cite>'MyClass :: test() called'</cite>;
@@ -76,15 +60,18 @@
 }
 
 <var>$object</var> = <strong>new</strong> MyClass();
+<var>$object</var>-&gt;test(); 		<em>//Output: &quot;MyClass :: test() called&quot;</em>
 <var>$object</var>-&gt;callTest(); 		<em>//Output: &quot;MyClass :: test() called&quot;</em>
+<strong>echo</strong> <var>$object</var>-&gt;property; 	<em>//Output: &quot;MyClass :: property&quot;</em>
 </code>
+
 
 
 <h2>Constructor and Destructor</h2>
 
 <p>The constructor and destructor are special class methods that are called, on object creation and destruction.</p>
-<p>Constructors are useful for initializing an object's properties, or for performing startup procedures, such as, for example, connecting to a database, or opening a remote file. Destructors are useful for performing cleanup procedures&nbsp;- such as disconnecting from a remote resource, or deleting temporary files.</p>
-<p>Constructors and destructors are defined by defining a magic method __construct() or __destruct()</p>
+<p>Constructors are useful for initializing an object's properties, or for performing startup procedures, such as for example, connecting to a database or opening a remote file. Destructors are useful for performing cleanup procedures&nbsp;- such as disconnecting from a remote resource, or deleting temporary files.</p>
+<p>Constructors and destructors are defined by magic method __construct() or __destruct()</p>
 
 <code><strong>class</strong> MyClass
 {
@@ -128,7 +115,7 @@
 <strong>unset</strong>(<var>$a</var>);
 </code>
 
-<p>So what will happen if we have something like this? What is needed to be unset to destruct the object?</p>
+<p>So what will happen if we have something like this? What is needs be unset to destruct the object?</p>
 
 <code><img src="images_oop/reference.png" style="float: left; padding: 15px 15px 15px 0; margin-right: 15px; border-right: 1px solid #ccc;" /><strong>class</strong> MyClass
 {
@@ -150,7 +137,7 @@
 <var>$d</var> = <var>$c</var>;
 </code>
 
-<p>Even if an object still has one or more active references, the __destruct() method is called at the end of script execution&nbsp;- therefore, you are guaranteed that, at some point, your destructor will be executed. However, there is no way to determine the order in which any two objects in your scripts will be destroyed. This can sometimes cause problems when an object depends on another to perform one or more functions&nbsp;- for example, if one of your classes encapsulates a database connection and another class needs that connection to flush its data to the database, you should not rely on your destructors to perform a transparent flush to the database when the object is deleted: the instance of the first class that provides database connectivity could, in fact, be destroyed before the second, thus making it impossible for the latter to save its data to the database.</p>
+<p>Even if an object still has one or more active references, the __destruct() method is called at the end of script execution&nbsp;- therefore, you are guaranteed that, at some point, your destructor will be executed. However, there is no way to determine the order in which any two objects in your scripts will be destroyed. This can sometimes cause problems when an object depends on another to perform one or more functions&nbsp;- for example: if one of your classes encapsulates a database connection and another class needs that connection to flush its data to the database, you should not rely on your destructors to perform a transparent flush to the database when the object is deleted: the instance of the first class that provides database connectivity could, in fact, be destroyed before the second, thus making it impossible for the latter to save its data to the database.</p>
 
 
 
@@ -219,6 +206,107 @@
 </code>
 
 
+<h3>Abstractions</h3>
+
+<p>An abstract class essentially defines the basic skeleton of a specific type of encapsulated entity. Abstract classes cannot be used directly (can not be instantiated), but they must be extended so that the descendant class provides a full complement of methods. You must declare a class as abstract so long as it has (or inherits without providing a body) at least one abstract method.</p>
+
+<code><strong>abstract class</strong> DataStore_Adapter
+{
+	<strong>private</strong> <var>$id</var>;
+
+	<strong>abstract public function</strong> insert();
+	
+	<strong>abstract public function</strong> update();
+	
+	<strong>public function</strong> save()
+	{
+		<strong>if</strong>(!is_null(<var>$this</var>-&gt;id))
+		{
+			<var>$this</var>-&gt;update();
+		}
+		<strong>else</strong>
+		{
+			<var>$this</var>-&gt;insert();
+		}
+	}
+}
+
+<strong>class</strong> PDO_DataStore_Adapter <strong>extends</strong> DataStore_Adapter
+{
+	<strong>public function</strong> __construct(<var>$dsn</var>)
+	{
+		<em>...</em>
+	}
+	<strong>public function</strong> insert()
+	{
+		<em>...</em>
+	}
+	<strong>public function</strong> update()
+	{
+		<em>...</em>
+	}
+}
+</code>
+
+
+
+<h3>Interfaces</h3>
+
+
+<p>Interfaces, on the other hand, are used to specify an API that a class must implement. This allows you to create a common &quote;contract&quote; that your classes must implement in order to satisfy certain logical requirements&nbsp;- for example, you could use interfaces to abstract the concept of database provider into a common API that could then be implemented by a series of classes for different database adapters.</p>
+<p>Additionally, a class can extend another class, as well as implement multiple interfaces at the same time. If you fail to define all of the methods for a particular interface, or all of the arguments for any given interface method, you will see fatal error.</p>
+
+
+<code><strong>interface</strong> DataStore_Adapter 
+{
+	<strong>public function</strong> insert();
+	
+	<strong>public function</strong> update();
+	
+	<strong>public function</strong> save();
+	
+	<strong>public function</strong> newRecord(<var>$name</var> = <strong>null</strong>);
+}
+
+<strong>class</strong> PDO_DataStore_Adapter <strong>extends</strong> PDO <strong>implements</strong> DataStore_Adapter, SeekableIterator
+{
+	<strong>public function</strong> insert()
+	{
+		<em>...</em>
+	}
+	
+	<strong>public function</strong> update()
+	{
+		<em>...</em>
+	}
+	
+	<strong>public function</strong> save()
+	{
+		<em>...</em>
+	}
+	
+	<strong>public function</strong> newRecord(<var>$name</var> = <strong>null</strong>)
+	{
+		<em>...</em>
+	}
+	
+	<em>... SeekableIterator Assets ...</em>
+}
+</code>
+
+<p>In the above example, we need to define the methods for both DataStore_Adapter and SeekableIterator.</p>
+
+<blockquote><strong>Remember:</strong> a class can only extend one parent class, but it can implement multiple interfaces.</blockquote>
+
+
+
+
+<h3>Traits</h3>
+
+
+
+
+
 
 
 <h2>Visibility</h2>
@@ -232,12 +320,12 @@
 
 
 
-<h2>Final</h2>
+<h3>Final</h3>
 <p>Final is a special modifier to prevent the method to be overridden by child classes. If the whole class is defined as final it cannot be extended.</p>
 
 
 
-<h2>Static Methods and Properties</h2>
+<h3>Static Methods and Properties</h3>
 
 <p>Unlike regular methods and properties, their static counterparts exist and are accessible as part of the class itself, as opposed to existing only within the scope of one of its instances. This allows you to treat classes as true containers of interrelated functions and data elements. You can call any static method/property using the class name and the scope resolution operator &quot;::&quot;.</p>
 
@@ -314,14 +402,12 @@ MyClassB::test();
 	}
 }
 
-MyClassB::test();
+MyClassB::test(); 	<em>//Output: &quot;MyClassB&quot;</em>
 </code>
-<p>The above example will output: &quot;<strong>MyClassB</strong>&quot;</p>
 
 
 
-
-<h2>Constants</h2>
+<h3>Constants</h3>
 
 <p>Class constants work in the same way as regular constants, except they are scoped within a class. They are called the same way as static properties. Class constants are public, and accessible from all scopes and can NOT be final, this means they can always be overridden so you have to be careful not to use the same name for different constants in parent and child classes.</p>
 
@@ -335,113 +421,6 @@ MyClassB::test();
 
 
 
-<h2>Abstractions and Interfaces</h2>
-
-<p>Both are used to create a series of constraints on the base design of a group of classes. 
-
-
-<h3>Abstract Classes</h3>
-
-<p>An abstract class essentially defines the basic skeleton of a specific type of encapsulated entity. Abstract classes cannot be used directly, but they must be extended so that the descendant class provides a full complement of methods. You must declare a class as abstract so long as it has (or inherits without providing a body) at least one abstract method.</p>
-
-<code><strong>abstract class</strong> DataStore_Adapter
-{
-	<strong>private</strong> <var>$id</var>;
-
-	<strong>abstract public function</strong> insert();
-	
-	<strong>abstract public function</strong> update();
-	
-	<strong>public function</strong> save()
-	{
-		<strong>if</strong>(!is_null(<var>$this</var>-&gt;id))
-		{
-			<var>$this</var>-&gt;update();
-		}
-		<strong>else</strong>
-		{
-			<var>$this</var>-&gt;insert();
-		}
-	}
-}
-
-<strong>class</strong> PDO_DataStore_Adapter <strong>extends</strong> DataStore_Adapter
-{
-	<strong>public function</strong> __construct(<var>$dsn</var>)
-	{
-		<em>...</em>
-	}
-	<strong>public function</strong> insert()
-	{
-		<em>...</em>
-	}
-	<strong>public function</strong> update()
-	{
-		<em>...</em>
-	}
-}
-</code>
-
-
-
-<h3>Interfaces</h3>
-
-
-<p>Interfaces, on the other hand, are used to specify an API that a class must implement. This allows you to create a common &quote;contract&quote; that your classes must implement in order to satisfy certain logical requirements&nbsp;- for example, you could use interfaces to abstract the concept of database provider into a common API that could then be implemented by a series of classes for different database adapters.</p>
-
-<code><strong>interface</strong> DataStore_Adapter 
-{
-	<strong>public function</strong> insert();
-	
-	<strong>public function</strong> update();
-	
-	<strong>public function</strong> save();
-	
-	<strong>public function</strong> newRecord(<var>$name</var> = <strong>null</strong>);
-}
-
-<strong>class</strong> PDO_DataStore_Adapter <strong>implements</strong> DataStore_Adapter
-{
-	<strong>public function</strong> insert()
-	{
-		<em>...</em>
-	}
-	
-	<strong>public function</strong> update()
-	{
-		<em>...</em>
-	}
-	
-	<strong>public function</strong> save()
-	{
-		<em>...</em>
-	}
-	
-	<strong>public function</strong> newRecord(<var>$name</var> = <strong>null</strong>)
-	{
-		<em>...</em>
-	}
-}
-</code>
-
-<p>If you fail to define all of the methods for a particular interface, or all of the arguments for any given interface method, you will see fatal error.</p>
-
-<p>It is also possible to implement more than one interface in the same class.</p>
-
-<code><strong>class</strong> PDO_DataStore_Adapter <strong>implements</strong> DataStore_Adapter, SeekableIterator
-{
-	<em>...</em>
-}
-</code>
-<p>In the above example, we need to define the methods for both DataStore_Adapter and SeekableIterator.</p>
-<p>Additionally, a class can extend another class, as well as implement multiple interfaces at the same time.</p>
-<p><strong>Remember</strong>&nbsp;- a class can only extend one parent class, but it can implement multiple interfaces.</p>
-
-<code><strong>class</strong> PDO_DataStore_Adapter <strong>extends</strong> PDO <strong>implements</strong> DataStore_Adapter, SeekableIterator
-{
-	<em>...</em>
-}
-</code>
 
 
 <h2>Determining an Object's Class</h2>
@@ -453,6 +432,11 @@ MyClassB::test();
 	<strong>echo</strong> <cite>'$obj is an instance of MyClass'</cite>;
 }
 </code>
+
+special function 
+get_called_class
+get_object_class
+
 
 
 
@@ -664,6 +648,8 @@ new MyClass();
 <var>$class</var> = <strong>new</strong> TestClass();
 <strong>echo</strong> <var>$class</var>();
 </code>
+
+<h3>__set_state()</h3>
 
 
 </body>

@@ -1,5 +1,7 @@
 <?php
 
+namespace library;
+
 interface Controller
 {
 	public function __construct(RouterRequest $request);
@@ -40,7 +42,7 @@ abstract class BaseController implements Controller
 	
 	public		final function __render			($data, $obj_vars)	{ return $this->{'__render_' . $this->__request->response_type}($data, $obj_vars); }
 	private		final function __render_		($data, $obj_vars)	{ return $data; }
-	private		final function __render_html	($data, $obj_vars)	{ return (new Template())->assign($obj_vars)->assign($data)->fetch($this->__view()); }
+	private		final function __render_html	($data, $obj_vars)	{ return (new template\Template())->assign($obj_vars)->assign($data)->fetch($this->__view()); }
 	private		final function __render_json	($data, $obj_vars)	{ return json_encode($data); }
 	
 	private final function __view()

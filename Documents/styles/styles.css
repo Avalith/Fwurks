@@ -10,7 +10,8 @@ h4 { padding: 15px 0 5px; 	font-size: 13px; }
 h5 { padding: 10px 0 5px; 	font-size: 12px; }
 h6 { padding: 10px 0 5px; 	font-size: 11px; }
 
-p  { margin: 5px 0 15px; text-align: justify; }
+p, blockquote  { margin: 5px 0 15px; text-align: justify; }
+blockquote { padding: 10px 20px; background: #FFC; border: 1px dotted #666; }
 
 a { outline: none; }
 

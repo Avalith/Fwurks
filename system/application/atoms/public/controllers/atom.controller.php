@@ -6,7 +6,7 @@ class Atom_Controller extends Application_Controller
 	public $__javascripts			= array();
 	public $__styles				= array();
 	
-	public function __construct(RouterRequest $request)
+	public function __construct(library\RouterRequest $request)
 	{
 		$this->__style('common');
 		$this->__javascript('jquery', 'interface');

@@ -40,7 +40,7 @@ final class Dispatcher
 	
 	public static function load()
 	{
-		Router::start();
+		library\Router::start();
 	}
 }
 
