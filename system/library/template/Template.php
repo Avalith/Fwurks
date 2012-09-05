@@ -4,7 +4,7 @@ namespace library\template;
 
 require_once __DIR__.'/smarty/Smarty.class.php';
 
-use Smarty, Paths_Config;
+use Smarty, Paths_Config, Template_Config;
 
 final class Template extends Smarty
 {
@@ -14,11 +14,13 @@ final class Template extends Smarty
 		
 		$this->auto_literal = true;
 		
-//		$this->force_compile = System_Config::SMARTY_FORCE_COMPILE;
-//		$this->compile_check = System_Config::SMARTY_COMPILE_CHECK;
+		$this->template_dir		= Paths_Config::$atom_views;
+		$this->compile_dir		= Paths_Config::$atom_temp . 'tpl_compile/';
 		
-		$this->template_dir 	= Paths_Config::$atom_views;
-		$this->compile_dir 		= Paths_Config::$atom_temp . 'tpl_compile/';
+		$this->force_compile	= Template_Config::SMARTY_FORCE_COMPILE;
+		$this->compile_check	= Template_Config::SMARTY_COMPILE_CHECK;
+		$this->compile_check	= Template_Config::SMARTY_COMPILE_CHECK;
+		// $this->caching_type		= 'memcache';
 		
 		$this->addPluginsDir('./customs/');
 	}

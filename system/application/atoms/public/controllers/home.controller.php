@@ -7,6 +7,7 @@ class Home_Controller extends Atom_Controller
 		//$q = new Query();
 		
 		$model = new Book();
+		de(Book::all());
 		
 		// de($q);
 		

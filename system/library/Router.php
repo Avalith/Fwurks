@@ -51,8 +51,8 @@ final class Router
 		self::$atom_current		= isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
 		Paths_Config::set_atom(self::$atom_current);
 		
-		require_once Paths_Config::$atom_configs . 'Atom.config.php';
-		require_once Paths_Config::$atom_configs . 'Routes.config.php';
+		require_once Paths_Config::$atom_configs . 'atom.config.php';
+		require_once Paths_Config::$atom_configs . 'routes.config.php';
 		
 		
 		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
