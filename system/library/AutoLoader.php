@@ -9,7 +9,7 @@ class AutoLoader
 	{
 		if(substr($class_name, 0, 8) == 'library\\')
 		{
-			$class_file = Paths_Config::$library . str_replace('\\', '/', substr($class_name, 8)) . '.php';
+			$class_file = Paths_Config::$library . str_replace('\\', DIRECTORY_SEPARATOR, substr($class_name, 8)) . '.php';
 		}
 		else if(substr($class_name, -11) == '_Controller')
 		{
@@ -31,7 +31,7 @@ class AutoLoader
 			||	$class_file = null;
 		}
 		
-		if($class_file){ require_once $class_file; }
+		if(file_exists($class_file)){ require $class_file; }
 	}
 }
 

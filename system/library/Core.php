@@ -1,17 +1,27 @@
 <?php
 
-require_once getcwd() . '/' . Dispatcher::$folder_system . '/' . Dispatcher::$folder_configs .'/Paths.config.php';
+require getcwd() . '/' . Dispatcher::$folder_system . DIRECTORY_SEPARATOR . Dispatcher::$folder_configs . DIRECTORY_SEPARATOR .'Paths.config.php';
 
-require_once Paths_Config::$configs			. 'System.config.php';
-require_once Paths_Config::$app_configs		. 'Application.config.php';
-require_once Paths_Config::$library			. 'Inflector.php';
-require_once Paths_Config::$library			. 'Router.php';
-require_once Paths_Config::$library			. 'BaseController.php';
-require_once Paths_Config::$library			. 'AutoLoader.php';
-require_once Paths_Config::$app_atoms		. 'ApplicationController.php';
+require Paths_Config::$configs		. 'System.config.php';
+require Paths_Config::$app_configs	. 'application.config.php';
+require Paths_Config::$library		. 'Inflector.php';
+require Paths_Config::$library		. 'Router.php';
+require Paths_Config::$library		. 'BaseController.php';
+require Paths_Config::$library		. 'AutoLoader.php';
+require Paths_Config::$app_atoms	. 'ApplicationController.php';
 
 spl_autoload_register('library\AutoLoader::load', true, true);
 
+
+print_r(get_class_vars(Database_Config));
+
+require Paths_Config::$library . 'database' . DIRECTORY_SEPARATOR . 'ActiveRecord' . DIRECTORY_SEPARATOR . 'ActiveRecord.php';
+ActiveRecord\Config::initialize(function($config)
+{
+//	$cfg->set_model_directory('/path/to/your/model_directory');
+	$config->set_connections(Database_Config::$connections);
+	$config->set_default_connection(Database_Config::$default_connection);
+});
 
 // removing notices
 isset($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] = '/';

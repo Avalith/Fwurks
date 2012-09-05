@@ -1,6 +1,6 @@
 <?php
 
-abstract class ApplicationModel extends library\database\Model
+abstract class ApplicationModel extends ActiveRecord\Model
 {
 	
 }

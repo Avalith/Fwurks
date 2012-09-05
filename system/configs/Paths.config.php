@@ -31,30 +31,30 @@ final class Paths_Config
 	{
 		self::$base			= Dispatcher::$url_base;
 		
-		self::$root			= getcwd() . '/';
+		self::$root			= getcwd() . DIRECTORY_SEPARATOR;
 		
-		self::$system		= self::$root			. Dispatcher::$folder_system		. '/';
-		self::$resources	= self::$root			. Dispatcher::$folder_resources		. '/';
+		self::$system		= self::$root			. Dispatcher::$folder_system		. DIRECTORY_SEPARATOR;
+		self::$resources	= self::$root			. Dispatcher::$folder_resources		. DIRECTORY_SEPARATOR;
 		
-		self::$configs		= self::$system			. Dispatcher::$folder_configs		. '/';
-		self::$library		= self::$system			. Dispatcher::$folder_library		. '/';
-		self::$application	= self::$system			. Dispatcher::$folder_application	. '/';
+		self::$configs		= self::$system			. Dispatcher::$folder_configs		. DIRECTORY_SEPARATOR;
+		self::$library		= self::$system			. Dispatcher::$folder_library		. DIRECTORY_SEPARATOR;
+		self::$application	= self::$system			. Dispatcher::$folder_application	. DIRECTORY_SEPARATOR;
 		
-		self::$app_atoms	= self::$application	. self::$app_atoms					. '/';
-		self::$app_configs	= self::$application	. self::$app_configs				. '/';
-		self::$app_locales	= self::$application	. self::$app_locales				. '/';
-		self::$app_models	= self::$application	. self::$app_models					. '/';
+		self::$app_atoms	= self::$application	. self::$app_atoms					. DIRECTORY_SEPARATOR;
+		self::$app_configs	= self::$application	. self::$app_configs				. DIRECTORY_SEPARATOR;
+		self::$app_locales	= self::$application	. self::$app_locales				. DIRECTORY_SEPARATOR;
+		self::$app_models	= self::$application	. self::$app_models					. DIRECTORY_SEPARATOR;
 		
 	}
 	
 	public static function set_atom($atom)
 	{
-		$atom = self::$app_atoms . $atom . '/';
-		self::$atom_configs			= $atom . self::$atom_configs		. '/';
-		self::$atom_controllers		= $atom . self::$atom_controllers	. '/';
-		self::$atom_library			= $atom . self::$atom_library		. '/';
-		self::$atom_views			= $atom . self::$atom_views			. '/';
-		self::$atom_temp			= $atom . self::$atom_temp			. '/';
+		$atom = self::$app_atoms . $atom . DIRECTORY_SEPARATOR;
+		self::$atom_configs			= $atom . self::$atom_configs		. DIRECTORY_SEPARATOR;
+		self::$atom_controllers		= $atom . self::$atom_controllers	. DIRECTORY_SEPARATOR;
+		self::$atom_library			= $atom . self::$atom_library		. DIRECTORY_SEPARATOR;
+		self::$atom_views			= $atom . self::$atom_views			. DIRECTORY_SEPARATOR;
+		self::$atom_temp			= $atom . self::$atom_temp			. DIRECTORY_SEPARATOR;
 	}
 }
 
