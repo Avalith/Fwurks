@@ -1,6 +1,8 @@
 <?php
 
-require getcwd() . '/' . Dispatcher::$folder_system . DIRECTORY_SEPARATOR . Dispatcher::$folder_configs . DIRECTORY_SEPARATOR .'Paths.config.php';
+define('DS', DIRECTORY_SEPARATOR);
+
+require getcwd() . DS . Dispatcher::$folder_system . DS . Dispatcher::$folder_configs . DS .'Paths.config.php';
 
 require Paths_Config::$configs		. 'System.config.php';
 require Paths_Config::$library		. 'Inflector.php';
@@ -13,14 +15,10 @@ require Paths_Config::$app_configs	. 'application.config.php';
 
 spl_autoload_register('library\AutoLoader::load', true, true);
 
-
-require Paths_Config::$library . 'database' . DIRECTORY_SEPARATOR . 'ActiveRecord' . DIRECTORY_SEPARATOR . 'ActiveRecord.php';
-ActiveRecord\Config::initialize(function($config)
+foreach(Database_Config::$connections as $connection => $options)
 {
-//	$cfg->set_model_directory('/path/to/your/model_directory');
-	$config->set_connections(Database_Config::$connections);
-	$config->set_default_connection(Database_Config::$default_connection);
-});
+	Database_Config::{'connect_' . $connection}($options);
+}
 
 
 /**

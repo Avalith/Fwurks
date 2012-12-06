@@ -7,6 +7,9 @@ interface Controller
 	public function __construct(RouterRequest $request);
 }
 
+class ControllerException extends \Exception {};
+class ControllerActionNotFoundException extends ControllerException {};
+
 abstract class BaseController implements Controller
 {
 	public $__request;
@@ -26,8 +29,16 @@ abstract class BaseController implements Controller
 	
 	public final function __execute()
 	{
+		$action_name = 'action__' . $this->__request->route->action;
+		if(!method_exists($this, $action_name))
+		{
+			throw new ControllerActionNotFoundException("Missing action '{$this->__request->route->action}' in controller '{$this->__request->route->controller}'");
+		}
+		
 		foreach($this->__before_filters	as $filter){ $this->$filter(); }
-		$content = $this->{'action__' . $this->__request->route->action}($this->__request->get);
+		
+		$content = $this->$action_name($this->__request->get);
+		
 		foreach($this->__after_filters	as $filter){ $this->$filter(); }
 		
 		return $content;

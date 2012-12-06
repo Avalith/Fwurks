@@ -1,6 +1,6 @@
 <?php
 
-final class Dispatcher
+class Dispatcher
 {
 	/**
 	 * The base url to the framework
@@ -43,7 +43,6 @@ final class Dispatcher
 		library\Router::start();
 	}
 }
-
 
 require_once Dispatcher::$folder_system . '/' . Dispatcher::$folder_library . '/Core.php';
 

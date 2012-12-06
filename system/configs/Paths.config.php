@@ -22,6 +22,7 @@ final class Paths_Config
 	
 	public static $atom_configs			= 'configs';
 	public static $atom_controllers		= 'controllers';
+	public static $atom_models			= 'models';
 	public static $atom_library			= 'locales';
 	public static $atom_views			= 'views';
 	public static $atom_temp			= 'temp';
@@ -52,6 +53,7 @@ final class Paths_Config
 		$atom = self::$app_atoms . $atom . DIRECTORY_SEPARATOR;
 		self::$atom_configs			= $atom . self::$atom_configs		. DIRECTORY_SEPARATOR;
 		self::$atom_controllers		= $atom . self::$atom_controllers	. DIRECTORY_SEPARATOR;
+		self::$atom_models			= $atom . self::$atom_models		. DIRECTORY_SEPARATOR;
 		self::$atom_library			= $atom . self::$atom_library		. DIRECTORY_SEPARATOR;
 		self::$atom_views			= $atom . self::$atom_views			. DIRECTORY_SEPARATOR;
 		self::$atom_temp			= $atom . self::$atom_temp			. DIRECTORY_SEPARATOR;
