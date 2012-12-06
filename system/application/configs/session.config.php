@@ -10,7 +10,7 @@ final class Session_Config
 	public static $cookie		= array
 	(
 		'lifetime'	=> 0,
-		'path'		=> '/fwurks3/',
+		'path'		=> '/',
 		'domain'	=> null,
 		'secure'	=> null,
 		'httponly'	=> null

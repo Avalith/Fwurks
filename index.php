@@ -6,7 +6,7 @@ class Dispatcher
 	 * The base url to the framework
 	 * @default: '/'
 	 */
-	public static $url_base = '/fwurks/';
+	public static $url_base = '/';
 	
 	/**
 	 * The name of your system folder
