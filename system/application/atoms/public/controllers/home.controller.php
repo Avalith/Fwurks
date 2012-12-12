@@ -4,10 +4,15 @@ class Home_Controller extends Atom_Controller
 {
 	public function action__index()
 	{
-		//$q = new Query();
+		// $session = new library\session\Session();
 		
-		$model = new Book();
-		de(Book::all());
+		// $session::set('a123', 123);
+		// d($session::get('a123'));
+		
+		// $q = new Query();
+		
+		// $model = new Book();
+		// de(Book::all());
 		
 		// de($q);
 		

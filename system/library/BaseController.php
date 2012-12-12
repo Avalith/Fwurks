@@ -58,7 +58,7 @@ abstract class BaseController implements Controller
 	
 	private final function __view()
 	{
-		return $this->__request->route->controller . '/' . ($this->__view === null ? $this->__request->route->action : $this->__view) . '.html';
+		return ($this->__view{0} != '/' ? ($this->__request->route->controller . '/' . ($this->__view === null ? $this->__request->route->action : $this->__view)) : substr($this->__view, 1)) . '.html';
 	}
 }
 

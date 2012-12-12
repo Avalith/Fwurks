@@ -2,10 +2,9 @@
 
 final class Session_Config
 {
-	public static $adapter		= 'Standart';
+	public static $handler		= '';
 	
-	public static $cache_expire	= 30;
-	public static $name			= 'FwurksSession';
+	public static $name			= 'fwsess';
 	
 	public static $cookie		= array
 	(

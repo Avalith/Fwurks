@@ -1,13 +1,15 @@
 <?php
 
+namespace library\security;
+
 class Password
 {
 	public static function hash($pass, $salt)
 	{
-		return crypt($pass, '$2y$10$' . self::generate_salt($salt));
+		return crypt($pass, '$2y$10$' . self::encode_salt($salt));
 	}
 	
-	private static function generate_salt($salt)
+	private static function encode_salt($salt)
 	{
 		$possible = "YPebB9tdMCZFO3XSLoWkVpgm1rKQi7Hnz2Nsq4U5uh08aGDRATycElxIw6jvJf"; // echo str_shuffle($possible); exit;
 		$possible_count = strlen($possible);
