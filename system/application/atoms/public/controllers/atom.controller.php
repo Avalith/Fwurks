@@ -1,6 +1,6 @@
 <?php
 
-class Atom_Controller extends Application_Controller
+abstract class Atom_Controller extends Application_Controller
 {
 	public function __construct(library\RouterRequest $request)
 	{
