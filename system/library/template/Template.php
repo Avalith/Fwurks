@@ -20,6 +20,8 @@ final class Template extends Smarty
 		$this->force_compile	= Template_Config::SMARTY_FORCE_COMPILE;
 		$this->compile_check	= Template_Config::SMARTY_COMPILE_CHECK;
 		$this->compile_check	= Template_Config::SMARTY_COMPILE_CHECK;
+		
+		$this->loadFilter(Smarty::FILTER_VARIABLE, "htmlentities");
 		// $this->caching_type		= 'memcache';
 		
 		$this->addPluginsDir('./customs/');
