@@ -4,7 +4,7 @@ namespace library\template;
 
 require_once __DIR__.'/smarty/Smarty.class.php';
 
-use Smarty, Paths_Config, Template_Config;
+use Smarty, Smarty_Security, Paths_Config, Template_Config;
 
 final class Template extends Smarty
 {
