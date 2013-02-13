@@ -24,7 +24,7 @@ final class Template extends Smarty
 		
 		// $this->caching_type		= 'memcache';
 		
-		$security_policy = new Smarty_Security($smarty);
+		$security_policy = new Smarty_Security($this);
 		$security_policy->static_classes		= Template_Config::$SECURITY_STATIC_CLASSES;
 		$security_policy->php_functions			= Template_Config::$SECURITY_PHP_FUNCTIONS;
 		$security_policy->php_modifiers			= Template_Config::$SECURITY_PHP_MODIFIERS;

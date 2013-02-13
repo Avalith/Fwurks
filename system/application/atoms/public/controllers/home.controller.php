@@ -11,7 +11,7 @@ class Home_Controller extends Atom_Controller
 		echo($listing->render());
 		d($listing);
 		
-		exit();
+		// exit();
 		
 		// $session = new library\session\Session();
 		
