@@ -6,7 +6,7 @@ class Password
 {
 	public static function hash($pass, $salt, $cost = 10)
 	{
-		return crypt($pass, "$2y${$cost}$" . self::encode_salt($salt));
+		return crypt($pass, "$2y{$cost}$" . self::encode_salt($salt));
 	}
 	
 	private static function encode_salt($salt)
