@@ -1,14 +1,10 @@
 <?php
 
-class Smarty_Function_D
+function smarty_function_d($params)
 {
-	public static function execute($params)
-	{
-		d($params['var'], $params['name']);
-		if($params['exit']){ exit; }
-	}
+	d($params['var'], $params['name']);
+	if($params['exit']){ exit; }
 }
-
 
 
 ?>

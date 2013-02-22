@@ -1,4 +1,4 @@
-{extend file='layout.tpl'}
+{extends file='layout.tpl'}
 
 {block name='actions'}
 	{scaffolding_tree params=$_tree}

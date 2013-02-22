@@ -1,6 +1,6 @@
-{extend file='scaffolding/form.tpl'}
+{extends file='scaffolding/form.tpl'}
 
-{block name='content' prepend=true}
+{block name='content' prepend}
 	{capture name="form"}
 
 		<div class="main_form">

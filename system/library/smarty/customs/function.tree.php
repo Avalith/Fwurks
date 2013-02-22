@@ -1,16 +1,14 @@
 <?php
-class Smarty_Function_Tree
+
+function smarty_function_tree($params)
 {
-	public static function execute($params)
-	{
-		foreach ($params as $k => $v){ ${'_'.$k} = $v; }
-		/*
-		 * $_data
-		 * $_fold
-		 * $_class
-		 */
-		return  smarty_function_tree_ul($_data, $_fold, $_class);
-	}
+	foreach ($params as $k => $v){ ${'_'.$k} = $v; }
+	/*
+	 * $_data
+	 * $_fold
+	 * $_class
+	 */
+	return  smarty_function_tree_ul($_data, $_fold, $_class);
 }
 
 function smarty_function_tree_ul($data, $fold=false, $class=null, $href='')

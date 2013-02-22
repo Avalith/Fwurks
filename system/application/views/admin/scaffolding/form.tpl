@@ -1,4 +1,4 @@
-{extend file='layout.tpl'}
+{extends file='layout.tpl'}
 
 {block name='actions'}
 	<h1>{$__globals.ACTIONS[$__action]} {$__globals.FORM_ADD_TITLES[Inflector::singularize($__controller)]}</h1>

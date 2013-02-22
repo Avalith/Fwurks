@@ -1,6 +1,6 @@
-{extend file='scaffolding/form.tpl'}
+{extends file='scaffolding/form.tpl'}
 
-{block name='content' prepend=true}{capture name="form"}
+{block name='content' prepend}{capture name="form"}
 	<div class="col w2">
 		<div class="inner">
 			{html_field type='text' name='username' value=$data->username}

@@ -6,7 +6,6 @@
 require_once __DIR__.'/Inflector.php';
 require_once __DIR__.'/Registry.php';
 require_once __DIR__.'/Localizer.php';
-require_once __DIR__.'/Template.php';
 //require_once __DIR__.'/Exceptions.php';
 require_once __DIR__.'/../configs/system.config.php';
 
@@ -23,7 +22,7 @@ isset($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] = '/';
  *
  * @param string $classname
  */
-function __autoload($classname)
+function core__autoload($classname)
 {
 	$configs_path	 	= SystemConfig::$configsPath;
 	$controllers_path 	= SystemConfig::$controllersPath;
@@ -53,8 +52,14 @@ function __autoload($classname)
 		}
 	}
 	
-	require_once $class;
+	if(file_exists($class)){ require_once $class; }
 }
+
+spl_autoload_register('core__autoload', true, true);
+
+
+require_once __DIR__.'/Template.php';
+
 
 /**
  * Prints debug information for a variable

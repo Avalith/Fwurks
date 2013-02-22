@@ -27,7 +27,7 @@ abstract class ActiveRecordFile extends ActiveRecord
 	protected $upload_files = array();
 	
 	
-	protected function after_update_storage($attributes)
+	protected function after_update_storage(&$attributes)
 	{
 		foreach($this->upload_files as $file => &$opts)
 		{
@@ -146,7 +146,7 @@ abstract class ActiveRecordFile extends ActiveRecord
 		}
 	}
 	
-	protected function after_destroy()
+	protected function after_destroy($primary_key)
 	{
 		foreach($this->upload_files as $file => $f)
 		{

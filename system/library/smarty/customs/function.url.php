@@ -1,18 +1,15 @@
 <?php
 
-class Smarty_Function_URL
+function smarty_function_url($params) 
 {
-	public static function execute($params) 
+	$for = $params['for'];
+	if(is_string($for))
 	{
-		$for = $params['for'];
-		if(is_string($for))
-		{
-			return url_for($params['for']);
-		}
-		else if(is_array($for))
-		{
-			return route($params['route'], $for, $params['add']);
-		}
+		return url_for($params['for']);
+	}
+	else if(is_array($for))
+	{
+		return route($params['route'], $for, $params['add']);
 	}
 }
 

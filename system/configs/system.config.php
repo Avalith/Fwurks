@@ -39,7 +39,7 @@ final class SystemConfig
 	public static $filesPath;
 	
 	// email regular expression
-	public static $email_regexp = '^[a-z0-9-_]+(?:\.[a-z0-9-_]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]{2,6}$';
+	public static $email_regexp = '^[a-z0-9!#$%&\'*+\/=?^_{|}~-]+(?:\\.[a-z0-9!#$%&\'*+\/=?^_{|}~-]+)*@(?:a-z0-9?\.)+a-z0-9?$';
 	
 	public static function load()
 	{

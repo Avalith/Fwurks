@@ -1,4 +1,4 @@
-{extend file='layout.tpl'}
+{extends file='layout.tpl'}
 
 {block name='actions'}
 	{if $title}<h1>{$title}</h1>{/if}
