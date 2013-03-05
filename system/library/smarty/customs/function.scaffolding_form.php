@@ -1,9 +1,7 @@
 <?php
 
-function smarty_function_scaffolding_Form($params)
+function smarty_function_scaffolding_Form($params, $smarty)
 {
-	$smarty = Template();
-	
 	$types = array
 	(
 		'tinyint' 		=> array('type' => 'checkbox'),

@@ -1,9 +1,7 @@
 <?php
 
-function smarty_function_scaffolding_tree($params)
+function smarty_function_scaffolding_tree($params, $smarty)
 {
-	$smarty = Template();
-	
 	foreach ($params['params'] as $k => $v){ ${'_'.$k} = $v; }
 	/*
 	 * $_data
