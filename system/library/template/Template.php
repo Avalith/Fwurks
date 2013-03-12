@@ -37,8 +37,9 @@ final class Template extends Smarty
 		$security_policy->allow_super_globals	= Template_Config::SECURITY_ALLOW_SUPER_GLOBALS;
 		$security_policy->allow_php_tag			= Template_Config::SECURITY_ALLOW_PHP_TAG;
 		
-		$this->enableSecurity($security_policy);
-		$this->addPluginsDir('./customs/');
+		$this	->enableSecurity($security_policy)
+				->addPluginsDir('./customs/')
+		;
 	}
 	
 	public static function instance()
