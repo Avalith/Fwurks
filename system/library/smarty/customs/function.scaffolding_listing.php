@@ -131,7 +131,7 @@ function smarty_function_scaffolding_listing($params, $smarty)
 			else if(in_array($key, $reserved_column_names))
 			{
 				$val_function = 'smarty_function_scaffolding_listing_col__reserved_'.$key;
-				$val = $val_function($val, $params['params'], $d, $_model, $_pk);
+				$val = $val_function($val, $params['params'], $d, $_model, $_pk, $col_val);
 			}
 			
 			$html .= '<td class="'.($key == $col_first ? 'first' : ($key == $col_last && !$_user_can['edit'] && !$_user_can['delete'] ? 'last' : '')).'">'.$val.'</td>';
@@ -199,13 +199,15 @@ function smarty_function_scaffolding_listing($params, $smarty)
 
 
 
-function smarty_function_scaffolding_listing_col__reserved_active($val, $params, $data, $model, $pk)
+function smarty_function_scaffolding_listing_col__reserved_active($val, $params, $data, $model, $pk, $col_val)
 {
 	$tag = ($params['user_can']['edit'] && (!$params['check_editable'] || $params['check_editable'] && $data->_editable === '1')) ? 'a' : 'span';
-	return '<'.$tag.' class="icon '.($val ? 'active' : 'inactive').'" '.($params['user_can']['edit'] ? 'href="?activate='.$data->$pk.'"' : '').'>'.$val.'</'.$tag.'>';
+	isset($col_val['field']) && $field = '&field='.$col_val['field'];
+	
+	return '<'.$tag.' class="icon '.($val ? 'active' : 'inactive').'" '.($params['user_can']['edit'] ? 'href="?activate='.$data->$pk.$field.'"' : '').'>'.$val.'</'.$tag.'>';
 }
 
-function smarty_function_scaffolding_listing_col__reserved_title($val, $params, $data, $model, $pk)
+function smarty_function_scaffolding_listing_col__reserved_title($val, $params, $data, $model, $pk, $col_val)
 {
 	if(!$params['user_can']['edit'] || !Registry::$settings->edit_link_titles || ($params['check_editable'] && $data->_editable === '0')){ return $val; }
 	

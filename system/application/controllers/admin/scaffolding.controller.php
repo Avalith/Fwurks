@@ -11,7 +11,8 @@ abstract class Scaffolding_Controller extends Admin_Controller
 		if(isset($params['action_params']['activate']) && $this->_user_can('edit'))
 		{
 			$model->load($params['action_params']['activate']);
-			$model->update((array)$model->{$model::$primary_keys[$model::$primary_key_to_i18n_fk_field]}, array( 'active' => (1 ^ $model->active) ));
+			$activate_field = $params['action_params']['field'] ?: 'active';
+			$model->update((array)$model->{$model::$primary_keys[$model::$primary_key_to_i18n_fk_field]}, array( $activate_field => (1 ^ $model->$activate_field) ));
 			redirect(-1);
 		}
 		else if(is_ajax() && $params['has_ordering'] && !$params['action_params']['sorting'] && !$this->_listing['filters'] && $_POST['listing_order'] && $params['action_params']['save_listing_order'] && $this->_user_can('edit'))
