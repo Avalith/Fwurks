@@ -1,15 +1,20 @@
 <?php
 
-class Pages extends ActiveRecord 
+class Pages extends ActiveRecord
 {
-	protected static $has_i18n = true;
+	protected static $has_i18n		= true;
 	
 	protected function before_update_storage(&$attributes)
 	{
-//		$attributes['title'] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['title']);
-		$attributes['i18n_locales_storage']['title'][Registry::$locales->current['code']] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['i18n_locales_storage']['title'][Registry::$locales->current['code']]);
+		if(self::$has_mirror)
+		{
+			$attributes['i18n_locales_storage']['title'][Registry::$locales->current['code']] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['i18n_locales_storage']['title'][Registry::$locales->current['code']]);
+		}
+		else
+		{
+			$attributes['title'] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['title']);
+		}
 	}
-	
 	
 	protected $parent_nleft;
 	protected $parent_nright;
@@ -29,7 +34,7 @@ class Pages extends ActiveRecord
 		{
 			if($this->old_storage->parent_id != $this->storage->parent_id)
 			{
-		
+			
 				$tree = TreeFactory::create('Nested', array('pages'));
 				
 				if(($pid = $this->storage->parent_id) > 0 && $pid != $this->storage->id)
@@ -49,7 +54,7 @@ class Pages extends ActiveRecord
 				}
 				else if(!$this->storage->nlevel)
 				{
-			
+				
 					$this->storage->parent_id = 0;
 					$this->storage->nleft = self::find_max_nright() + 1;
 					$this->storage->nlevel = 1;
@@ -83,10 +88,15 @@ class Pages extends ActiveRecord
 	
 	protected function after_validation()
 	{
-//		if(!$this->storage->title){ unset($this->errors['slug']); }
-		if(!$this->storage->i18n_locales_storage->title[Registry::$locales->current['code']]){ unset($this->errors['slug']); }
+		if(self::$has_mirror)
+		{
+			if(!$this->storage->i18n_locales_storage->title[Registry::$locales->current['code']]){ unset($this->errors['slug']); }
+		}
+		else
+		{
+			if(!$this->storage->title){ unset($this->errors['slug']); }
+		}
 	}
-	
 	
 	protected function after_save()
 	{

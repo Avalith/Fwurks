@@ -2,7 +2,8 @@
 SQLyog Community Edition- MySQL GUI v8.2 RC2
 MySQL - 5.0.84-log : Database - fwurks2
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -20,7 +21,7 @@ CREATE TABLE `admin_groups` (
   `permissions` text NOT NULL,
   `active` tinyint(1) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Data for the table `admin_groups` */
 
@@ -86,7 +87,7 @@ DROP TABLE IF EXISTS `admin_users`;
 CREATE TABLE `admin_users` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `username` varchar(100) NOT NULL,
-  `password` char(32) NOT NULL,
+  `password` char(60) NOT NULL,
   `first_name` varchar(100) default NULL,
   `last_name` varchar(100) default NULL,
   `nick_name` varchar(100) default NULL,
@@ -95,11 +96,11 @@ CREATE TABLE `admin_users` (
   `active` tinyint(1) default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Data for the table `admin_users` */
 
-insert  into `admin_users`(`id`,`username`,`password`,`first_name`,`last_name`,`nick_name`,`display_name`,`email`,`active`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3','Admin','Adminov','diodi',2,'karamfil.pc@gmail.com',1);
+insert  into `admin_users`(`id`,`username`,`password`,`first_name`,`last_name`,`nick_name`,`display_name`,`email`,`active`) values (1,'admin','$2y$11$s86jtJtVpnmnGDwAwMCkFeO9mY9M.4R51/Bc7zGkpcfg4a0Vo/eF.','Admin','Adminov','admin',2,'admin@avalith.bg',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
