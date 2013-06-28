@@ -217,6 +217,10 @@ abstract class ORM
 		{
 			return self::find_by($matches[1], $matches[2], $params);
 		}
+		else if(preg_match('~invalidate_(\w+)~', $method, $matches))
+		{
+			Cache::del(get_called_class() . $matches[1] . implode('_', $params));
+		}
 		else if(preg_match('~('.implode('|', $aggregate_functions).')(?:_(\w+))?~', $method, $matches))
 		{
 			return self::aggregate($matches[1], $matches[2], $params);
@@ -428,6 +432,11 @@ abstract class ORM
 		return implode(' AND ', $conditions);
 	}
 	
+	final public static function truncate()
+	{
+		static::$db->query('TRUNCATE TABLE '.static::table_name());
+		static::$has_i18n && static::$db->query('TRUNCATE TABLE '.static::i18n_table_name()); 
+	}
 	
 	/**
 	 * ------------------------------------

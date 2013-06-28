@@ -17,6 +17,8 @@ function smarty_function_html_field($params)
 		case 'radiolist':		$type = 'RadioList'; 		break;
 		case 'checkboxlist':	$type = 'CheckboxList'; 	break;
 		
+		case 'datetime':		$type = 'DateTime'; 		break;
+		
 		default: $type = str_replace(' ', '', ucwords(str_replace('_',' ', $type))); break;
 	}
 	

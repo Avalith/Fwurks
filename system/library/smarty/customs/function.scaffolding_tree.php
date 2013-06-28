@@ -17,7 +17,8 @@ function smarty_function_scaffolding_tree($params, $smarty)
 	if($_user_can['add']){ $smarty->assign('tree_add', '<a class="button add" title="'.$_actions['add'].'" href="add"><span>'.$_actions['add'].'</span></a>'); }
 	if(!count($_data)){ $smarty->assign('tree', '<p class="no_entries">'.$_locales['ERRORS']['no_entries'].'</p>'); return; }
 	
-	$last_level = $first_level = $_data[array_shift(array_keys($_data))]->level-1;
+	$keys = array_keys($_data);
+	$last_level = $first_level = $_data[array_shift($keys)]->level-1;
 	
 	$path = array();
 	$params['links'] && $params['path'] && $path[] = $params['path'];
@@ -31,7 +32,7 @@ function smarty_function_scaffolding_tree($params, $smarty)
 		}
 		else if($d->level < $last_level)
 		{
-			if($params['links']){ for($i=$d->level; $i <= $last_level; $i++){ array_pop($path); } };	
+			if($params['links']){ for($i=$d->level; $i <= $last_level; $i++){ array_pop($path); } };
 			$html .= str_repeat('</ul></li>', $last_level - $d->level);
 		}
 		else

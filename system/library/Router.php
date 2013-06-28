@@ -74,7 +74,6 @@ final class Router
 		
 		$path = explode('/', self::$route['path']);
 		$params = self::$route['params'];
-		
 		// Gets controller name from params
 		if(is_array($params) && isset($params[':controller']))
 		{
@@ -98,7 +97,6 @@ final class Router
 		{
 			$action = strtolower($url[$action]);
 		}
-		
 		unset($params[':controller'], $params[':action']);
 		
 		// Assign unused path variables as action params
@@ -147,7 +145,10 @@ final class Router
 			foreach($r[1] as &$part)
 			{
 				// checks if there is value containing "$" to raplace it with apropriate key, might be escaped with "$"
-				if(preg_match('~(?<!\$)\$(\d+)~ui', $part, $key)){ $part = strtr($part, array('$'.$key[1] => $url_parts[$key[1]])); }
+				while(preg_match('~(?<!\$)\$(\d+)~ui', $part, $key))
+				{ 
+					$part = strtr($part, array('$'.$key[1] => $url_parts[$key[1]])); 
+				}
 			}
 		}
 		else { $r[1] = array(); }
@@ -189,18 +190,28 @@ final class Router
 		$path && $path = '/'.trim(Session_Config::$cookie['path'], '/');
 		
 		$admin = (Registry::$is_admin ? 'admin/' : '');
+		if(strpos($url, ':') === 0)
+		{
+			$url = ltrim($url, ':');
+			
+			$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+			$sp = strtolower($_SERVER["SERVER_PROTOCOL"]);
+			$protocol = substr($sp, 0, strpos($sp, "/")) . $s;
+			$_SERVER['SERVER_PORT'] != 80 	&& $s == "" 	&& $port = ":".$_SERVER["SERVER_PORT"];
+			$_SERVER['SERVER_PORT'] != 443 	&& $s == "s" 	&& $port = ":".$_SERVER["SERVER_PORT"];
+			$server = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port;
+		}
 		$uri = trim($url, '/');
-		
 		
 		if(self::$single_locale){ $lang = '/'; } else { $lang || $lang = '/'.Registry::$locales->current['code'].'/'; } 
 
 		if(strpos($url, '//') === 0)
 		{
-			$url = $lang . $admin . $uri;
+			$url = $server . $lang . $admin . $uri;
 		}
 		else if(strpos($url, '/') === 0)
 		{
-			$url = '/'.ltrim($uri, '/');
+			$url = $server . '/'.ltrim($uri, '/');
 		}
 		else if(strpos($url, '../') === 0)
 		{
@@ -226,14 +237,14 @@ final class Router
 			$uri = preg_replace('~(?:[^/]+/){0,'.$count.'}$~', '', $uri.'/');
 			$new_url = trim($new_url, '/');
 			
-			$url = rtrim($lang . $admin . trim($uri, '/'), '/') . '/' . $new_url;
+			$url = $server . rtrim($lang . $admin . trim($uri, '/'), '/') . '/' . $new_url;
 		}
 		else if($url === './' || $url === null)
 		{
 			$uri = $_SERVER['REQUEST_URI'];
 			trim($lang, '/ ') && $uri = substr($uri, strpos($uri, '/', 1)+1);
 			$admin && $uri = substr($uri, strpos($uri, '/', 1)+1);
-			$url = $lang . $admin . trim($uri, '/');
+			$url = $server . $lang . $admin . trim($uri, '/');
 		}
 		else if($url == -1)
 		{

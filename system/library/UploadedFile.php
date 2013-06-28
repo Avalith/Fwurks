@@ -17,7 +17,7 @@ class UploadedFile
 	
 	public $extension;
 	
-	protected $path;
+	public $path;
 	
 	public function __construct($file)
 	{
@@ -66,11 +66,19 @@ class UploadedFile
 		$quality || $quality = 80;
 		$ocx = (int)$coords['x'];   $ocy = (int)$coords['y'];   $ocx2 = (int)$coords['x2'];   $ocy2 = (int)$coords['y2'];   $ocw = $ocx2 - $ocx;   $och = $ocy2 - $ocy;
 		
-		$command = $ocw > 0
-			? "convert {$this->path}{$this->name} -crop {$ocw}x{$och}+{$ocx}+{$ocy} -thumbnail {$size} -quality {$quality} {$this->path}{$size}/{$this->name}"
-			: "convert {$this->path}{$this->name} -thumbnail {$size}^ -gravity center -crop {$size}+0+0 -quality {$quality} {$this->path}{$size}/{$this->name}"
-		;
+		$source="{$this->path}{$this->name}";
+		$destination="{$this->path}{$size}/{$this->name}";
 		
+		if (DIRECTORY_SEPARATOR == '\\')
+		{
+			$source = '"'.str_replace(array('/','\\'),'\\',$source).'"';
+			$destination = '"'.str_replace(array('/','\\'),'\\',$destination).'"';
+		}
+			
+		$command = $ocw > 0
+			? "convert $source -crop {$ocw}x{$och}+{$ocx}+{$ocy} -thumbnail {$size} -quality {$quality} $destination"
+			: "convert $source -thumbnail \"{$size}^\" -gravity center -crop {$size}+0+0 -quality {$quality} $destination"
+		;
 		exec($command, $output);
 		return $output;
 	}
@@ -92,8 +100,16 @@ class UploadedFile
 		
 		$quality || $quality = 80;
 		$folder = strtr($size, array('^' => '_out', '>' => '_l', '<' => '_s', '!' => '_nr'));
-		$command = "convert {$this->path}{$this->name} -resize '{$size}' -quality {$quality} {$this->path}r{$folder}/{$this->name}";
 		
+		$source="{$this->path}{$this->name}";
+		$destination="{$this->path}r{$folder}/{$this->name}";
+		
+		if (DIRECTORY_SEPARATOR == '\\')
+		{
+			$source = '"'.str_replace(array('/','\\'),'\\',$source).'"';
+			$destination = '"'.str_replace(array('/','\\'),'\\',$destination).'"';
+		}
+		$command = "convert {$source} -resize {$size} -quality {$quality} {$destination}";
 		exec($command, $output);
 		return $output;
 	}

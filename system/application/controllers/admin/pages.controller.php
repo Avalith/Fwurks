@@ -4,7 +4,12 @@ class Pages_Controller extends Simple_Controller
 {
 	protected $_model 	= 'Pages';
 	protected $_find_before_delete = true;
-	
+	protected $_user_can_do	= array
+	(
+		'add' 		=> true,
+		'edit' 		=> true,
+		'delete' 	=> true,
+	 );
 	public function index($params)
 	{
 		$this->_tree(array
@@ -37,7 +42,7 @@ class Pages_Controller extends Simple_Controller
 		$this->__view = 'index';
 	}
 	
-	protected function _load($model)
+	protected function _before_load($model, $params)
 	{
 		$this->pages = TreeFactory::create('Nested', array('pages'))->load(( ($model->id ? "(nleft < {$model->nleft} OR nright > {$model->nright}) AND " : '')." navigation=1" ), false);
 	}

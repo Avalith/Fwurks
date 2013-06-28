@@ -19,23 +19,27 @@ option { outline: none; padding: 2px;  }
 select { margin-bottom: 4px; border: 2px solid #CCC; outline: none; padding: 2px; height: 24px;  }
 select[multiple=multiple] { height: auto;  }
 
+table { width:100%; }
+
 .input { padding-bottom: 15px; overflow: hidden;  }
 .input label { display: block; font-weight: bold;  }
 .input label span { color: #F00; }
 .input label.checkbox { display: inline; font-weight: normal; padding-left: 5px; }
 
-.input .field textarea,
-.input .field input.field { font-size: 12px; width: 94%; padding: 3px 5px; background: #F5F5F5; border: 2px solid #CCC; outline: none; z-index: 100; }
+.input .field_wrap textarea,
+.input .field_wrap input.field { font-size: 12px; width: 94%; padding: 3px 5px; background: #F5F5F5; border: 2px solid #CCC; outline: none; z-index: 100; }
 
-.input .field textarea:focus, 
-.input .field input.field:focus { border: 2px solid #e6924e; background: #FFF; }
+.input .field_wrap textarea:focus, 
+.input .field_wrap input.field:focus { border: 2px solid #e6924e; background: #FFF; }
 
 .input .preview { margin: 5px 5px 0 0; padding: 1px; }
 .input .preview a { overflow: hidden; position: relative; display: block; padding: 0; border: 5px solid #FFF; outline: 1px solid #999 }
-.input .preview a .file-img { display: block; }
+.input .preview a .file-img { display: block; width: 100%; }
 .input .file { margin-bottom: 8px;  }
 .input .error { color: #A00; font-size: 90%; font-weight: bold; float: left;   }
-.input.invalid .field { background: #FEE; border-color: #900; }
+.input.invalid .field_wrap { background: #FEE; border-color: #900; }
+
+.input .textcheckbox_group {width: 94%; padding: 3px 5px;}
 
 ul.permissions > li {  display: block; width: 49%; float: left;  }
 ul.permissions strong { display: block; margin-top: 10px; }
@@ -46,10 +50,10 @@ ul.permissions strong { display: block; margin-top: 10px; }
 .help { display: block; font-size: 10px; color: #666; }
 
 .buttons { padding: 10px 10px 9px 10px; background: #EDEDED; margin: 10px 0 0 0; border: 1px solid #d5d5d5; }
-.buttons .field { border: none; background: none; padding: 0; }
-.buttons .field { display: block; float: left; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; }
-.buttons .field input { background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; font-size: 10px;  line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
-.buttons .field input:hover { text-decoration: underline; cursor: pointer; }
+.buttons .field_wrap { border: none; background: none; padding: 0; }
+.buttons .field_wrap { display: block; float: left; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; }
+.buttons .field_wrap input { background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; font-size: 10px;  line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
+.buttons .field_wrap input:hover { text-decoration: underline; cursor: pointer; }
 
 a.button { display: block; float: left; font-size: 10px; height: 24px; line-height: 24px; margin: 0 5px 0 0; color: #000; border: none; background: url(images/button_bgrd_left.gif) left top no-repeat; font-weight: bold;  }
 a.button span { display: block; background: url(images/button_bgrd_right.gif) right top no-repeat; height: 24px; line-height: 24px; border: none; font-weight: bold; padding: 0 15px;  }
@@ -76,7 +80,6 @@ select optgroup option { padding: 3px 5px 3px 15px;  }
 .sidebar_form .inner { padding: 20px; }
 .sidebar_form select { width: 90%;  }
 
-
 /* --- Rounded corners --- */
 
 .sidebar_form,
@@ -90,10 +93,11 @@ select optgroup option { padding: 3px 5px 3px 15px;  }
 table.listing tfoot p.page-jump a,
 table.listing tfoot p.page-jump input,
 .many-to-many .checkbox-list-filter .filter,
-.input .field textarea,
-.input .field input.field {
+.input .field_wrap textarea,
+.input .field_wrap input.field {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .listing_filter{
@@ -128,8 +132,8 @@ table.listing tfoot p.page-jump input,
 #login { background: $backgroundColor url('images/login_body_bgrd.gif') left top repeat-x; padding: 100px 0; }
 #login .input { padding: 0;  }
 #login .panel { width: 620px; margin: 0 auto;   }
-#login h1 { margin: 0 0 20px 0; padding: 75px 0 0 30px; line-height: 65px; color: #FFF; font-size: 450%; border-left: 5px solid #FFF; float: left;  }
-#login h2 { width: 180px; height: 145px; background: url('images/login_logo_site.gif') left top no-repeat; float: left; text-indent: -1200px; margin-left: 120px; }
-#login form .buttons .field { display: block; float: right; margin: 0 0 0 5px;  }
-#login .panel .footer .logo { display: block; width: 135px; height: 30px; background: url('images/footer_logo.gif') left top no-repeat; text-indent: 1000px; overflow: hidden; float: right;  }
+#login h1 { margin: 0 0 20px 0; padding: 0 0 0 30px; line-height: 220px; color: #FFF; font-size: 450%; border-left: 5px solid #FFF; float: left;  }
+#login h2 { width: 180px; height: 220px; margin: 0 0 20px 55px; padding: 0 30px 0 30px; background: url('images/company_logo.png') left center no-repeat; float: left; text-indent: -1200px; }
+/*#login h2 { margin: 0 0 20px 0; padding: 0 30px 0 30px; line-height: 220px; color: #FFF; font-size: 450%; float: left;  }*/
+#login form .buttons .field_wrap { display: block; float: right; margin: 0 0 0 5px;  }
 

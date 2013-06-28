@@ -184,9 +184,9 @@ function smarty_function_scaffolding_listing($params, $smarty)
 	$html .= '<tfoot>';
 	$html .= '<tr><td colspan="'.(count($_columns) + $actions_col_span + ($_has_checkboxes?1:0)).'">';
 	
-	$_paging && $html .= Smarty_Function_Paging::execute(array('paging' => $_paging));
+	$_paging && $html .= '<div class="paging_wrapper">'.smarty_function_paging(array('paging' => $_paging)).'</div';
 	
-	$html .= '<ul></td></tr>';
+	$html .= '</td></tr>';
 	$html .= '</tfoot>';
 	
 	$html .= '</tbody>';

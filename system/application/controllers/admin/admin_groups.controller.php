@@ -17,9 +17,9 @@ class AdminGroups_Controller extends Simple_Controller
 	public function default_group($params)
 	{
 		if(is_post() && ($g = (int)$_POST['group'])){ $this->settings->set('default_group', $g); }
-	
-		$this->data = new stdClass();	
-		$this->data->groups = AdminGroup::find_all();
+		
+		$groups = new AdminGroup();
+		$this->data->groups = $groups->find_all();
 	}
 	
 	public static function actions(){ return array('listing' => 'index', 'add', 'edit', 'delete', 'default_group'); }

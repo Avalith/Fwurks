@@ -10,6 +10,7 @@ function smarty_function_tabs_navigation($params)
 	$noselected = false;
 	$cleaner = $params['cleaner'] ? false : true;
 	$tab_group = $params['tab_group'] ? $params['tab_group'].'-' : '';
+	$radio_group_name = $params['radio_group_name'] ? : false;
 	
 	$html = "<ul class=\"$id\">";
 	foreach ($titles as $k => $t)
@@ -18,7 +19,7 @@ function smarty_function_tabs_navigation($params)
 		
 		if(!$noselected && $selected && $selected == $tab_key)
 		{
-			$class = 'class="selected"';
+			$class = ' class="selected"';
 		}
 		else
 		{
@@ -28,7 +29,14 @@ function smarty_function_tabs_navigation($params)
 		
 		$t = $title ? (is_array($t) ? $t[$title] : $t->$title) : $t;
 		
-		$html .= "<li $class><a href=\"#{$tab_group}{$tab_key}\">{$t}</a></li>";
+		$html .= "<li$class><a href=\"#{$tab_group}{$tab_key}\">{$t}</a>";
+		
+		if($radio_group_name)
+		{
+			$checked = $tab_key == $selected ? 'checked="checked"' : '';
+			$html .= "<input type=\"radio\" name=\"{$radio_group_name}\"  value=\"{$tab_key}\" $checked style=\"display:none;\"/>";
+		}
+		$html .= "</li>";
 	}
 	$html .= '</ul>';
 	

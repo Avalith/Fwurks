@@ -18,14 +18,15 @@ abstract class Admin_Controller extends Application_Controller
 	public function __initialize()
 	{
 		$this->addBeforeFilter('initialize');
-		$this->includeJavascript('jquery', 'jquery.jcrop', 'validator', 'image_box', 'jquery-ui-datepicker', 'interface', 'humanmsg');
-		$this->includeCss('jquery-ui', 'jquery.jcrop', 'humanmsg');
+		$this->includeJavascript('jquery', 'jquery.jcrop', 'validator', 'image_box', 'jquery-ui', 'jquery-ui-timepicker', 'interface', 'humanmsg');
+		$this->includeCss('jquery-ui','jquery-ui-timepicker', 'jquery.jcrop', 'humanmsg');
 	}
 	
 	protected function initialize($params) 
 	{
 		Registry::$settings = $this->settings = new AdminSettings();
 		
+		$_POST['session_id'] && session_id($_POST['session_id']);
 		$this->__session->start();
 		
 		$home_controller = Router::$routes['home'][1];

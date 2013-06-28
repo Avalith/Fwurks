@@ -39,13 +39,15 @@ class MySQLi_Adapter extends SQL_Adapter
 		$class_name && $params[] = $class_name; 
 		$class_name && $params[] = $class_params;
 		
-		return call_user_func_array(array($result, 'fetch_object'), $params);
+		$result = call_user_func_array(array($result, 'fetch_object'), $params);
+		if($result instanceof ORMResult){ $result->after_init(); }
+		return $result;
 	}
 	
 	public function escape($string)
 	{
 		$return = get_magic_quotes_gpc() ? $string : $this->connection->real_escape_string($string);
-		$return || $return = mysql_escape_string($string);
+		$return || $return = $this->connection->real_escape_string($string);
 		
 		return $return;
 	}

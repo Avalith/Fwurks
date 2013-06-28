@@ -1,3 +1,41 @@
+function Template(selector)
+{
+	$e = $(selector).remove();
+	
+	var compile = function(data, callback)
+	{
+		var $elements = $([]);
+		
+		for(var e = 0, compilation; e < $e.length; e++)
+		{
+			compilation = $e.eq(e).html();
+			for(d in data){ compilation = compilation.replace(new RegExp('\\[\\[\\$'+d+'\\]\\]', 'g'), data[d]); }
+			compiliation = $e.eq(e).clone().html(compilation);
+			$elements = $elements.add(compiliation);
+		}
+		
+		if(typeof callback == 'function'){ callback($elements, data); }
+		return $elements;
+	};
+	
+	return {
+		compile: compile,
+		compileArray: function(data, callback)
+		{
+			var compilation = [], comp;
+			for(var d in data)
+			{
+				comp = compile(data[d], callback);
+				for(var i = 0; i < comp.length; i++)
+				{
+					compilation.push(comp[i]);
+				}
+			}
+			return compilation;
+		}
+	};
+}
+
 $(function()
 {
 	// Jump to Page
@@ -20,7 +58,7 @@ $(function()
 		ids = $('.listing tbody :checkbox').serialize().replace(/record=/g, '').replace(/&/g, ',');
 		
 		var path = this._href ? this._href : (this._href = $(this).attr('href'));
-		if(ids){ this.href = path+'/?ids='+ids }
+		if(ids){ this.href = path+'/?ids='+ids; }
 		else { return false; }
 		
 		return confirm(__globals.ERRORS.listing_delete) ? true : false;
@@ -67,7 +105,7 @@ $(function()
 		
 		$('.tabs_ul a').click(function()
 		{
-			$('.tabs_ul li').removeClass('selected')
+			$('.tabs_ul li').removeClass('selected');
 			$(this).parents('li').eq(0).addClass('selected');
 			
 			$('.tab_container:visible').hide();
@@ -270,7 +308,7 @@ $(function()
 			var $this = $(this);
 			if($this.parents('.input:eq(0)').find('.file_field input').val().length <= 0){ return false; }
 			
-			$this.val('Uploading ...').addClass('uploading').parents('form:eq(0)').attr('target', $frame.attr('name'))
+			$this.val('Uploading ...').addClass('uploading').parents('form:eq(0)').attr('target', $frame.attr('name'));
 			
 			// needs timeout to work after submit
 			setTimeout(function(){ $this.attr('disabled','disabled').parents('.croppable').find('input[type=file]').attr('disabled','disabled'); }, 10);
@@ -327,10 +365,10 @@ $(function()
 				var $coord_x2 = $img.nextAll('.coord-x2');
 				var $coord_y2 = $img.nextAll('.coord-y2');
 				
-				if($coord_x.val() == ''){ coords.x = iw/2-cw/2; $coord_x.val(Math.floor(coords.x/iwk)) }else{ coords.x = $coord_x.val()*iwk; }
-				if($coord_y.val() == ''){ coords.y = ih/2-ch/2; $coord_y.val(Math.floor(coords.y/ihk)) }else{ coords.y = $coord_y.val()*ihk; }
-				if($coord_x2.val() == ''){ coords.x2 = iw/2+cw/2; $coord_x2.val(Math.floor(coords.x2/iwk)) }else{ coords.x2 = $coord_x2.val()*iwk; }
-				if($coord_y2.val() == ''){ coords.y2 = ih/2+ch/2; $coord_y2.val(Math.floor(coords.y2/ihk)) }else{ coords.y2 = $coord_y2.val()*ihk; }
+				if($coord_x.val() == ''){ coords.x = iw/2-cw/2; $coord_x.val(Math.floor(coords.x/iwk)); }else{ coords.x = $coord_x.val()*iwk; }
+				if($coord_y.val() == ''){ coords.y = ih/2-ch/2; $coord_y.val(Math.floor(coords.y/ihk)); }else{ coords.y = $coord_y.val()*ihk; }
+				if($coord_x2.val() == ''){ coords.x2 = iw/2+cw/2; $coord_x2.val(Math.floor(coords.x2/iwk)); }else{ coords.x2 = $coord_x2.val()*iwk; }
+				if($coord_y2.val() == ''){ coords.y2 = ih/2+ch/2; $coord_y2.val(Math.floor(coords.y2/ihk)); }else{ coords.y2 = $coord_y2.val()*ihk; }
 				
 				
 				$img.Jcrop(
@@ -355,7 +393,7 @@ $(function()
 					aspectRatio: ($img.is('.keep-ratio') ? cw/ch : 0)
 				});
 			});
-		}
+		};
 	}
 		
 
@@ -374,6 +412,62 @@ $(function()
 	{
 		$('.sidebar_form').height($('.main_form').height());
 	}
+	
+	$('.datepicker').datepicker(
+	{
+		changeMonth  	: true, 
+		changeYear 		: true, 
+		speed   		: "", 
+		firstDay  		: 1,
+ 		addSliderAccess: true,
+ 		sliderAccessArgs: { touchonly: false },
+		timeOnlyTitle	: __globals.DATEPICKER.timeOnlyTitle,
+		timeText		: __globals.DATEPICKER.timeText,
+		hourText		: __globals.DATEPICKER.hourText,
+		minuteText		: __globals.DATEPICKER.minuteText,
+		secondText		: __globals.DATEPICKER.secondText,
+		currentText		: __globals.DATEPICKER.currentText,
+		closeText		: __globals.DATEPICKER.closeText,
+     	monthNamesShort	: __globals.DATEPICKER_MONTHS,
+     	dayNamesMin		: __globals.DATEPICKER_DAYS
+	});
+	
+	$('.timepicker ').timepicker(
+	{
+		showSecond: true,
+ 		addSliderAccess: true,
+ 		sliderAccessArgs: { touchonly: false },
+		timeFormat: 'hh:mm:ss',
+		timeOnlyTitle	: __globals.DATEPICKER.timeOnlyTitle,
+		timeText		: __globals.DATEPICKER.timeText,
+		hourText		: __globals.DATEPICKER.hourText,
+		minuteText		: __globals.DATEPICKER.minuteText,
+		secondText		: __globals.DATEPICKER.secondText,
+		currentText		: __globals.DATEPICKER.currentText,
+		closeText		: __globals.DATEPICKER.closeText,
+     	monthNamesShort	: __globals.DATEPICKER_MONTHS,
+     	dayNamesMin		: __globals.DATEPICKER_DAYS
+	});
+	$('.datetimepicker ').datetimepicker(
+ 	{
+ 		showSecond: true,
+ 		addSliderAccess: true,
+ 		sliderAccessArgs: { touchonly: false },
+ 		timeFormat: 'hh:mm:ss',
+		changeMonth  	: true, 
+		changeYear 		: true, 
+		speed   		: "", 
+		firstDay  		: 1,
+		timeOnlyTitle	: __globals.DATEPICKER.timeOnlyTitle,
+		timeText		: __globals.DATEPICKER.timeText,
+		hourText		: __globals.DATEPICKER.hourText,
+		minuteText		: __globals.DATEPICKER.minuteText,
+		secondText		: __globals.DATEPICKER.secondText,
+		currentText		: __globals.DATEPICKER.currentText,
+		closeText		: __globals.DATEPICKER.closeText,
+     	monthNamesShort	: __globals.DATEPICKER_MONTHS,
+     	dayNamesMin		: __globals.DATEPICKER_DAYS
+ 	});
 	
 });
 

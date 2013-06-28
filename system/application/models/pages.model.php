@@ -6,8 +6,8 @@ class Pages extends ActiveRecord
 	
 	protected function before_update_storage(&$attributes)
 	{
-		$attributes['title'] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['title']);
-//		$attributes['i18n_locales_storage']['title']['en'] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['i18n_locales_storage']['title']['en']);
+//		$attributes['title'] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['title']);
+		$attributes['i18n_locales_storage']['title'][Registry::$locales->current['code']] && $attributes['slug'] = Inflector::to_slug($attributes['slug'] ?: $attributes['i18n_locales_storage']['title'][Registry::$locales->current['code']]);
 	}
 	
 	
@@ -29,10 +29,12 @@ class Pages extends ActiveRecord
 		{
 			if($this->old_storage->parent_id != $this->storage->parent_id)
 			{
+		
 				$tree = TreeFactory::create('Nested', array('pages'));
 				
 				if(($pid = $this->storage->parent_id) > 0 && $pid != $this->storage->id)
 				{
+				
 					$parent = $tree->node($pid);
 					
 					$summary = $this->old_storage->nright - $this->old_storage->nleft;
@@ -47,10 +49,15 @@ class Pages extends ActiveRecord
 				}
 				else if(!$this->storage->nlevel)
 				{
+			
 					$this->storage->parent_id = 0;
 					$this->storage->nleft = self::find_max_nright() + 1;
 					$this->storage->nlevel = 1;
 					$this->storage->nright = $this->storage->nleft + 1;
+				}
+				else 
+				{
+					$this->storage->parent_id = $this->old_storage->parent_id;
 				}
 			}
 		}
@@ -76,8 +83,8 @@ class Pages extends ActiveRecord
 	
 	protected function after_validation()
 	{
-		if(!$this->storage->title){ unset($this->errors['slug']); }
-//		if(!$this->storage->i18n_locales_storage->title['en']){ unset($this->errors['slug']); }
+//		if(!$this->storage->title){ unset($this->errors['slug']); }
+		if(!$this->storage->i18n_locales_storage->title[Registry::$locales->current['code']]){ unset($this->errors['slug']); }
 	}
 	
 	
@@ -135,6 +142,16 @@ class Pages extends ActiveRecord
 			self::$db->query("UPDATE {$table_name} SET nleft = nleft - {$summary} WHERE navigation = 1 AND nleft >= {$this->storage->nright}");
 			self::$db->query("UPDATE {$table_name} SET nright = nright - {$summary} WHERE navigation = 1 AND nright >= {$this->storage->nright}");
 		}
+	}
+	
+	public static function get_by_slug($slug)
+	{
+		$class = __CLASS__;
+		
+		return Cache::getset($class.__FUNCTION__ ."{$slug}", function() use ($class, $slug)
+		{
+			return $class::find_by_slug($slug);
+		});
 	}
 }
 

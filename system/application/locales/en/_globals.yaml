@@ -168,6 +168,39 @@ DISPLAY_NAMES:
   full_name		: 2
   custom		: 3
 
+DATEPICKER_DAYS: 
+  0: Su 
+  1: Mo
+  2: Tu
+  3: We
+  4: Th
+  5: Fr
+  6: Sa
+       
+DATEPICKER_MONTHS: 
+  0: Jan
+  1: Feb
+  2: Mar
+  3: Apr
+  4: May
+  5: Jun
+  6: Jul
+  7: Aug
+  8: Sep
+  9: Oct
+  10:Nov
+  11:Dec
+  
+DATEPICKER:
+  timeOnlyTitle	: Choose Time
+  timeText		: Time
+  hourText		: Hour
+  minuteText	: Minute  
+  secondText	: Second 
+  currentText	: Now 
+  closeText		: Done  
+  today			: Today
+
 
 ########## CUSTOMS ##########
 

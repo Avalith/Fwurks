@@ -17,8 +17,11 @@
 .icon-text.email,	.icon.email			{ background-image: url(icons/email.png); 			}
 .icon-text.email_go,.icon.email_go		{ background-image: url(icons/email_go.png); 		}
 
-.icon-text.report,	.icon.report		{ background-image: url(icons/report.png); 			}
-
+.icon-text.report,	.icon.report			{ background-image: url(icons/report.png); 			}
+.icon-text.gallery,	.icon.gallery		{ background-image: url(icons/gallery.png); 			}
+.icon-text.stop,	.icon.stop				{ background-image: url(icons/stop.png); 			}
+.icon-text.regenerate,	.icon.regenerate	{ background-image: url(icons/arrow_refresh.png); 			}
+.icon-text.email,	.icon.email	{ background-image: url(icons/email.png); 			}
 
 .icon-text.arrow_up,		.icon.arrow_up		{ background-image: url(icons/arrow_up.png); 		}
 .icon-text.arrow_down,		.icon.arrow_down	{ background-image: url(icons/arrow_down.png); 		}
@@ -30,3 +33,5 @@
 .icon-text.tab-close,	.icon.tab-close		{ background-image: url(icons/cross_circle.png); 	}
 
 .icon.icon-switch-user { background-image: url(icons/user_go.png); }
+
+.icon-text.files, 	.icon.icon-files 			{ background-image: url(icons/files.png); 		}

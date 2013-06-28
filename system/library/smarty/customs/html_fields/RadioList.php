@@ -23,7 +23,7 @@ class HtmlForm_RadioListField extends HtmlForm_Field
 			
 			foreach($this->data as $key => $item)
 			{
-				$item = (object)$item;
+//				$item = (object)$item;
 				
 				if(is_object($item))	{ $_val = $item->{$this->value_field};		$_title = $item->{$this->title_field}; }
 				else 					{ $_val = $key;								$_title = $item; }

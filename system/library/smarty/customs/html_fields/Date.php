@@ -16,7 +16,7 @@ class HtmlForm_DateField extends HtmlForm_Field
 	 * @var string
 	 * @example 'DD-MM-YYYY'
 	 */
-	protected $format = 'DD-MMMM-YYYY';
+	protected $format = 'YYYY-MM-DD';
 	
 	protected $start_year = 1920;
 	protected $end_year;
@@ -35,7 +35,7 @@ class HtmlForm_DateField extends HtmlForm_Field
 	protected $month_name 	= 'month';
 	protected $year_name 	= 'year';
 	
-	protected $picker 		= false;
+	protected $picker 		= true;
 	 
 	
 	public function __construct(array $params)
@@ -43,6 +43,7 @@ class HtmlForm_DateField extends HtmlForm_Field
 		parent::__construct($params);
 		
 		$this->class_wrapper .= ' date';
+		$this->type = 'text';
 		
 		$this->picker || $this->value || $this->show_empty_option || $this->value = strftime('%Y-%m-%d');
 		$this->picker || $this->value && ($this->value = is_array($this->value) ? $this->num_array($this->value) : preg_split('/[^\d]+/ui', $this->value));
@@ -121,6 +122,8 @@ class HtmlForm_DateField extends HtmlForm_Field
 		);
 		$format = strtr($this->format, $adapter_strftime);
 		$this->value || $this->show_empty_option || $this->value = strftime($format);
+		
+		$this->value && $this->value = strftime($format, strtotime($this->value));
 		
 		$adapter_js = array
 		(

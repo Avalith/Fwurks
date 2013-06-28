@@ -47,6 +47,37 @@ class HttpRequest
 		
 		return $response;
 	}
+
+	public function set_opt($name, $val)
+	{
+		curl_setopt($this->curl, $name, $val);
+	}
+	
+	
+	public static function reCaptcha()
+	{
+		$privkey = Application_Config::RECAPTCHA_PRIVATE;
+		$remoteip = $_SERVER['REMOTE_ADDR'];
+		
+		$challenge = $_POST['recaptcha_challenge_field'];
+		$response =	$_POST['recaptcha_response_field'];
+		
+		$host = 'api-verify.recaptcha.net/verify';
+		
+		
+		//discard spam submissions
+		if($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0)
+		{
+			return false;
+		}
+		$data = array ('privatekey' => $privkey, 'remoteip' => $remoteip, 'challenge' => $challenge, 'response' => $response);   
+		foreach($data as $key => &$value){ $value = stripslashes($value); }
+		
+		$request = new self($host); 
+		$response = explode("\n", $request->send(null, $data));
+		
+		return $response[0] == 'true' ? true : false;
+	}
 }
 
 ?>

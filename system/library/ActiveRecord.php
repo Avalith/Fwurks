@@ -255,19 +255,20 @@ abstract class ActiveRecord extends ORM
 				}
 			}
 		}
-		
 		$locale = $this->has_mirror ? $this->i18n_locales : array($this->i18n_locale);
 		
 		$i18n_table_name 	= static::i18n_table_name();
 		$primary_key 		= static::$primary_keys[static::$primary_key_to_i18n_fk_field];
 		$i18n_fk_field 		= static::$i18n_fk_field;
 		$i18n_locale_field 	= static::$i18n_locale_field;
-		
-		foreach($field_values as $l => $fv)
+		if($field_values)
 		{
-			$i18n_add = static::$has_i18n ? " LEFT JOIN {$i18n_table_name} ON {$primary_key} = {$i18n_fk_field} AND {$i18n_locale_field} = '$l' " : '';
-			$primary_keys = self::do_primary_keys( array_values(array_intersect_key((array)$this->storage, array_flip(static::$primary_keys))) );
-			$return = self::$db->update(static::table_name().$i18n_add, $field_values[$l], $primary_keys);
+			foreach($field_values as $l => $fv)
+			{
+				$i18n_add = static::$has_i18n ? " LEFT JOIN {$i18n_table_name} ON {$primary_key} = {$i18n_fk_field} AND {$i18n_locale_field} = '$l' " : '';
+				$primary_keys = self::do_primary_keys( array_values(array_intersect_key((array)$this->storage, array_flip(static::$primary_keys))) );
+				$return = self::$db->update(static::table_name().$i18n_add, $field_values[$l], $primary_keys);
+			}
 		}
 		
 		return $this->storage;
@@ -369,8 +370,7 @@ abstract class ActiveRecord extends ORM
 	final public function validate($attributes = null)
 	{
 		$storage = $attributes ? $attributes : $this->storage;
-		
-		if($this->dont_validate_fields === true){ return; }
+		if($this->dont_validate_fields === true || $this->dont_validate_fields === 1){ return; }
 		
 		$dont_validate = array_merge(array(static::$i18n_fk_field, static::$i18n_locale_field), $this->dont_validate_fields);
 		
@@ -387,17 +387,15 @@ abstract class ActiveRecord extends ORM
 				{
 					$field_value = $storage->i18n_locales_storage->{$field_name}[$lcode];
 					$field_value_confirm = $storage->i18n_locales_storage->{$field_name.'_confirm'}[$lcode];
-					
-					$this->validate_actions($field_name, $field, $field_value, $field_value_confirm, $lcode);
+					$this->validate_actions($field_name, $field, $field_value, $field_value_confirm, $lcode, isset($storage->i18n_locales_storage->{$field_name.'_confirm'}[$lcode]));
 					$escape && $storage->i18n_locales_storage->{$field_name}[$lcode] = htmlspecialchars(html_entity_decode($storage->i18n_locales_storage->{$field_name}[$lcode]));
 				}
 			}
 			else
 			{
 				$field_value = $storage->$field_name;
-				$field_value_confirm = isset($storage->{$field_name.'_confirm'}) ? $storage->{$field_name.'_confirm'} : '';
-				
-				$this->validate_actions($field_name, $field, $field_value, $field_value_confirm);
+				$field_value_confirm = $storage->{$field_name.'_confirm'};
+				$this->validate_actions($field_name, $field, $field_value, $field_value_confirm, null, isset($storage->{$field_name.'_confirm'}));
 				$escape && $storage->$field_name = htmlspecialchars(html_entity_decode($storage->$field_name));
 			}
 			
@@ -429,7 +427,7 @@ abstract class ActiveRecord extends ORM
 	}
 	
 	
-	final private function validate_actions($field_name, $field, $field_value, $field_value_confirm, $lang = null)
+	final private function validate_actions($field_name, $field, $field_value, $field_value_confirm, $lang = null, $check_for_match = false)
 	{
 		if(!$field->null && (!strlen(trim(preg_replace('~(&nbsp;|<br[^>]*>)~ixm', '', $field_value)))))
 		{
@@ -439,7 +437,7 @@ abstract class ActiveRecord extends ORM
 		{
 			$this->add_error('too_long', $field_name, $lang);
 		}
-		else if($field_value_confirm && $field_value !== $field_value_confirm)
+		else if($field_value !== $field_value_confirm && $check_for_match)
 		{
 			$this->add_error('not_match', $field_name, $lang);
 		}
@@ -454,7 +452,7 @@ abstract class ActiveRecord extends ORM
 		foreach($reflection->getMethods(ReflectionMethod::IS_PROTECTED) as $method)
 		{
 			$method = $method->getName();
-			if(preg_match('~^validate__(.+)~', $method, $matches) && in_array($matches[1], $columns))
+			if(preg_match('~^validate__(.+)~', $method, $matches) && in_array($matches[1], $columns) && !in_array($matches[1], $this->dont_validate_fields))
 			{
 				$this->$method();
 			}
@@ -542,7 +540,7 @@ abstract class ActiveRecord extends ORM
 		// Many to many relation
 		$pkey = static::$primary_keys[static::$primary_key_to_i18n_fk_field];
 		$pk = Inflector::singularize(Inflector::tableize(get_called_class())). '_' . $pkey;
-		$pk_condition = $pk.'='.$this->storage->$pkey;
+		$pk_condition = $pk.'='.qstr($this->storage->$pkey);
 		
 		foreach($this->many_to_many as $r => $rel_model)
 		{
@@ -551,9 +549,9 @@ abstract class ActiveRecord extends ORM
 			$pk2 = $model::$primary_keys[$model::$primary_key_to_i18n_fk_field];
 			
 			is_object($rel_model) && $rel_model = $rel_model->model;
-			$_rel_model = Inflector::tableize($rel_model);
+//			$_rel_model = Inflector::tableize($rel_model);
+			$_rel_model = $rel_model::table_name();
 			$rel_pk = $_rel_model . '.' . Inflector::singularize(Inflector::tableize($model)) . '_' . $pk2;
-			
 			$this->storage->$r = $model::find_all($_rel_model.'.'.$pk_condition, null, null, array(array('model' => $rel_model, 'on' => "$r.$pk2 = $rel_pk")));
 		}
 	}
@@ -581,12 +579,13 @@ abstract class ActiveRecord extends ORM
 		// Many to many relation
 		$pkey = static::$primary_keys[static::$primary_key_to_i18n_fk_field];
 		$pk = Inflector::singularize(Inflector::tableize(get_called_class())). '_' . $pkey;
-		$pk_condition = $pk.'='.$this->storage->$pkey;
+		$pk_condition = $pk.'='.qstr($this->storage->$pkey);
 		
 		foreach($this->many_to_many as $r => $v)
 		{
 			$rel_model = $v->model;
-			$_rel_model = Inflector::tableize($rel_model);
+//			$_rel_model = Inflector::tableize($rel_model);
+			$_rel_model = $rel_model::table_name();
 			$rel_model::delete($_rel_model.'.'.$pk_condition);
 			
 			if(!$v->relations){ continue; }
@@ -609,11 +608,11 @@ abstract class ActiveRecord extends ORM
 		// Many to many relation
 		$pkey = static::$primary_keys[static::$primary_key_to_i18n_fk_field];
 		$pk = Inflector::singularize(Inflector::tableize(get_called_class())). '_' . $pkey;
-		$pk_condition = $pk.'='.$primary_key;
+		$pk_condition = $pk.'='.qstr($primary_key);
 		
 		foreach($this->many_to_many as $r => $rel_model)
 		{
-			$_rel_model = Inflector::tableize($rel_model);
+			$_rel_model = $rel_model::table_name();
 			$rel_model::delete($_rel_model.'.'.$pk_condition);
 		}
 	}

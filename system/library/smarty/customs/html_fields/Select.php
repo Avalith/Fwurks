@@ -13,6 +13,7 @@ class HtmlForm_SelectField extends HtmlForm_Field
 	protected $size = 1;
 	
 	protected $disabled_values = array();
+	protected $options_aditional_attributes = array('class', 'rel', 'rev');
 	
 	public function field()
 	{
@@ -35,16 +36,23 @@ class HtmlForm_SelectField extends HtmlForm_Field
 				else				{ $options .= $this->option($opt			, $key			, ($key == $this->value  || (is_array($this->value) && in_array($key, $this->value)))					, in_array($key, $this->disabled_values)			, $opt); }
 			}
 		}
-		return "<select name=\"{$this->name}".($this->multiple ? '[]' : null)."\" id=\"{$this->id}\" class=\"{$this->class}\" lang=\"{$this->lang}\" rel=\"{$this->rel}\" ".($this->multiple ? ' multiple="multiple" ' : '')." size=\"{$this->size}\">$options</select>";
+		return "<div class=\"styled_select {$this->class_field_wrapper}\"><select name=\"{$this->name}".($this->multiple ? '[]' : null)."\" id=\"{$this->id}\" class=\"field {$this->class}\" lang=\"{$this->lang}\" rel=\"{$this->rel}\" ".($this->multiple ? ' multiple="multiple" ' : '')." size=\"{$this->size}\" ".($this->title ? "title=\"{$this->title}\"" : "")." {$this->disabled}>$options</select></div>";
 	}
 	
 	protected function option($title, $val, $selected = 0, $disabled = 0, $opt = null)
 	{
 		$val = htmlspecialchars($val);
-		return "<option value=\"$val\" ".($selected ? 'selected="selected"' : '').' '.($disabled ? 'disabled="disabled"' : '').'>'.$this->optTitlePrefix($opt)." {$title}</option>";
-	}
+		return "<option value=\"$val\" ".($selected ? 'selected="selected"' : '').' '.($disabled ? 'disabled="disabled"' : '').$this->aditionalAttributes($opt).'>'.$this->optTitlePrefix($opt)." {$title}</option>";
+		}
 	
 	protected function optTitlePrefix($opt){}
+	
+	protected function aditionalAttributes($opt)
+	{
+		$attributes = '';
+		foreach($this->options_aditional_attributes as $attr){ $opt->$attr && $attributes.=" {$attr}=\"{$opt->$attr}\""; }
+		return $attributes;
+	}
 }
 
 ?>

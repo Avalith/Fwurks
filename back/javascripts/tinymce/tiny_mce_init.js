@@ -28,7 +28,7 @@ tinyMCE.init({
 	theme 			: "advanced",
 	skin 			: "thebigreason",
 	editor_selector	: "rte-default",
-	plugins 		: "pages,ibrowser,safari,style,contextmenu,paste,fullscreen,nonbreaking,xhtmlxtras",
+	plugins 		: "ibrowser,safari,style,contextmenu,paste,fullscreen,nonbreaking,xhtmlxtras",
 	
 	theme_advanced_buttons1 : "formatselect,|,image,ibrowser,|,bold,italic,underline,|,bullist,numlist,|,outdent,indent,blockquote,|,link,unlink,anchor,pages,charmap,|,cleanup,pastetext,fullscreen,code",
 	theme_advanced_buttons2 : "",

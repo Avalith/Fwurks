@@ -24,7 +24,7 @@ abstract class HtmlForm_Field
 	
 	protected $class_wrapper 		= 'input';
 	protected $class_helper 		= 'help';
-	protected $class_field_wrapper 	= 'field_wrapper';
+	protected $class_field_wrapper 	= 'field_wrap';
 	protected $class_field 			= 'field';
 	
 	protected $style_wrapper 		= 'input';
@@ -52,7 +52,7 @@ abstract class HtmlForm_Field
 			{
 				$label = $this->translate_label && $this->label ? $this->label : $this->label_name; 
 			}
-			return "<label class=\"{$this->label_class}\" for=\"{$this->id}\">$label".($this->no_semicolon ? '' : ':').($this->mandatory ? ' <span>*</span>' : '')."</label>"; 
+			return "<label class=\"{$this->label_class}\" for=\"{$this->id}\">$label".($this->no_semicolon ? '' : ':').($this->mandatory ? ' <span>*</span>' : '')."</label>{$this->after_label_html}"; 
 		}
 		return null;
 	}

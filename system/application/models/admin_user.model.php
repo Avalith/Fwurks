@@ -8,19 +8,19 @@ class AdminUser extends ActiveRecordFile
 	
 	protected $many_to_many = array('admin_groups' => 'AdminGroupsAdminUsers');
 	
-	public static function loadSessionUser($user, $pass)
+	public static function loadSessionUser($username, $pass)
 	{
-		return self::find_by_username_and_password_and_active($user, md5($pass), 1);
+		return self::find_by_username_and_password_and_active($username, Password::hash('admin' . $pass, $username), 1);
 	}
 
 	protected function validate__email()
 	{
-		if(!is_email($this->storage->email)){ $this->add_error('email', 'email'); }
+		if(!is_email($this->email)){ $this->add_error('email', 'email'); }
 	}
 	
 	protected function before_validation_on_update()
 	{
-		if(!$this->storage->password && !$this->storage->password_confirm)
+		if(!($this->password || $this->password_confirm))
 		{
 			$this->dont_validate_fields[] = 'password';
 		}
@@ -28,7 +28,7 @@ class AdminUser extends ActiveRecordFile
 	
 	protected function before_save()
 	{
-		$this->storage->password = $this->storage->password ? md5($this->storage->password) : $this->old_storage->password;
+		$this->storage->password = $this->password ? Password::hash('admin' . $this->password, $this->username) : $this->old_storage->password;
 	}
 }
 

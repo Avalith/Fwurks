@@ -48,7 +48,7 @@ class HtmlForm_PictureField extends HtmlForm_FileField
 
 			$cropper .= $hidden_x->field().$hidden_y->field().$hidden_x2->field().$hidden_y2->field();
 			
-			$upload = new HtmlForm_ButtonField(array('type' => 'submit', 'name' => 'upload_croppable['.$this->name.']', 'class' => 'upload', 'value' => Registry::$globals['FORM_BUTTONS']['upload'] ));
+			$upload = new HtmlForm_ButtonField(array('tag' => 'button', 'type' => 'submit', 'name' => 'upload_croppable['.$this->name.']', 'class' => 'upload submit', 'value' => Registry::$globals['FORM_BUTTONS']['upload'] ));
 			$upload = $upload->field();
 		}
 		

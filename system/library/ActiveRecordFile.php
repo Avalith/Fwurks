@@ -67,14 +67,13 @@ abstract class ActiveRecordFile extends ActiveRecord
 				}
 				else if(isset($f->opts->valid_size) && $f->file->size > $f->opts->valid_size*1024)
 				{
-					$this->add_error('file_too_large', $file, null, array('%SIZE%' => ($f->opts->valid_size).'KB'));
+					$this->add_error('file_too_large', $file, null, array('%SIZE%' => ($f->opts->valid_size*1024).'KB'));
 				}
 				
 				unset($f->delete);
 			}
 			
 			if($columns[$file]->not_null ){ unset($f->delete); }
-			
 			if($f->delete)
 			{
 				$this->storage->$file = '';
@@ -82,7 +81,7 @@ abstract class ActiveRecordFile extends ActiveRecord
 			}
 			else if(isset($f->file))
 			{
-				$this->storage->$file = $f->opts->extension_only ? $f->file->extension : $f->file->name;
+				$this->storage->$file = $f->opts->extension_only ? $f->file->extension : $file.'.'.$f->file->extension;
 				$f->opts->extension_only && $this->storage->{"{$file}_filename"} = $f->file->name;
 			}
 			else
@@ -99,7 +98,6 @@ abstract class ActiveRecordFile extends ActiveRecord
 		foreach($this->upload_files as $file => $f)
 		{
 			if(!isset($f->file) && !isset($f->delete)){ continue; }
-			
 			$fname = isset($f->opts->extension_only) ? $this->storage->id.'.'.$this->storage->$file : $this->storage->$file;
 			$fnamed = isset($f->opts->extension_only) ? $this->storage->id.'.'.$this->old_storage->$file : $this->old_storage->$file;
 			$path = rtrim($this->upload_folder.'/'.$f->opts->folder, '/').'/';
@@ -135,18 +133,17 @@ abstract class ActiveRecordFile extends ActiveRecord
 				foreach($f->opts->resizes as $k => $c)
 				{
 					$q = null;
-					if(strpos($k, 'x')){ $q = $c; $c = $k; }
+					if(false !== strpos($k, 'x')){ $q = $c; $c = $k; }
 					
 					$cpath = $fpath.'r'.strtr($c, array('^' => '_out', '>' => '_l', '<' => '_s', '!' => '_nr')).'/';
 					!is_dir($cpath) && mkdir($cpath, 0777);
-					
 					$f->file->resize($c, $q);
 				}
 			}
 		}
 	}
 	
-	protected function after_destroy($primary_key)
+	protected function after_destroy($primary_keys)
 	{
 		foreach($this->upload_files as $file => $f)
 		{

@@ -301,17 +301,17 @@ function getMediaListHTML() {
 
 function getType(v) {
 	var fo, i, c, el, x, f = document.forms[0];
-
+	
 	fo = ed.getParam("media_types", "flash=swf;flv=flv;shockwave=dcr;qt=mov,qt,mpg,mp3,mp4,mpeg;shockwave=dcr;wmp=avi,wmv,wm,asf,asx,wmx,wvx;rmp=rm,ra,ram").split(';');
-
+	
 	// YouTube
-	if (v.match(/watch\?v=(.+)(.*)/)) {
+	if (v.indexOf('youtube.com')) {
 		f.width.value = '425';
 		f.height.value = '350';
-		f.src.value = 'http://www.youtube.com/v/' + v.match(/v=(.*)(.*)/)[0].split('=')[1];
+		f.src.value = 'http://www.youtube.com/v/' + v.match(/v=(.*)/)[1];
 		return 'flash';
 	}
-
+	
 	// Google video
 	if (v.indexOf('http://video.google.com/videoplay?docid=') == 0) {
 		f.width.value = '425';
@@ -319,10 +319,10 @@ function getType(v) {
 		f.src.value = 'http://video.google.com/googleplayer.swf?docId=' + v.substring('http://video.google.com/videoplay?docid='.length) + '&hl=en';
 		return 'flash';
 	}
-
+	
 	for (i=0; i<fo.length; i++) {
 		c = fo[i].split('=');
-
+		
 		el = c[1].split(',');
 		for (x=0; x<el.length; x++)
 		if (v.indexOf('.' + el[x]) != -1)

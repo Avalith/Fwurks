@@ -13,6 +13,11 @@ class File
 		return strtolower(strchr($string, '.') ? substr($string, strrpos($string, '.')+1) : $string);
 	}
 	
+	public static function name_only($string)
+	{
+		return strchr($string, '.') ? substr($string, 0, strrpos($string, '.')) : $string;
+	}
+	
 	
 	public static function move($from, $to, $overwrite = true)
 	{
