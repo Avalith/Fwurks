@@ -2,26 +2,6 @@
 
 class Cache
 {
-	// protected static $mc;
-	// public static function connect()
-	// {
-	// 	if(!SystemConfig::CACHE_ALLOWED){ return; }
-	// 	static::$mc = new Memcache(); 
-	// 	static::$mc->addServer('192.168.22.20', 11211);
-	// }
-	
-	// public static function get($name)
-	// {
-	// 	if(!SystemConfig::CACHE_ALLOWED){ return; }
-	// 	return static::$mc->get($name);
-	// }
-	
-	// public static function set($name, $data, $lifetime = SystemConfig::CACHE_LIFETIME)
-	// {
-	// 	if(!SystemConfig::CACHE_ALLOWED){ return; }
-	// 	static::$mc->set($name, $data, MEMCACHE_COMPRESSED, $lifetime);
-	// }
-	
 	protected static $mc;
 	public static function connect()
 	{
@@ -42,17 +22,6 @@ class Cache
 	public static function set($key, $data, $lifetime = SystemConfig::CACHE_LIFETIME)
 	{
 		if(!SystemConfig::CACHE_ALLOWED){ return $data; }
-		
-		d(static::$mc->getStats(), $key);
-		// if(SystemConfig::CACHE_ADAPTER == 'memcache')
-		// {
-		// 	static::$mc->set($key, $data, MEMCACHE_COMPRESSED, $lifetime);
-		// }
-		// else if(SystemConfig::CACHE_ADAPTER == 'memcached')
-		// {
-			static::$mc->set(sha1($key), $data, $lifetime);
-		// }
-		
 		return $data;
 	}
 	
@@ -75,7 +44,6 @@ class Cache
 	public static function flush($after = 0)
 	{
 		if(!SystemConfig::CACHE_ALLOWED){ return; }
-		
 		static::$mc->flush($after);
 	}
 }
