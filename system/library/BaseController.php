@@ -102,14 +102,6 @@ abstract class BaseController
 	 */
 	public $__browser;
 	
-	/**
-	 * Google Analytics.
-	 * 
-	 * @var string
-	 * @return Google Analytics ID
-	 */
-	public $__google_analytics;
-	
 	
 	/**
 	 * Constructor
@@ -133,8 +125,6 @@ abstract class BaseController
 		if(strchr($user_agent, 'Firefox'))	{ $this->__browser = 'firefox'; }
 		if(strchr($user_agent, 'Safari'))	{ $this->__browser = 'safari'; }
 		if(strchr($user_agent, 'Opera'))	{ $this->__browser = 'opera'; }
-		
-		$this->__google_analytics = AdminSettings::find_by_name('google_analytics')->value;
 		
 		$this->__initialize();
 	}
