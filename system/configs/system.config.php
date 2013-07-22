@@ -19,7 +19,11 @@ final class SystemConfig
 	 * Force recompilation of the templates on every refresh
 	 * @var bool
 	 */
-	const FORCE_COMPILE = true;
+	const FORCE_COMPILE = 0;
+	
+	const CACHE_ADAPTER = 'memcached';
+	const CACHE_LIFETIME = 3600;
+	const CACHE_ALLOWED = 0;
 	
 	
 	// Directories
