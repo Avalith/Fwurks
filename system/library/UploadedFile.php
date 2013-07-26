@@ -40,7 +40,9 @@ class UploadedFile
 	public function move($path)
 	{
 		$this->path = SystemConfig::$filesPath . rtrim($path, '/').'/';
-		return File::move($this->tmp_name, $this->path . $this->name);
+		$return = File::move($this->tmp_name, $this->path . $this->name);
+		chmod($this->path . $this->name, 0777);
+		return $return;
 	}
 	
 	
@@ -51,7 +53,7 @@ class UploadedFile
 	 */
 	public function new_name($name)
 	{
-		$this->name = $name.'.'.$this->extension; 
+		$this->name = $name.'.'.$this->extension;
 	}
 	
 	
@@ -79,7 +81,10 @@ class UploadedFile
 			? "convert $source -crop {$ocw}x{$och}+{$ocx}+{$ocy} -thumbnail {$size} -quality {$quality} $destination"
 			: "convert $source -thumbnail \"{$size}^\" -gravity center -crop {$size}+0+0 -quality {$quality} $destination"
 		;
+		
 		exec($command, $output);
+		chmod($destination, 0777);
+		
 		return $output;
 	}
 
@@ -110,7 +115,10 @@ class UploadedFile
 			$destination = '"'.str_replace(array('/','\\'),'\\',$destination).'"';
 		}
 		$command = "convert {$source} -resize {$size} -quality {$quality} {$destination}";
+		
 		exec($command, $output);
+		chmod($destination, 0777);
+		
 		return $output;
 	}
 }

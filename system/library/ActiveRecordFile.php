@@ -110,7 +110,7 @@ abstract class ActiveRecordFile extends ActiveRecord
 			// extension_only, folder, crop_sizes, valid, valid_size;
 			if($f->delete){ continue; }
 			
-			!is_dir($fpath) && mkdir($fpath, 0777);
+			if(!is_dir($fpath)){ mkdir($fpath); chmod($fpath, 0777); }
 			
 			$f->file->new_name(substr($fname, 0, strrpos($fname, '.')));
 			$f->file->move($path);
@@ -123,7 +123,7 @@ abstract class ActiveRecordFile extends ActiveRecord
 					if(strpos($k, 'x')){ $q = $c; $c = $k; }
 					
 					$cpath = $fpath.$c.'/';
-					!is_dir($cpath) && mkdir($cpath, 0777);
+					if(!is_dir($cpath)){ mkdir($cpath); chmod($cpath, 0777); }
 					$f->file->thumbnail($f->crop_coords, $c, $q);
 				}
 			}
@@ -136,7 +136,7 @@ abstract class ActiveRecordFile extends ActiveRecord
 					if(false !== strpos($k, 'x')){ $q = $c; $c = $k; }
 					
 					$cpath = $fpath.'r'.strtr($c, array('^' => '_out', '>' => '_l', '<' => '_s', '!' => '_nr')).'/';
-					!is_dir($cpath) && mkdir($cpath, 0777);
+					if(!is_dir($cpath)){ mkdir($cpath); chmod($cpath, 0777); }
 					$f->file->resize($c, $q);
 				}
 			}
