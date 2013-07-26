@@ -54,8 +54,8 @@ table.listing thead th.orderdown { }
 /* --- Sorting --- */
 table.listing thead th.sorting-d a,
 table.listing thead th.sorting-a a { display: block; }
-table.listing thead th.sorting-a a { background: url(icons/bullet_arrow_up.gif) right top no-repeat; }
-table.listing thead th.sorting-d a { background: url(icons/bullet_arrow_down.gif) right top no-repeat; }
+table.listing thead th.sorting-a a { background: url(icons/bullet_arrow_up.png) right top no-repeat; }
+table.listing thead th.sorting-d a { background: url(icons/bullet_arrow_down.png) right top no-repeat; }
 
 /* --- Pagination --- */
 table.listing tfoot td { text-align: center; }
