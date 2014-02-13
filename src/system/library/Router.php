@@ -179,8 +179,6 @@ class RouterRoute
 	
 	public function url($params, $add = null)
 	{
-		
-		
 		$route = clone $this;
 		$route->params = array_merge($route->params, $params);
 		
@@ -249,6 +247,12 @@ class RouterRoute
 		return $this;
 	}
 	
+	function go()
+	{
+		header('Location: '. $this->__toString());
+		exit;
+	}
+	
 	public function __toString()
 	{
 		$url = array();
@@ -273,18 +277,6 @@ class RouterRoute
 		// TODO: add
 		return Paths_Config::$base . implode('/', $url);
 	}
-}
-
-
-function route($route, $params = array(), $add = null)
-{
-	return Router::$routes[$route]->url($params, $add);
-}
-
-function redirect($route)
-{
-	header('Location: '. $route);
-	exit;
 }
 
 ?>

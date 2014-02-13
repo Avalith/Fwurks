@@ -5,6 +5,7 @@ define('DS', DIRECTORY_SEPARATOR);
 require getcwd() . DS . Dispatcher::$folder_system . DS . Dispatcher::$folder_configs . DS .'Paths.config.php';
 
 require Paths_Config::$configs		. 'System.config.php';
+
 require Paths_Config::$library		. 'Inflector.php';
 require Paths_Config::$library		. 'Router.php';
 require Paths_Config::$library		. 'BaseController.php';
@@ -13,12 +14,20 @@ require Paths_Config::$library		. 'AutoLoader.php';
 require Paths_Config::$app_atoms	. 'application_controller.php';
 require Paths_Config::$app_configs	. 'application.config.php';
 
+
 spl_autoload_register('library\AutoLoader::load', true, true);
 
 foreach(Database_Config::$connections as $connection => $options)
 {
 	Database_Config::{'connect_' . $connection}($options);
 }
+
+
+function route($route, $params = array(), $add = null)
+{
+	return library\Router::$routes[$route]->url($params, $add);
+}
+
 
 
 /**
