@@ -23,9 +23,9 @@ foreach(Database_Config::$connections as $connection => $options)
 }
 
 
-function route($route, $params = array(), $add = null)
+function route($route = 'default', $params = array(), $add = null)
 {
-	return library\Router::$routes[$route]->url($params, $add);
+	return library\Router::route($route)->url($params, $add);
 }
 
 
@@ -55,11 +55,11 @@ function d($var = null, $label = null, $return = false, $backtrace = false)
 		$trace = '<table border="0" style="font-size: 11px; border-collapse: collapse;">';
 		foreach($backtrace as $bt)
 		{
-			$class 		= isset($bt['class']) 		? $bt['class'] 		: '';
-			$type 		= isset($bt['type']) 		? $bt['type'] 		: '';
-			$function 	= isset($bt['function']) 	? $bt['function'] 	: '';
-			$file	 	= isset($bt['file']) 		? $bt['file'] 		: '';
-			$line	 	= isset($bt['line']) 		? $bt['line'] 		: '';
+			$class		= isset($bt['class'])		? $bt['class']		: '';
+			$type		= isset($bt['type'])		? $bt['type']		: '';
+			$function	= isset($bt['function'])	? $bt['function']	: '';
+			$file		= isset($bt['file'])		? $bt['file']		: '';
+			$line		= isset($bt['line'])		? $bt['line']		: '';
 			$trace .= "<tr><td style='padding-right: 20px;'>{$class}{$type}{$function}()</td><td>".substr($file, strlen(getcwd())+1).":{$line}</td></tr>";
 		}
 		$trace .= '</table>';

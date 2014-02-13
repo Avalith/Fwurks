@@ -71,7 +71,7 @@ final class Router
 		
 		$route->locale = Application_Config::$locale_default;
 		
-		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; redirect($route); }
+		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; self::route($route)->go(); }
 		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
 	
@@ -101,10 +101,30 @@ final class Router
 	{
 		$url = '/' . $url;
 		
-		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", $url, $url_parts)){ break; } }
+		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", $url, $url_parts)){ $selected = $route; break; } }
 		foreach($url_parts as $i => $u){ if(is_numeric($i)){ unset($url_parts[$i]); } }
 		
-		return $route->url($url_parts);
+		if($selected)
+		{
+			return $selected->url($url_parts);
+		}
+		else
+		{
+			throw new RouterRouteException('No route found: ' . $url);
+		}
+	}
+	
+	public static function route($route)
+	{
+		
+		if($r = self::$routes[$route])
+		{
+			return $r;
+		}
+		else
+		{
+			throw new RouterRouteException('Route does not exists: ' . $route);
+		}
 	}
 	
 	private function __construct(){}
@@ -253,6 +273,7 @@ class RouterRoute
 		exit;
 	}
 	
+	
 	public function __toString()
 	{
 		$url = array();
@@ -261,7 +282,6 @@ class RouterRoute
 		($this->locale || Router::$locale_force) && $url[] = $this->locale;
 		
 		
-		d($this->parts);
 		foreach($this->parts as $p)
 		{
 			if($p['value'])

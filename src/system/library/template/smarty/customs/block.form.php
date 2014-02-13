@@ -6,9 +6,7 @@ function smarty_block_form($params, $content, $smarty, $repeat)
 {
 	if(!$repeat)
 	{
-		return <<<Html
-<form class="form-horizontal">$content</form>
-Html;
+		return "<form class=\"form-horizontal\">$content</form>";
 	}
 }
 

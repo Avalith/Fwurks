@@ -38,7 +38,7 @@ final class Template extends Smarty
 		$security_policy->allow_php_tag			= Template_Config::SECURITY_ALLOW_PHP_TAG;
 		
 		$this	->enableSecurity($security_policy)
-				->addPluginsDir('./customs/')
+				->addPluginsDir(__DIR__ . '/smarty/customs/')
 		;
 	}
 	
