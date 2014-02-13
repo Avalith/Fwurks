@@ -1,3 +1,6 @@
 [submodule "system/library/database/ActiveRecord"]
 	path = system/library/database/ActiveRecord
 	url = git://github.com/Avalith/php-activerecord.git
+[submodule "src/system/library/database/ActiveRecord"]
+	path = src/system/library/database/ActiveRecord
+	url = git@github.com:Avalith/php-activerecord.git
