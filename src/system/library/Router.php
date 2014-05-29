@@ -16,7 +16,7 @@ class RouterRequest
 	public $is_ajax;
 	public $response_type;
 	
-	public function __construct($route, array $get = array(), array $post = array(), $is_ajax = false, $response_type = 'html')
+	public function __construct($route, array $get = [], array $post = [], $is_ajax = false, $response_type = 'html')
 	{
 		$this->route			= $route;
 		$this->get				= $get;
@@ -29,10 +29,10 @@ class RouterRequest
 
 final class Router
 {
-	public static $atom_all = array();
+	public static $atom_all = [];
 	public static $atom_current;
 	
-	public static $locale_all = array();
+	public static $locale_all = [];
 	public static $locale_current;
 	public static $locale_force;
 	
@@ -75,7 +75,7 @@ final class Router
 		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
 	}
 	
-	public static function request(RouterRoute $route, $get = array(), $post = array(), $is_ajax = false, $response_type = 'html')
+	public static function request(RouterRoute $route, $get = [], $post = [], $is_ajax = false, $response_type = 'html')
 	{
 		$get = array_merge($get, $route->params);
 		
@@ -143,7 +143,7 @@ class RouterRoute
 	public $action;
 	public $params;
 	
-	private $parts		= array();
+	private $parts = [];
 	private $add;
 	
 	public function __construct($key)
@@ -156,7 +156,7 @@ class RouterRoute
 		$this->params		= $route[1];
 		
 		$path				= explode('/', trim($this->path, '/'));
-		$regexp				= array();
+		$regexp				= [];
 		foreach($path as $p)
 		{
 			if(preg_match('#^(?P<key>[\w]+)?:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
@@ -219,8 +219,8 @@ class RouterRoute
 			{
 				if($p['vars'])
 				{
-					$search		= array();
-					$replace	= array();
+					$search		= [];
+					$replace	= [];
 					foreach($p['vars'] as $v)
 					{
 						if($route->params[$v])
@@ -276,7 +276,7 @@ class RouterRoute
 	
 	public function __toString()
 	{
-		$url = array();
+		$url = [];
 		
 		$this->atom != Application_Config::$atom_default && $url[] = $this->atom;
 		($this->locale || Router::$locale_force) && $url[] = $this->locale;
