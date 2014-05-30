@@ -13,16 +13,14 @@ class RouterRequest
 	public $get;
 	public $post;
 	
-	public $is_ajax;
-	public $response_type;
+	public $type;
 	
-	public function __construct($route, array $get = [], array $post = [], $is_ajax = false, $response_type = 'html')
+	public function __construct($route, array $get = [], array $post = [], $type = 'html')
 	{
-		$this->route			= $route;
-		$this->get				= $get;
-		$this->post				= $post;
-		$this->is_ajax			= $is_ajax;
-		$this->response_type	= $response_type;
+		$this->route	= $route;
+		$this->get		= $get;
+		$this->post		= $post;
+		$this->type		= $type;
 	}
 }
 
@@ -110,9 +108,7 @@ class RouterRoute
 		
 		unset($route->params['atom'], $route->params['locale']);
 		
-		
 		$route_variables = array('controller', 'action');
-		
 		
 		foreach($route->parts as &$p)
 		{
@@ -175,7 +171,6 @@ class RouterRoute
 		exit;
 	}
 	
-	
 	public function __toString()
 	{
 		$url = [];
@@ -216,22 +211,29 @@ final class Router
 	
 	public static function start()
 	{
-		self::load_url();
-		self::load_atom();
-		self::load_locales();
-		self::load_configs();
-		self::load_routes();
+		self::load();
+		
+		$route = self::find(implode('/', self::$url));
+		$route->locale = self::$locale_current; # Application_Config::$locale_default;
+		if(self::$locale_force && !self::$locale_current)
+		{
+			$route->locale = Application_Config::$locale_default; self::route($route)->go();
+		}
 		
 		$get	= $_GET;
 		$post	= $_POST;
 		unset($_GET, $_POST);
 		
-		$route = self::find(implode('/', self::$url));
-		$route->locale = self::$locale_current; # Application_Config::$locale_default;
-		
-		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; self::route($route)->go(); }
-		
-		return self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
+		return self::request($route, $get, $post); # (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest')
+	}
+	
+	public static function load()
+	{
+		self::load_url();
+		self::load_atom();
+		self::load_locales();
+		self::load_configs();
+		self::load_routes();
 	}
 	
 	public static function load_url()
@@ -270,33 +272,28 @@ final class Router
 	{
 		$get = array_merge($get, $route->params);
 		
-		$controller_classname = Inflector::classify($route->controller) . '_Controller';
-		if(class_exists($controller_classname, false) || file_exists($class = Paths_Config::$atom_controllers . $route->controller . '.controller.php'))
+		$controller_name = Inflector::classify($route->controller) . '_Controller';
+		if(class_exists($controller_name, false) || file_exists($class = Paths_Config::$atom_controllers . $route->controller . '.controller.php'))
 		{
 			if($class){ require_once $class; }
 			
-			$controller = new $controller_classname(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
-			$content = $controller->__execute();
-			return $controller->__render($content, get_object_vars($controller));
+			$controller = new $controller_name(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+			return $controller->__render($controller->__execute(), get_object_vars($controller));
 		}
 		else
 		{
-			throw new RouterException('Missing controller: ' . $controller_classname);
+			throw new RouterException('Missing controller: ' . $controller_name);
 		}
-		
-		return null;
 	}
 	
 	
 	public static function find($url)
 	{
-		$url = '/' . $url;
-		
-		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", $url, $url_parts)){ $selected = $route; break; } }
-		foreach($url_parts as $i => $u){ if(is_numeric($i)){ unset($url_parts[$i]); } }
+		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", '/' . $url, $url_parts)){ $selected = $route; break; } }
 		
 		if($selected)
 		{
+			foreach($url_parts as $i => $u){ if(is_numeric($i)){ unset($url_parts[$i]); } }
 			return $selected->url($url_parts);
 		}
 		else
