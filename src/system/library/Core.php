@@ -2,7 +2,7 @@
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require getcwd() . DS . Dispatcher::$folder_system . DS . Dispatcher::$folder_configs . DS .'Paths.config.php';
+require Dispatcher::$cwd . DS . Dispatcher::$folder_system . DS . Dispatcher::$folder_configs . DS .'Paths.config.php';
 
 require Paths_Config::$configs		. 'System.config.php';
 

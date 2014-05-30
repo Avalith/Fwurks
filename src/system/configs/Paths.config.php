@@ -32,31 +32,43 @@ final class Paths_Config
 	{
 		self::$base			= Dispatcher::$url_base;
 		
-		self::$root			= getcwd() . DIRECTORY_SEPARATOR;
+		self::$root			= Dispatcher::$cwd . DS;
 		
-		self::$system		= self::$root			. Dispatcher::$folder_system		. DIRECTORY_SEPARATOR;
-		self::$resources	= self::$root			. Dispatcher::$folder_resources		. DIRECTORY_SEPARATOR;
+		self::$system		= self::$root			. Dispatcher::$folder_system		. DS;
+		self::$resources	= self::$root			. Dispatcher::$folder_resources		. DS;
 		
-		self::$configs		= self::$system			. Dispatcher::$folder_configs		. DIRECTORY_SEPARATOR;
-		self::$library		= self::$system			. Dispatcher::$folder_library		. DIRECTORY_SEPARATOR;
-		self::$application	= self::$system			. Dispatcher::$folder_application	. DIRECTORY_SEPARATOR;
+		self::$configs		= self::$system			. Dispatcher::$folder_configs		. DS;
+		self::$library		= self::$system			. Dispatcher::$folder_library		. DS;
+		self::$application	= self::$system			. Dispatcher::$folder_application	. DS;
 		
-		self::$app_atoms	= self::$application	. self::$app_atoms					. DIRECTORY_SEPARATOR;
-		self::$app_configs	= self::$application	. self::$app_configs				. DIRECTORY_SEPARATOR;
-		self::$app_locales	= self::$application	. self::$app_locales				. DIRECTORY_SEPARATOR;
-		self::$app_models	= self::$application	. self::$app_models					. DIRECTORY_SEPARATOR;
+		self::$app_atoms	= self::$application	. self::$app_atoms					. DS;
+		self::$app_configs	= self::$application	. self::$app_configs				. DS;
+		self::$app_locales	= self::$application	. self::$app_locales				. DS;
+		self::$app_models	= self::$application	. self::$app_models					. DS;
 		
 	}
 	
 	public static function set_atom($atom)
 	{
-		$atom = self::$app_atoms . $atom . DIRECTORY_SEPARATOR;
-		self::$atom_configs			= $atom . self::$atom_configs		. DIRECTORY_SEPARATOR;
-		self::$atom_controllers		= $atom . self::$atom_controllers	. DIRECTORY_SEPARATOR;
-		self::$atom_models			= $atom . self::$atom_models		. DIRECTORY_SEPARATOR;
-		self::$atom_library			= $atom . self::$atom_library		. DIRECTORY_SEPARATOR;
-		self::$atom_views			= $atom . self::$atom_views			. DIRECTORY_SEPARATOR;
-		self::$atom_temp			= $atom . self::$atom_temp			. DIRECTORY_SEPARATOR;
+		$atom = self::$app_atoms . $atom . DS;
+		self::$atom_configs			= $atom . self::$atom_configs		. DS;
+		self::$atom_controllers		= $atom . self::$atom_controllers	. DS;
+		self::$atom_models			= $atom . self::$atom_models		. DS;
+		self::$atom_library			= $atom . self::$atom_library		. DS;
+		self::$atom_views			= $atom . self::$atom_views			. DS;
+		self::$atom_temp			= $atom . self::$atom_temp			. DS;
+	}
+	
+	public static function glob($path)
+	{
+		$glob = [];
+		foreach(glob($path . '*', GLOB_ONLYDIR) as $dir)
+		{
+			$dir = explode('/', $dir);
+			$glob[] = end($dir);
+		}
+		
+		return $glob;
 	}
 }
 

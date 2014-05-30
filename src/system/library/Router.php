@@ -26,111 +26,6 @@ class RouterRequest
 	}
 }
 
-
-final class Router
-{
-	public static $atom_all = [];
-	public static $atom_current;
-	
-	public static $locale_all = [];
-	public static $locale_current;
-	public static $locale_force;
-	
-	public static $routes;
-	
-	
-	public static function start()
-	{
-		$url = strtolower($_GET['route']);
-		
-		unset($_GET['route']);
-		
-		$url = preg_split('#/+#', $url, null, PREG_SPLIT_NO_EMPTY);
-		
-		foreach(glob(Paths_Config::$app_atoms . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$atom_all[] = array_pop($dir); }
-		self::$atom_current		= isset($url[0]) && in_array($url[0], self::$atom_all) ? array_shift($url) : Application_Config::$atom_default;
-		Paths_Config::set_atom(self::$atom_current);
-		
-		require_once Paths_Config::$atom_configs . 'atom.config.php';
-		require_once Paths_Config::$atom_configs . 'routes.config.php';
-		
-		
-		foreach(glob(Paths_Config::$app_locales . '*', GLOB_ONLYDIR) as $dir){ $dir = explode('/', $dir); self::$locale_all[] = array_pop($dir); }
-		isset($url[0]) && in_array($url[0], self::$locale_all) && self::$locale_current	= array_shift($url);
-		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
-		
-		self::$routes = get_class_vars('Routes_Config');
-		foreach(self::$routes as $key => &$r){ $r = new RouterRoute($key); }
-		
-		
-		$get	= $_GET;
-		$post	= $_POST;
-		unset($_GET, $_POST);
-		
-		$route = self::find(implode('/', $url));
-		
-		$route->locale = Application_Config::$locale_default;
-		
-		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; self::route($route)->go(); }
-		echo self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
-	}
-	
-	public static function request(RouterRoute $route, $get = [], $post = [], $is_ajax = false, $response_type = 'html')
-	{
-		$get = array_merge($get, $route->params);
-		
-		$controller_classname = Inflector::classify($route->controller) . '_Controller';
-		if(class_exists($controller_classname, false) || file_exists($class = Paths_Config::$atom_controllers . $route->controller . '.controller.php'))
-		{
-			if($class){ require_once $class; }
-			
-			$controller = new $controller_classname(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
-			$content = $controller->__execute();
-			return $controller->__render($content, get_object_vars($controller));
-		}
-		else
-		{
-			throw new RouterException('Missing controller: ' . $controller_classname);
-		}
-		
-		return null;
-	}
-	
-	
-	public static function find($url)
-	{
-		$url = '/' . $url;
-		
-		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", $url, $url_parts)){ $selected = $route; break; } }
-		foreach($url_parts as $i => $u){ if(is_numeric($i)){ unset($url_parts[$i]); } }
-		
-		if($selected)
-		{
-			return $selected->url($url_parts);
-		}
-		else
-		{
-			throw new RouterRouteException('No route found: ' . $url);
-		}
-	}
-	
-	public static function route($route)
-	{
-		
-		if($r = self::$routes[$route])
-		{
-			return $r;
-		}
-		else
-		{
-			throw new RouterRouteException('Route does not exists: ' . $route);
-		}
-	}
-	
-	private function __construct(){}
-	
-}
-
 class RouterRoute
 {
 	public $key;
@@ -161,7 +56,12 @@ class RouterRoute
 		{
 			if(preg_match('#^(?P<key>[\w]+)?:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
 			{
-				$part = array('name' => $var['name'], 'regexp' => $var['regexp'], 'default' => $this->params[$var['name']]);
+				$part = array
+				(
+					'name'		=> $var['name'], 
+					'regexp'	=> (isset($var['regexp']) ? $var['regexp'] : ''), 
+					'default'	=> (isset($this->params[$var['name']]) ? $this->params[$var['name']] : ''),
+				);
 				$r = "/(?P<{$var['name']}>" . ($var['key'] ? "{$var['key']}:" : '') . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
 				
 				$part['has_key'] = !!$var['key'];
@@ -184,6 +84,8 @@ class RouterRoute
 			}
 			else if($p == '*')
 			{
+				// TODO: WILDCART ROUTE
+				
 				de('TODO WILDCART ROUTE');
 				$regexp[] = '/(?P<__wildcard__>[/\w\d_-]+)';
 			}
@@ -297,6 +199,126 @@ class RouterRoute
 		// TODO: add
 		return Paths_Config::$base . implode('/', $url);
 	}
+}
+
+final class Router
+{
+	public static $atom_all = [];
+	public static $atom_current;
+	
+	public static $locale_all = [];
+	public static $locale_current;
+	public static $locale_force;
+	
+	public static $url;
+	public static $routes;
+	
+	
+	public static function start()
+	{
+		self::load_url();
+		self::load_atom();
+		self::load_locales();
+		self::load_configs();
+		self::load_routes();
+		
+		$get	= $_GET;
+		$post	= $_POST;
+		unset($_GET, $_POST);
+		
+		$route = self::find(implode('/', self::$url));
+		$route->locale = self::$locale_current; # Application_Config::$locale_default;
+		
+		if(self::$locale_force && !self::$locale_current){ $route->locale = Application_Config::$locale_default; self::route($route)->go(); }
+		
+		return self::request($route, $get, $post, (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest'));
+	}
+	
+	public static function load_url()
+	{
+		self::$url = preg_split('#/+#', strtolower($_GET['route']), null, PREG_SPLIT_NO_EMPTY);
+		unset($_GET['route']);
+	}
+	
+	public static function load_atom()
+	{
+		self::$atom_all			= Paths_Config::glob(Paths_Config::$app_atoms);
+		self::$atom_current		= isset(self::$url[0]) && in_array(self::$url[0], self::$atom_all) ? array_shift(self::$url) : Application_Config::$atom_default;
+		Paths_Config::set_atom(self::$atom_current);
+	}
+	
+	public static function load_locales()
+	{
+		self::$locale_all		= Paths_Config::glob(Paths_Config::$app_locales);
+		self::$locale_current	= isset(self::$url[0]) && in_array(self::$url[0], self::$locale_all) ? array_shift(self::$url) : Application_Config::$locale_default;
+		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
+	}
+	
+	public static function load_configs()
+	{
+		require_once Paths_Config::$atom_configs . 'atom.config.php';
+		require_once Paths_Config::$atom_configs . 'routes.config.php';
+	}
+	
+	public static function load_routes()
+	{
+		self::$routes = get_class_vars('Routes_Config');
+		foreach(self::$routes as $key => &$r){ $r = new RouterRoute($key); }
+	}
+	
+	public static function request(RouterRoute $route, $get = [], $post = [], $is_ajax = false, $response_type = 'html')
+	{
+		$get = array_merge($get, $route->params);
+		
+		$controller_classname = Inflector::classify($route->controller) . '_Controller';
+		if(class_exists($controller_classname, false) || file_exists($class = Paths_Config::$atom_controllers . $route->controller . '.controller.php'))
+		{
+			if($class){ require_once $class; }
+			
+			$controller = new $controller_classname(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+			$content = $controller->__execute();
+			return $controller->__render($content, get_object_vars($controller));
+		}
+		else
+		{
+			throw new RouterException('Missing controller: ' . $controller_classname);
+		}
+		
+		return null;
+	}
+	
+	
+	public static function find($url)
+	{
+		$url = '/' . $url;
+		
+		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", $url, $url_parts)){ $selected = $route; break; } }
+		foreach($url_parts as $i => $u){ if(is_numeric($i)){ unset($url_parts[$i]); } }
+		
+		if($selected)
+		{
+			return $selected->url($url_parts);
+		}
+		else
+		{
+			throw new RouterRouteException('No route found: ' . $url);
+		}
+	}
+	
+	public static function route($route)
+	{
+		
+		if($r = self::$routes[$route])
+		{
+			return $r;
+		}
+		else
+		{
+			throw new RouterRouteException('Route does not exists: ' . $route);
+		}
+	}
+	
+	private function __construct(){}
 }
 
 ?>

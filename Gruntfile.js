@@ -18,17 +18,17 @@ module.exports = function(grunt)
 		{
 			test:
 			{
-				files: ['src/*'],
+				files: ['src/**', 'tests/**'],
 				tasks: ['phpunit']
 			},
-			css:
-			{
-				files: ['src/resources/*/*/styles/scss/*', '/src/*'],
-				tasks: ['sass'],
-				options: {
-					livereload: true,
-				}
-			}
+			// css:
+			// {
+			// 	files: ['src/resources/*/*/styles/scss/*', '/src/*'],
+			// 	tasks: ['sass'],
+			// 	options: {
+			// 		livereload: true,
+			// 	}
+			// }
 			// livescript:
 			// {
 				
