@@ -40,8 +40,7 @@ class Dispatcher
 	
 	
 	/**
-	 * The name of your resource folder
-	 * @default: 'resources'
+	 * Current working directory
 	 */
 	public static $cwd = __DIR__;
 	

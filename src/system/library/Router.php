@@ -39,11 +39,8 @@ class RouterRoute
 	private $parts = [];
 	private $add;
 	
-	public function __construct($key)
+	public function __construct($key, $route)
 	{
-		$route = Router::$routes[$key];
-		if(!$route){ throw new RouterRouteException('Missing route: ' . $key); }
-		
 		$this->key 			= $key;
 		$this->path			= trim($route[0], '/');
 		$this->params		= $route[1];
@@ -264,8 +261,8 @@ final class Router
 	
 	public static function load_routes()
 	{
-		self::$routes = get_class_vars('Routes_Config');
-		foreach(self::$routes as $key => &$r){ $r = new RouterRoute($key); }
+		$routes = get_class_vars('Routes_Config');
+		foreach($routes as $key => $route){ self::$routes[$key] = new RouterRoute($key, $route); }
 	}
 	
 	public static function request(RouterRoute $route, $get = [], $post = [], $is_ajax = false, $response_type = 'html')
