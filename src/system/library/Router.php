@@ -54,8 +54,8 @@ class RouterRoute
 			{
 				$part = array
 				(
-					'name'		=> $var['name'], 
-					'regexp'	=> (isset($var['regexp']) ? $var['regexp'] : ''), 
+					'name'		=> $var['name'],
+					'regexp'	=> (isset($var['regexp']) ? $var['regexp'] : ''),
 					'default'	=> (isset($this->params[$var['name']]) ? $this->params[$var['name']] : ''),
 				);
 				
@@ -102,8 +102,8 @@ class RouterRoute
 		$route->params = array_merge($route->params, $params);
 		
 		$route->add		= $add;
-		$route->atom	= $route->params['atom']	?: Router::$atom_current; 
-		$route->locale	= $route->params['locale']	?: Router::$locale_current; 
+		$route->atom	= $route->params['atom']	?: Router::$atom_current;
+		$route->locale	= $route->params['locale']	?: Router::$locale_current;
 		
 		unset($route->params['atom'], $route->params['locale']);
 		
@@ -111,7 +111,7 @@ class RouterRoute
 		
 		foreach($route->parts as &$p)
 		{
-			if($p['raw']){ $p['value'] = $p['raw']; }
+			if(isset($p['raw'])){ $p['value'] = $p['raw']; }
 			else
 			{
 				if($p['vars'])
@@ -143,6 +143,8 @@ class RouterRoute
 					}
 				}
 				
+				d($this);
+				de($p);
 				if(!$p['optional'] && !$p['value']){ throw new RouterRouteException('Missing route part: ' . $p['name'] .' of $' . $route->key); }
 			}
 			
@@ -267,6 +269,7 @@ final class Router
 	public static function load_routes()
 	{
 		$routes = get_class_vars('Routes_Config');
+		
 		foreach($routes as $key => $route){ self::$routes[$key] = new RouterRoute($key, $route); }
 	}
 	
@@ -293,7 +296,7 @@ final class Router
 	{
 		foreach(self::$routes as $route)
 		{
-			if(preg_match("#{$route->regexp}#ui", '/' . $url, $url_parts)){ $selected = $route; break; }
+			if(preg_match("#{$route->regexp}#ui", '/' . ltrim($url, '/'), $url_parts)){ $selected = $route; break; }
 		}
 		
 		if($selected)

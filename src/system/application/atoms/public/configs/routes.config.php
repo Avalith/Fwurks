@@ -12,7 +12,7 @@
 /**
  * Routes Map
  */
-class Routes_Config 
+class Routes_Config
 {
 	public $home	= ['/'														, ['controller' => 'home', 'action' => 'index']];
 	public $e404	= ['404'													, ['controller' => 'home', 'action' => '404']];
