@@ -271,7 +271,7 @@ final class Router
 		foreach($routes as $key => $route){ self::$routes[$key] = new RouterRoute($key, $route); }
 	}
 	
-	public static function request(RouterRoute $route, $get = [], $post = [], $is_ajax = false, $response_type = 'html')
+	public static function request(RouterRoute $route, $get = [], $post = [], $response_type = 'html')
 	{
 		$get = array_merge($get, $route->params);
 		
@@ -280,7 +280,7 @@ final class Router
 		{
 			if($class){ require_once $class; }
 			
-			$controller = new $controller_name(new RouterRequest($route, $get, $post, $is_ajax, $response_type));
+			$controller = new $controller_name(new RouterRequest($route, $get, $post, $response_type));
 			return $controller->__render($controller->__execute(), get_object_vars($controller));
 		}
 		else
