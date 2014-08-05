@@ -47,9 +47,10 @@ class RouterRoute
 		
 		$path				= explode('/', trim($this->path, '/'));
 		$regexp				= [];
+		
 		foreach($path as $p)
 		{
-			if(preg_match('#^(?P<key>[\w]+)?:(?P<opt>\??)(?P<name>[\w\d_-]+)(?:~(?P<regexp>[^~]+)~)?#ui', $p, $var))
+			if(preg_match('#^(?<key>[\w]+)?:(?<opt>\??)(?<name>[\w\d_-]+)(?:~(?<regexp>[^~]+)~)?#ui', $p, $var))
 			{
 				$part = array
 				(
@@ -57,7 +58,8 @@ class RouterRoute
 					'regexp'	=> (isset($var['regexp']) ? $var['regexp'] : ''), 
 					'default'	=> (isset($this->params[$var['name']]) ? $this->params[$var['name']] : ''),
 				);
-				$r = "/(?P<{$var['name']}>" . ($var['key'] ? "{$var['key']}:" : '') . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
+				
+				$r = "/(?<{$var['name']}>" . ($var['key'] ? "{$var['key']}:" : '') . (isset($var['regexp']) ? $var['regexp'] : '[\w\d_-]+') . ')';
 				
 				$part['has_key'] = !!$var['key'];
 				
@@ -82,7 +84,7 @@ class RouterRoute
 				// TODO: WILDCART ROUTE
 				
 				de('TODO WILDCART ROUTE');
-				$regexp[] = '/(?P<__wildcard__>[/\w\d_-]+)';
+				$regexp[] = '/(?<__wildcard__>[/\w\d_-]+)';
 			}
 			else
 			{
@@ -214,7 +216,8 @@ final class Router
 		$route->locale = self::$locale_current; # Application_Config::$locale_default;
 		if(self::$locale_force && !self::$locale_current)
 		{
-			$route->locale = Application_Config::$locale_default; self::route($route)->go();
+			$route->locale = Application_Config::$locale_default;
+			self::route($route)->go();
 		}
 		
 		$get	= $_GET;
@@ -228,8 +231,8 @@ final class Router
 	{
 		self::load_url();
 		self::load_atom();
-		self::load_locales();
 		self::load_configs();
+		self::load_locales();
 		self::load_routes();
 	}
 	
@@ -241,22 +244,24 @@ final class Router
 	
 	public static function load_atom()
 	{
+		# TODO Profile this and probably change the glob as system application config
 		self::$atom_all			= Paths_Config::glob(Paths_Config::$app_atoms);
 		self::$atom_current		= isset(self::$url[0]) && in_array(self::$url[0], self::$atom_all) ? array_shift(self::$url) : Application_Config::$atom_default;
 		Paths_Config::set_atom(self::$atom_current);
-	}
-	
-	public static function load_locales()
-	{
-		self::$locale_all		= Paths_Config::glob(Paths_Config::$app_locales);
-		self::$locale_current	= isset(self::$url[0]) && in_array(self::$url[0], self::$locale_all) ? array_shift(self::$url) : Application_Config::$locale_default;
-		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
 	}
 	
 	public static function load_configs()
 	{
 		require_once Paths_Config::$atom_configs . 'atom.config.php';
 		require_once Paths_Config::$atom_configs . 'routes.config.php';
+	}
+	
+	public static function load_locales()
+	{
+		# TODO Profile this and probably change the glob as system application config
+		self::$locale_all		= Paths_Config::glob(Paths_Config::$app_locales);
+		self::$locale_current	= isset(self::$url[0]) && in_array(self::$url[0], self::$locale_all) ? array_shift(self::$url) : Application_Config::$locale_default;
+		self::$locale_force		= Atom_Config::$locale_force || count(self::$locale_all) != 1;
 	}
 	
 	public static function load_routes()
@@ -286,7 +291,10 @@ final class Router
 	
 	public static function find($url)
 	{
-		foreach(self::$routes as $route){ if(preg_match("#{$route->regexp}#ui", '/' . $url, $url_parts)){ $selected = $route; break; } }
+		foreach(self::$routes as $route)
+		{
+			if(preg_match("#{$route->regexp}#ui", '/' . $url, $url_parts)){ $selected = $route; break; }
+		}
 		
 		if($selected)
 		{
