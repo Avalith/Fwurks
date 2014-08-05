@@ -143,8 +143,6 @@ class RouterRoute
 					}
 				}
 				
-				d($this);
-				de($p);
 				if(!$p['optional'] && !$p['value']){ throw new RouterRouteException('Missing route part: ' . $p['name'] .' of $' . $route->key); }
 			}
 			
