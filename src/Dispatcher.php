@@ -47,7 +47,7 @@ class Dispatcher
 	
 	public static function load()
 	{
-		library\Router::start();
+		echo library\Router::start();
 	}
 }
 

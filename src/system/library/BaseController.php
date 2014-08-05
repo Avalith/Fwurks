@@ -51,7 +51,7 @@ abstract class BaseController implements Controller
 	protected	final function __style			($file)		{ $this->__styles			= array_merge($this->__styles			, func_get_args()); }
 	protected	final function __library		($name)		{ require_once Paths_Config::$atom_library . $name . '.php'; }
 	
-	public		final function __render			($data, $obj_vars)	{ return $this->{'__render_' . $this->__request->response_type}($data, $obj_vars); }
+	public		final function __render			($data, $obj_vars)	{ return $this->{'__render_' . $this->__request->type}($data, $obj_vars); }
 	private		final function __render_		($data, $obj_vars)	{ return $data; }
 	private		final function __render_html	($data, $obj_vars)	{ return (new template\Template())->assign($obj_vars)->assign($data)->fetch($this->__view()); }
 	private		final function __render_json	($data, $obj_vars)	{ return json_encode($data); }
