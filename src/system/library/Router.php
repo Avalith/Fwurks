@@ -235,7 +235,7 @@ final class Router
 	
 	public static function load_url()
 	{
-		self::$url = preg_split('#/+#', strtolower($_GET['route']), null, PREG_SPLIT_NO_EMPTY);
+		self::$url = preg_split('#/+#', strtolower(isset($_GET['route']) ? $_GET['route'] : ''), null, PREG_SPLIT_NO_EMPTY);
 		unset($_GET['route']);
 	}
 	
