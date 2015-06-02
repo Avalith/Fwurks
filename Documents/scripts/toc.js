@@ -5,7 +5,7 @@ $(function()
 	
 	$('h2, h3, h4, h5, h6').slice(1).each(function()
 	{
-		var $this = $(this);
+		var $this = $(this), $parent_tocItem;
 		var id = $this.attr('id') || $this.text().toLowerCase().replace(/\W+/g, '_');
 		$this.attr('id', 'toc-'+id);
 		
@@ -15,7 +15,7 @@ $(function()
 		if(level > 2)
 		{
 			var _this = $this;
-			var $parent_tocItem = $( '#item'+$this.prevAll('h'+(level-1)+':eq(0)').attr('id') );
+			$parent_tocItem = $( '#item'+$this.prevAll('h'+(level-1)+':eq(0)').attr('id') );
 			
 			while(!$parent_tocItem.length)
 			{
@@ -27,17 +27,17 @@ $(function()
 			if(!$tocItem.length){ $tocItem = $('<ul></ul>').appendTo($parent_tocItem); }
 		}
 		
-		var num = $tocItem.children().length+1;
+		var num = $tocItem.children().length + 1;
 		if($parent_tocItem)
-		{ 
-			num = $parent_tocItem.children('a').children('.number').text()+num; 
+		{
+			num = $parent_tocItem.children('a').children('.number').text() + num;
 			if(!$parent_tocItem.find('.button').length)
 			{
 				$('<span class="button collapse"></span>').appendTo($parent_tocItem).click(function()
 				{
 					$(this).toggleClass('expand').toggleClass('collapse').siblings('ul').slideToggle();
 				});
-			} 
+			}
 		}
 		
 		
@@ -47,5 +47,5 @@ $(function()
 		$this.mouseenter(function(){ $toc.find('.selected').removeClass('selected'); $('#itemtoc-'+id+' > a').addClass('selected'); });
 	});
 	
-	$toc.find('a').click(function(){ $toc.find('.selected').removeClass('selected'); $(this).addClass('selected'); })
+	$toc.find('a').click(function(){ $toc.find('.selected').removeClass('selected'); $(this).addClass('selected'); });
 });
