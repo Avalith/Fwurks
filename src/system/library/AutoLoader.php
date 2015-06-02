@@ -17,8 +17,6 @@ class AutoLoader
 		{
 			$filename = Inflector::to_file($class_name) . '.php';
 			
-			d([Paths_Config::$app_controllers	. $filename]);
-			
 				file_exists($class_file = Paths_Config::$atom_controllers	. $filename)
 			||	file_exists($class_file = Paths_Config::$app_controllers	. $filename)
 			||	$class_file = null;
