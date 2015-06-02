@@ -33,6 +33,12 @@ class Dispatcher
 	public static $folder_library = 'library';
 	
 	/**
+	 * The name of your library folder inside the system folder
+	 * @default: 'library'
+	 */
+	public static $folder_temp = 'temp';
+	
+	/**
 	 * The name of your resource folder
 	 * @default: 'resources'
 	 */

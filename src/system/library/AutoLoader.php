@@ -5,6 +5,8 @@ use Paths_Config;
 
 class AutoLoader
 {
+	// TODO autoloader cache file
+	
 	public static function load($class_name)
 	{
 		if(substr($class_name, 0, 8) == 'library\\')
@@ -13,7 +15,13 @@ class AutoLoader
 		}
 		else if(substr($class_name, -11) == '_Controller')
 		{
-			$class_file = Paths_Config::$atom_controllers . $path . Inflector::to_file($class_name) . '.php';
+			$filename = Inflector::to_file($class_name) . '.php';
+			
+			d([Paths_Config::$app_controllers	. $filename]);
+			
+				file_exists($class_file = Paths_Config::$atom_controllers	. $filename)
+			||	file_exists($class_file = Paths_Config::$app_controllers	. $filename)
+			||	$class_file = null;
 		}
 		else if(substr($class_name, -7) == '_Config')
 		{

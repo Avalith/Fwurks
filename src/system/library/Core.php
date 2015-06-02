@@ -11,7 +11,7 @@ require Paths_Config::$library		. 'Router.php';
 require Paths_Config::$library		. 'BaseController.php';
 require Paths_Config::$library		. 'AutoLoader.php';
 
-require Paths_Config::$app_atoms	. 'application_controller.php';
+// require Paths_Config::$app_atoms	. 'application_controller.php';
 require Paths_Config::$app_configs	. 'application.config.php';
 
 
