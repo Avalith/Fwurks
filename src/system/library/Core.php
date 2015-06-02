@@ -42,8 +42,8 @@ function d($var = null, $label = null, $return = false, $backtrace = false)
 	$type = gettype($var);
 	$regexps = array
 	(
-		'/\[([\w\d\?]*)(:[\w\d\?]+)?(?>:(protected|private))\] =>/u' => '[<strong style="color: #069;">\\1</strong> <span style="color: #666;">\\3</span>\\2] =>',
-		'/\[([\w\d\?]*)] =>/u' => '[<strong style="color: #069;">\\1</strong>] =>',
+		'/\[([^\]]*)(:[\w\d\?]+)?(?>:(protected|private))\] =>/u' => '[<strong style="color: #069;">\\1</strong> <span style="color: #666;">\\3</span>\\2] =>',
+		'/\[([^\]]*)] =>/u' => '[<strong style="color: #069;">\\1</strong>] =>',
 	);
 	$dump = preg_replace(array_keys($regexps), array_values($regexps), print_r($var, true));
 	$dump = "<strong style='font-size: 15px; line-height: 40px;'>Debug <em>($type)</em>: $label</strong>\n$dump\n";
