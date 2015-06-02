@@ -1,7 +1,7 @@
 <?php
 
 namespace library;
-use Paths_Config;
+use Paths_Config, System_Config;
 
 class AutoLoader
 {
@@ -11,7 +11,7 @@ class AutoLoader
 	
 	public static function get($class_name)
 	{
-		if(isset(self::$cache[$class_name])){ return self::$cache[$class_name]; }
+		if(!System_Config::PRODUCTION && isset(self::$cache[$class_name])){ return self::$cache[$class_name]; }
 	}
 	
 	public static function find($class_name)
@@ -64,17 +64,18 @@ class AutoLoader
 		}
 	}
 	
-	public static function save()
-	{
-		self::$cache_dirty && file_put_contents(self::$cache_file, '<?php return ' . var_export(self::$cache, true) . '; ?>');
-	}
-	
 	public static function init()
 	{
 		self::$cache_file	= Paths_Config::$temp . 'autoloader.cache.php';
 		self::$cache		= include_once self::$cache_file;
 		
-		register_shutdown_function(function(){ self::save(); });
+		register_shutdown_function(function()
+		{
+			if(self::$cache_dirty && is_array(self::$cache))
+			{
+				file_put_contents(self::$cache_file, '<?php return ' . var_export(self::$cache, true) . '; ?>');
+			}
+		});
 	}
 };
 
