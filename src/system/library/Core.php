@@ -22,7 +22,6 @@ foreach(Database_Config::$connections as $connection => $options)
 	Database_Config::{'connect_' . $connection}($options);
 }
 
-
 function route($route = 'default', $params = array(), $add = null)
 {
 	return library\Router::route($route)->url($params, $add);

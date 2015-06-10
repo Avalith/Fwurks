@@ -11,7 +11,8 @@ class AutoLoader
 	
 	public static function get($class_name)
 	{
-		if(!System_Config::PRODUCTION && isset(self::$cache[$class_name])){ return self::$cache[$class_name]; }
+		$key = Paths_Config::$current_atom . ' > ' . $class_name;
+		if(!System_Config::PRODUCTION && isset(self::$cache[$key])){ return self::$cache[$key]; }
 	}
 	
 	public static function find($class_name)
@@ -58,7 +59,7 @@ class AutoLoader
 		else if(file_exists($class_file = self::find($class_name)))
 		{
 			self::$cache_dirty = true;
-			self::$cache[$class_name] = $class_file;
+			self::$cache[Paths_Config::$current_atom . ' > ' . $class_name] = $class_file;
 			
 			require $class_file;
 		}

@@ -6,22 +6,30 @@ final class Database_Config
 	
 	public static $connections = array
 	(
-		'activerecord' => array
+		'eloquent' => array
 		(
-			'default'	=> 'mysql://root:@localhost/test',
-			'test'		=> 'mysql://root:@localhost/test',
+			'default'	=> array(
+				'driver'	=> 'mysql',
+				'host'		=> 'localhost',
+				'database'	=> 'test',
+				'username'	=> 'root',
+				'password'	=> '',
+				'charset'	=> 'utf8',
+				'collation'	=> 'utf8_general_ci',
+				'prefix'	=> ''
+			)
 		),
 	);
 	
-	public static function connect_activerecord()
+	public static function connect_eloquent()
 	{
-		require Paths_Config::$library . 'database' . DS . 'ActiveRecord' . DS . 'ActiveRecord.php';
+		require_once Paths_Config::$library . 'database' . DS . 'vendor' . DS . 'autoload.php';
 		
-		ActiveRecord\Config::initialize(function($config)
-		{
-			$config->set_connections(self::$connections['activerecord']);
-			$config->set_default_connection(self::$default_connection);
-		});
+		$capsule = new Illuminate\Database\Capsule\Manager;
+		
+		foreach(self::$connections['eloquent'] as $name => $config){ $capsule->addConnection($config, $name); }
+		
+		$capsule->bootEloquent();
 	}
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-abstract class ApplicationModel extends ActiveRecord\Model
+abstract class ApplicationModel extends Illuminate\Database\Eloquent\Model
 {
 	
 }

@@ -36,6 +36,8 @@ final class Paths_Config
 	public static $app_locales;
 	public static $app_models;
 	
+	public static $current_atom;
+	
 	public static $atom_configs;
 	public static $atom_controllers;
 	public static $atom_library;
@@ -61,12 +63,13 @@ final class Paths_Config
 		self::$app_controllers	= self::$application	. self::$_app_controllers	. DS;
 		self::$app_locales		= self::$application	. self::$_app_locales		. DS;
 		self::$app_models		= self::$application	. self::$_app_models		. DS;
-		
 	}
 	
 	public static function set_atom($atom)
 	{
+		self::$current_atom = $atom;
 		$atom = self::$app_atoms . $atom . DS;
+		
 		self::$atom_configs			= $atom . self::$_atom_configs		. DS;
 		self::$atom_controllers		= $atom . self::$_atom_controllers	. DS;
 		self::$atom_library			= $atom . self::$_atom_library		. DS;
@@ -77,6 +80,8 @@ final class Paths_Config
 	
 	public static function glob($path)
 	{
+		# TODO should this be done with a glob or config?
+		
 		$glob = [];
 		foreach(glob($path . '*', GLOB_ONLYDIR) as $dir)
 		{
