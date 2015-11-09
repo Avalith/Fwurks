@@ -1,15 +1,16 @@
 <?php
 
+use library\database\FwurksORM\QueryBuilders\MysqlQueryBuilder as QB;
+
 class Home_Controller extends Atom_Controller
 {
 	public function action__index()
 	{
+		// $listing = new library\scaffolding\Listing('Book');
+		// $listing->columns = array('id', 'title'/* TODO => array('processor' => 'link')*/);
 		
-		$listing = new library\scaffolding\Listing('Book');
-		$listing->columns = array('id', 'title'/* TODO => array('processor' => 'link')*/);
-		
-		echo($listing->render());
-		d($listing);
+		// echo($listing->render());
+		// d($listing);
 		
 		// exit();
 		
@@ -27,6 +28,17 @@ class Home_Controller extends Atom_Controller
 		
 		//$rc = new ReflectionClass('Query');
 		//de($rc->getDocComment());
+	}
+	
+	public function action__orm()
+	{
+		echo '<h1>FwurkORM</h1>';
+		
+		$q = new QB();
+		
+		de($q);
+		
+		exit;
 	}
 }
 

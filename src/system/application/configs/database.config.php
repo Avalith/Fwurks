@@ -15,13 +15,13 @@ final class Database_Config
 	
 	public static function connect_activerecord()
 	{
-		require Paths_Config::$library . 'database' . DS . 'ActiveRecord' . DS . 'ActiveRecord.php';
+		// require Paths_Config::$library . 'database' . DS . 'ActiveRecord' . DS . 'ActiveRecord.php';
 		
-		ActiveRecord\Config::initialize(function($config)
-		{
-			$config->set_connections(self::$connections['activerecord']);
-			$config->set_default_connection(self::$default_connection);
-		});
+		// ActiveRecord\Config::initialize(function($config)
+		// {
+		// 	$config->set_connections(self::$connections['activerecord']);
+		// 	$config->set_default_connection(self::$default_connection);
+		// });
 	}
 }
 
