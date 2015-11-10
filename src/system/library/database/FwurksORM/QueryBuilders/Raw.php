@@ -4,7 +4,7 @@ namespace library\database\FwurksORM\QueryBuilders;
 
 class Raw
 {
-	protected $value;
+	public $value;
 	
 	public function __construct($value)
 	{

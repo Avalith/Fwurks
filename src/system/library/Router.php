@@ -102,8 +102,8 @@ class RouterRoute
 		$route->params = array_merge($route->params, $params);
 		
 		$route->add		= $add;
-		$route->atom	= $route->params['atom']	?: Router::$atom_current;
-		$route->locale	= $route->params['locale']	?: Router::$locale_current;
+		$route->atom	= $route->params['atom']	?? Router::$atom_current;
+		$route->locale	= $route->params['locale']	?? Router::$locale_current;
 		
 		unset($route->params['atom'], $route->params['locale']);
 		
@@ -114,7 +114,7 @@ class RouterRoute
 			if(isset($p['raw'])){ $p['value'] = $p['raw']; }
 			else
 			{
-				if($p['vars'])
+				if(isset($p['vars']) && $p['vars'])
 				{
 					$search		= [];
 					$replace	= [];
@@ -135,7 +135,7 @@ class RouterRoute
 				}
 				else
 				{
-					$p['value'] = $route->params[$p['name']] ?: $p['default'];
+					$p['value'] = $route->params[$p['name']] ?? $p['default'];
 					if($p['has_key'])
 					{
 						$p['value'] = explode(':', $p['value']);

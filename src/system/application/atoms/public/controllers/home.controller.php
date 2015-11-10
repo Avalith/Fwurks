@@ -36,25 +36,38 @@ class Home_Controller extends Atom_Controller
 		
 		$q = new QB();
 		
-		$q->table('users');
-		// ------ $q->table(['a' => 'users']);
+		$q->from('users');
+		$q->from(['a' => 'users']);
 		
 		$q->select();
-		$q->select('a', 'b', $q->raw('c'));
+		$q->select('a', 'b', $q->raw('w'));
 		$q->select(['c' => $q->raw('field'), 'x' => 'a']);
 		
 		$q->where('a', 1);
 		$q->where(['c' => 3, 'b__gt' => 2]);
 		$q->where($q->raw('q = ? AND w = ? OR e = ?'), 1, 2, 3);
 		
-		$q->limit(10, 10);
-		$q->order('a', '-b');
+		// $q->having('a', 1);
+		// $q->having(['c' => 3, 'b__gt' => 2]);
+		// $q->having($q->raw('q = ? AND w = ? OR e = ?'), 1, 2, 3);
+		
 		$q->group('a', 'b');
+		$q->order('a', '-b');
+		$q->limit(10, 10);
 		
+		/*
+		SELECT a, b, w, field as c, a as x
+		FROM users
+		WHERE a = 1 AND c = 3 AND b > 2 AND q = 1 AND w = 2 AND e = 3
 		
+		GROUP BY a, b
+		ORDER BY a, b DESC
+		LIMIT 10, 10
+		*/
 		
 		de([
-			$q->sql(),
+			$q->__toString(),
+			// (string)$q,
 			$q,
 		]);
 		

@@ -19,8 +19,6 @@ class AutoLoader
 		if(substr($class_name, 0, 8) == 'library\\')
 		{
 			$class_file = Paths_Config::$library . str_replace('\\', DIRECTORY_SEPARATOR, substr($class_name, 8)) . '.php';
-			
-			d($class_name);
 		}
 		else if(substr($class_name, -11) == '_Controller')
 		{

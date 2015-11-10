@@ -1,8 +1,10 @@
 php_value magic_quotes_gpc Off
 php_value expose_php Off
 
+# php_value error_reporting "E_ALL ~E_NOTICE"
+
 ServerSignature Off
-#ServerTokens Prod
+# ServerTokens Prod
 
 
 Options +FollowSymlinks -Indexes
