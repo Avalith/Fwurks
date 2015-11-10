@@ -36,7 +36,27 @@ class Home_Controller extends Atom_Controller
 		
 		$q = new QB();
 		
-		de($q);
+		$q->table('users');
+		// ------ $q->table(['a' => 'users']);
+		
+		$q->select();
+		$q->select('a', 'b', $q->raw('c'));
+		$q->select(['c' => $q->raw('field'), 'x' => 'a']);
+		
+		$q->where('a', 1);
+		$q->where(['c' => 3, 'b__gt' => 2]);
+		$q->where($q->raw('q = ? AND w = ? OR e = ?'), 1, 2, 3);
+		
+		$q->limit(10, 10);
+		$q->order('a', '-b');
+		$q->group('a', 'b');
+		
+		
+		
+		de([
+			$q->sql(),
+			$q,
+		]);
 		
 		exit;
 	}
