@@ -1,6 +1,6 @@
 <?php
 
-use library\database\FwurksORM\QueryBuilders\Mysql as QB;
+use library\database\FwurksORM\QueryBuilders\Mysql\Builder as QB;
 
 class Home_Controller extends Atom_Controller
 {

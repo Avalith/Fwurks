@@ -1,8 +1,10 @@
 <?php
 
-namespace library\database\FwurksORM\QueryBuilders;
+namespace library\database\FwurksORM\QueryBuilders\Mysql;
 
-class Mysql extends QueryBuilder
+use library\database\FwurksORM\QueryBuilders\QueryBuilder;
+
+class Builder extends QueryBuilder
 {
 	// public function __construct( result_class ){}
 	public function __clone(){}
